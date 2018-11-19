@@ -3,6 +3,7 @@ package com.tinle.emptyproject
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -12,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.tinle.emptyproject.data.Post
+import com.tinle.emptyproject.view.CheckInActivity
 import com.tinle.emptyproject.vm.MainViewModel
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
@@ -29,6 +31,10 @@ class MainActivity : AppCompatActivity() {
         vieModel = ViewModelProviders.of(this, vmFactory).get(MainViewModel::class.java)
         setContentView(R.layout.activity_main)
         postList.layoutManager = LinearLayoutManager(this)
+        helloTxt.setOnClickListener {
+            val intent = Intent(this, CheckInActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onStart() {
