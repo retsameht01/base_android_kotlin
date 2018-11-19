@@ -2,42 +2,39 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/horizontal_grad_cool"
     >
 
-    <TextView
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold"
-        android:textSize="30sp"
-        android:layout_marginBottom="30dp"
-        android:text="CHECK-IN"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <EditText
+    <android.support.v7.widget.AppCompatEditText
+        android:layout_marginTop="70dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
         android:maxLength="14"
         android:inputType="phone"
         android:id="@+id/checkinPhone"
         android:hint="Phone"
+        android:textAlignment="center"
         android:textSize="30sp"
+        android:textColor="@color/white"
+        android:background="@drawable/round_corner_bg_outline"
+        android:textColorHint="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <EditText
-        android:visibility="gone"
-        android:layout_below="@id/checkinPhone"
-        android:id="@+id/checkinName"
-        android:hint="Name"
-        android:textSize="30sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="60dp" />
 
     <Button
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textAllCaps="false"
+        android:textSize="22sp"
+        android:textColor="@color/cool_grad_1"
+        android:background="@drawable/round_corner_bg"
+        android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/checkinName"
+        android:layout_below="@id/checkinPhone"
         android:text="Check-In"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+
 </RelativeLayout>

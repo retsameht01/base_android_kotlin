@@ -3,13 +3,11 @@ package com.tinle.emptyproject.view
 import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.telephony.PhoneNumberFormattingTextWatcher
 import com.tinle.emptyproject.R
 import dagger.android.AndroidInjection
 import android.view.inputmethod.InputMethodManager
 import kotlinx.android.synthetic.main.activity_checkin.*
-import android.telephony.PhoneNumberFormattingTextWatcher
-
-
 
 
 class CheckInActivity:AppCompatActivity() {
