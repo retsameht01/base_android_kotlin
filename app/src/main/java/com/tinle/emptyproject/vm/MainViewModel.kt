@@ -1,14 +1,11 @@
 package com.tinle.emptyproject.vm
 
 import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.tinle.emptyproject.api.ApiHandler
 import com.tinle.emptyproject.core.AppExecutor
 import com.tinle.emptyproject.data.Post
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.tinle.emptyproject.data.PostRepo
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
@@ -16,41 +13,16 @@ class MainViewModel @Inject constructor(
         private val apiHandler:ApiHandler
 
 ):ViewModel(){
-    private var viewData:MutableLiveData<List<Post>> = MutableLiveData()
+    private var postRepo:PostRepo = PostRepo()
+    private var posts:LiveData<List<Post>>? =  null
+    init {
+        if(posts == null){
+            posts = postRepo.getPosts()
+        }
+    }
 
     fun getData():LiveData<List<Post>>{
-        executor.networkIO().execute {
-            loadData()
-        }
-        return viewData
+        return posts!!
     }
 
-    private fun loadData(){
-        apiHandler.getPosts(object: Callback<List<Post>>{
-            override fun onFailure(call: Call<List<Post>>?, t: Throwable?) {
-                executor.mainThread().execute {
-                    //viewData.value = emptyList()
-                    setResult(emptyList())
-                }
-            }
-
-            override fun onResponse(call: Call<List<Post>>?, response: Response<List<Post>>?) {
-                var result:List<Post> = emptyList()
-
-                if (response != null) {
-                    if(response.body() != null) {
-                        val posts = response.body()
-                        result = posts!!
-                        setResult(result)
-                    }
-                }
-            }
-        })
-    }
-
-    fun setResult(result:List<Post>) {
-        executor.mainThread().execute {
-            viewData.value = result
-        }
-    }
 }

@@ -23,6 +23,7 @@
         android:layout_height="60dp" />
 
     <Button
+        android:id="@+id/checkinBtn"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:textAllCaps="false"
