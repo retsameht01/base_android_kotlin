@@ -59,7 +59,7 @@ class ApiHandler {
 }
 
 interface MyApi{
-    @GET("/posts")
+    @GET("/promos")
     fun getPosts(): Call<List<Post>>
 
     @GET("/categories")

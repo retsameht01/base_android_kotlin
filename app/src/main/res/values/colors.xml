@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="peach">#FF7F50</color>
     <color name="white">#FFFFFF</color>
+    <color name="light_gray">#CCCCCC</color>
     <color name="cool_grad_1">#7474bf</color>
     <color name="cool_grad_2">#348ac7</color>
     <color name="warm1">#f3a183</color>

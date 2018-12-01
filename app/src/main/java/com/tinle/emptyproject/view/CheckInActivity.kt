@@ -49,8 +49,8 @@ class CheckInActivity:AppCompatActivity(), BusListener {
         checkinPhone.requestFocus()
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onDestroy() {
+        super.onDestroy()
         val imm:InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(checkinPhone.windowToken, 0)
     }

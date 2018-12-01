@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="800dp" android:layout_height="100dp"
+    android:background="@drawable/round_corner_bg"
+    android:layout_marginBottom="10dp"
+    >
+    <TextView
+        android:layout_centerVertical="true"
+        android:paddingLeft="10dp"
+        android:textColor="@color/cool_grad_2"
+        android:textStyle="bold"
+        android:layout_marginRight="10dp"
+        android:id="@+id/promoTxt"
+        android:text="Specials 20% off!"
+        android:textSize="25sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_centerVertical="true"
+        android:paddingRight="10dp"
+        android:textColor="@color/cool_grad_1"
+        android:layout_alignParentRight="true"
+        android:id="@+id/pointsCost"
+        android:text="30 points"
+        android:textSize="25sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

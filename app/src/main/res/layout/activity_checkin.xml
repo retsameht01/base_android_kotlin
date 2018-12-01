@@ -7,7 +7,8 @@
     >
 
     <android.support.v7.widget.AppCompatEditText
-        android:layout_marginTop="70dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:maxLength="14"
@@ -19,7 +20,7 @@
         android:textColor="@color/white"
         android:background="@drawable/round_corner_bg_outline"
         android:textColorHint="@color/white"
-        android:layout_width="match_parent"
+        android:layout_width="500dp"
         android:layout_height="60dp" />
 
     <Button
