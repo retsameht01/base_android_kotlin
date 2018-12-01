@@ -3,6 +3,7 @@ package com.tinle.emptyproject.di
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.tinle.emptyproject.vm.CheckinViewModel
+import com.tinle.emptyproject.vm.CustomerRewardsVM
 import com.tinle.emptyproject.vm.MainViewModel
 import dagger.Binds
 import dagger.Module
@@ -22,5 +23,10 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CheckinViewModel::class)
     abstract fun bindsCheckinModel(viewModel: CheckinViewModel):ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CustomerRewardsVM::class)
+    abstract fun bindsRewardModel(viewModel: CustomerRewardsVM):ViewModel
 
 }
