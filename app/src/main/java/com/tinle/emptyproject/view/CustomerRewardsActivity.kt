@@ -66,4 +66,7 @@ class CustomerRewardsActivity:AppCompatActivity() {
         val promoTxt: TextView = view.findViewById(R.id.promoTxt)
         val points: TextView = view.findViewById(R.id.pointsCost)
     }
+    //TODO add text handler when phone enter is complete or user click on the check on softkeyboard
+    //Fix navigation issue. Also, convert to use fragment instead!!!!
+    //
 }
