@@ -1,24 +1,28 @@
 package com.tinle.emptyproject.view
 
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.tinle.emptyproject.R
+import com.tinle.emptyproject.vm.CheckinViewModel
+import kotlinx.android.synthetic.main.activity_checkin.*
 
 class CheckinFragment:BaseFragment() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    lateinit var viewModel: CheckinViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = inflater.inflate(R.layout.activity_checkin, container, false)
+        viewModel = ViewModelProviders.of(activity!!, vmFactory).get(CheckinViewModel::class.java)
         return view;
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        checkinBtn.setOnClickListener {
+            viewModel.checkIn(checkinPhone.text.toString())
+        }
 
     }
 }

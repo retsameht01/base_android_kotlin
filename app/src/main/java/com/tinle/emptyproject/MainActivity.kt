@@ -1,11 +1,10 @@
 package com.tinle.emptyproject
 
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -15,10 +14,16 @@ import com.tinle.emptyproject.data.Post
 import com.tinle.emptyproject.view.CheckinFragment
 import com.tinle.emptyproject.vm.MainViewModel
 import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_main.*
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
+    @Inject
+    lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> = fragmentInjector
 
     @Inject
     lateinit var vmFactory:ViewModelProvider.Factory
