@@ -17,6 +17,7 @@ class CustomerRewardsVM @Inject constructor(
         promos.add(Promotion("id", "Specials 10% Off", "10"))
         promos.add(Promotion("id2", "Specials 15% Off", "15"))
         promos.add(Promotion("id3", "Specials 20% Off", "20"))
+        promos.add(Promotion("id4", "$10 Off", "100"))
         this.promos.value = promos
     }
 

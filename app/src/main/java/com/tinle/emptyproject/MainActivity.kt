@@ -40,6 +40,10 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         //postList.layoutManager = LinearLayoutManager(this)
     }
 
+    override fun onBackPressed() {
+
+    }
+
     inner class PostAdapter(val posts:List<Post>):RecyclerView.Adapter<PostHolder>(){
         override fun onCreateViewHolder(p0: ViewGroup, p1: Int): PostHolder {
             val view = LayoutInflater.from(p0.context).inflate(R.layout.todo_row, p0, false)

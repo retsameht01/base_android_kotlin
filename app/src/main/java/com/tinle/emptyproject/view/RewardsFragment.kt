@@ -61,7 +61,7 @@ class RewardsFragment:BaseFragment() {
             holder.points.text = "${promo.Points} pts"
             holder.row.setOnClickListener {
                 //Toast.makeText(activity, "${promo.Details} Clicked!!", Toast.LENGTH_LONG).show()
-                val msg = "Redeem ${promo.Details} for ${promo.Points} Reward Points?"
+                val msg = "Redeem ${promo.Details} for ${promo.Points} Points?"
                 showConfirmDialog(msg, "Redeem Rewards", DialogInterface.OnClickListener{_, i ->
                     changeFragment(CheckinFragment())
                 })
