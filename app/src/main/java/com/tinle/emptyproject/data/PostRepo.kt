@@ -8,13 +8,14 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class PostRepo {
-    private lateinit var apiHandler:ApiHandler
+    //private lateinit var apiHandler:ApiHandler
     init{
-        apiHandler = ApiHandler()
+        //apiHandler = ApiHandler(null)
     }
 
     fun getPosts(): LiveData<List<Post>> {
         val data:MutableLiveData<List<Post>> = MutableLiveData()
+        /*
         apiHandler.getPosts(object : Callback<List<Post>> {
             override fun onFailure(call: Call<List<Post>>?, t: Throwable?) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -29,7 +30,7 @@ class PostRepo {
                     data.value = resultData;
                 }
             }
-        })
+        }) */
         return data
     }
 

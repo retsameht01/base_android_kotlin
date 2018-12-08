@@ -11,4 +11,5 @@
     <color name="warm1">#f3a183</color>
     <color name="warm2">#ec6f66</color>
     <color name="transparent">#00ffffff</color>
+    <color name="gray">#cccccc</color>
 </resources>

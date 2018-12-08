@@ -4,6 +4,7 @@ import android.content.Context
 import com.tinle.emptyproject.App
 import com.tinle.emptyproject.api.ApiHandler
 import com.tinle.emptyproject.core.AppExecutor
+import com.tinle.emptyproject.core.PreferenceStore
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -22,7 +23,13 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideApi():ApiHandler{
-        return ApiHandler()
+    fun provideApi(pref:PreferenceStore):ApiHandler{
+        return ApiHandler(pref)
+    }
+
+    @Provides
+    @Singleton
+    fun providePrefStore(app:App):PreferenceStore{
+        return PreferenceStore(app)
     }
 }

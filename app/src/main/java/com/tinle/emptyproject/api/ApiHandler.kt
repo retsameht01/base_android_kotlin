@@ -8,22 +8,24 @@ import retrofit2.Callback
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
-import android.R.attr.password
-import android.util.Base64
-import java.util.Base64.getEncoder
+import com.tinle.emptyproject.core.PreferenceStore
+import javax.inject.Inject
 
 
+class ApiHandler @Inject constructor(
+        prefStore:PreferenceStore
 
-class ApiHandler {
-    private val BASE_URL = "https://www.gposdev.com/20002/api/"
-    // "https://jsonplaceholder.typicode.com"
-    private lateinit var retrofit:Retrofit
-    private lateinit var api:MyApi
-    private lateinit var authString:String
+) {
+    private val BASE_URL = "https://www.gposdev.com/%s/api/"
+    private  var retrofit:Retrofit
+    private  var api:MyApi
+    private  var authString:String
 
     init {
+        val apiCode = prefStore.getAPI()
+        val URL = String.format(BASE_URL, apiCode)
         retrofit = Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         api  = retrofit.create(MyApi::class.java)
@@ -31,29 +33,16 @@ class ApiHandler {
         authString = authString.replace("\n","")
     }
 
-    fun getTodo(callback: Callback<List<Any>>) {
-        val call = api.getPosts()
-        //call.enqueue(callback)
-    }
+
 
     fun getPosts(callback:Callback<List<Post>>){
         val call = api.getPosts()
         call.enqueue(callback)
     }
 
-    fun checkin(signinData:SignInPost, callback:Callback<String>){
-        val call = api.doCheckIn(authString, signinData)
-        call.enqueue(callback)
-    }
-
     fun getCustomerInfo(phone:String, callback: Callback<CustomerInfo>) {
         val call = api.getCustomer(authString, phone)
         call.enqueue(callback)
-    }
-
-    private fun getToken():String{
-
-        return ""
     }
 
 }

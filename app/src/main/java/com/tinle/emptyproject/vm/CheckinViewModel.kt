@@ -34,7 +34,6 @@ class CheckinViewModel @Inject constructor(
                                 SessionManager.setCustomer(custInfo)
                                 EventBus.notify(AppEvent.CustomerRetrieved)
                             }
-                            print("Result success")
                         }
                     }
             )

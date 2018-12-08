@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/vert_grad_cool"
+    android:paddingHorizontal="30dp"
+    >
+    <TextView
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/settingsLabel"
+        android:textColor="@color/gray"
+        android:id="@+id/apiUrlLabel"
+        android:text="API URL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:textColor="@color/white"
+        android:id="@+id/apiText"
+        android:textColorHint="@color/white"
+        android:hint="https://someurl.com"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintLeft_toRightOf="@id/apiUrlLabel"
+        app:layout_constraintBaseline_toBaselineOf="@id/apiUrlLabel"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:textStyle="bold"
+        android:background="@drawable/horizontal_grad_warm"
+        android:id="@+id/saveBtn"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="Save"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+</android.support.constraint.ConstraintLayout>
