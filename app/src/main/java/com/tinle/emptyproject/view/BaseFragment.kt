@@ -9,6 +9,7 @@ import com.tinle.emptyproject.R
 import com.tinle.emptyproject.core.BusListener
 import com.tinle.emptyproject.core.EventBus
 import dagger.android.support.AndroidSupportInjection
+import java.lang.Exception
 import javax.inject.Inject
 
 abstract class BaseFragment:Fragment(), BusListener {
@@ -23,9 +24,14 @@ abstract class BaseFragment:Fragment(), BusListener {
     }
 
     fun changeFragment(target:BaseFragment) {
-        val trans =  activity!!.supportFragmentManager.beginTransaction()
-        trans.replace(R.id.fragment_container,target)
-        trans.commit();
+        try {
+            val trans =  activity!!.supportFragmentManager.beginTransaction()
+            trans.replace(R.id.fragment_container,target)
+            trans.commit()
+        }
+        catch (ex:Exception) {
+
+        }
     }
 
     fun showConfirmDialog(msg:String, title:String, okClick:DialogInterface.OnClickListener) {
