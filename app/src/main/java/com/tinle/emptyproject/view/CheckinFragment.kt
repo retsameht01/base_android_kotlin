@@ -50,7 +50,7 @@ class CheckinFragment:BaseFragment() {
 
     override fun onBusEvent(event: AppEvent) {
         if (event == AppEvent.CustomerRetrieved) {
-            //changeFragment()
+            changeFragment(RewardsFragment())
         }
     }
 }
