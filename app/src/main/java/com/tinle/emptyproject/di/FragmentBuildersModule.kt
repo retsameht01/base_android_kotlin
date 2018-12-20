@@ -1,8 +1,6 @@
 package com.tinle.emptyproject.di
 
-import com.tinle.emptyproject.view.CheckinFragment
-import com.tinle.emptyproject.view.RewardsFragment
-import com.tinle.emptyproject.view.SettingsFragment
+import com.tinle.emptyproject.view.*
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -16,5 +14,11 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun rewardsFrag():RewardsFragment
+
+    @ContributesAndroidInjector
+    abstract  fun countDownFrag():CountDownFragment
+
+    @ContributesAndroidInjector
+    abstract  fun manageRewards():ManageRewardsFragment
 
 }

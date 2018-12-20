@@ -2,6 +2,7 @@ package com.tinle.emptyproject
 
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -18,6 +19,11 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
+import android.content.Context.BIND_AUTO_CREATE
+import android.content.Intent
+import com.tinle.emptyproject.services.MusicService
+import com.tinle.emptyproject.view.CountDownFragment
+
 
 class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     @Inject
@@ -38,6 +44,19 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         trans.replace(R.id.fragment_container, CheckinFragment())
         trans.commit();
         //postList.layoutManager = LinearLayoutManager(this)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val intent = Intent(this, MusicService::class.java)
+
+        // Below code will invoke serviceConnection's onServiceConnected method.
+        //bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
+
+    }
+
+    override fun onStop() {
+        super.onStop()
     }
 
     override fun onBackPressed() {

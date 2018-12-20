@@ -3,7 +3,6 @@ package com.tinle.emptyproject.view
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.DialogInterface
-import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v4.app.FragmentManager
 import android.telephony.PhoneNumberFormattingTextWatcher
@@ -25,38 +24,10 @@ class CheckinFragment:BaseFragment() {
     val clickListner = DialogInterface.OnClickListener { _, i ->
         if(dialog != null) {
             if(dialog.isValidPasscode()) {
-                changeFragment(SettingsFragment())
+                changeFragment(ManageRewardsFragment())
             }
         }
      }
-
-    /*
-
-    checkinPhone.setOnEditorActionListener(new OnEditorActionListener() {
-    @Override
-    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        if ((actionId & EditorInfo.IME_MASK_ACTION) != 0) {
-            doSomething();
-            return true;
-        }
-        else {
-            return false;
-        }
-
-
-        switch(result) {
-        case EditorInfo.IME_ACTION_DONE:
-            // done stuff
-            break;
-        case EditorInfo.IME_ACTION_NEXT:
-            // next stuff
-            break;
-        }
-
-        int result = actionId & EditorInfo.IME_MASK_ACTION;
-    }
-    });
-     */
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = inflater.inflate(R.layout.activity_checkin, container, false)
@@ -74,7 +45,6 @@ class CheckinFragment:BaseFragment() {
             showPasswordDialog()
         }
 
-        //checkinPhone.setRawInputType(Configuration.KEYBOARD_12KEY);
         checkinPhone.setOnEditorActionListener(object:TextView.OnEditorActionListener {
             override fun onEditorAction(p0: TextView?, actionId: Int, event: KeyEvent?): Boolean {
                 val result = actionId and EditorInfo.IME_MASK_ACTION
