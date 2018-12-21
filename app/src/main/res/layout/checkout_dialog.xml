@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:paddingHorizontal="20dp"
+    android:background="@drawable/horizontal_grad_warm"
+    >
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:id="@+id/lbl_your_name"
+        android:text="Checkout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:backgroundTint="@color/white"
+        android:textColorHint="@color/white"
+        android:hint="$"
+        android:maxLines="1"
+        android:textColor="@color/white"
+        android:id="@+id/ticketValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:imeOptions="actionDone" />
+
+    <Button
+        android:visibility="gone"
+        android:background="@drawable/round_corner_bg"
+        android:textSize="17sp"
+        android:textAllCaps="false"
+        android:text="Save"
+        android:textColor="@color/nice_green"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+</LinearLayout>

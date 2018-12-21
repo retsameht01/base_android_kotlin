@@ -3,7 +3,7 @@ package com.tinle.emptyproject.di
 import android.arch.persistence.room.Room
 import android.content.Context
 import com.tinle.emptyproject.App
-import com.tinle.emptyproject.api.ApiHandler
+import com.tinle.emptyproject.api.GposService
 import com.tinle.emptyproject.core.AppExecutor
 import com.tinle.emptyproject.core.PreferenceStore
 import com.tinle.emptyproject.data.AppDatabase
@@ -26,8 +26,8 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideApi(pref:PreferenceStore):ApiHandler{
-        return ApiHandler(pref)
+    fun provideApi(pref:PreferenceStore):GposService{
+        return GposService(pref)
     }
 
     @Provides

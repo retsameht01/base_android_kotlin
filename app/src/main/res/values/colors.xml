@@ -12,4 +12,7 @@
     <color name="warm2">#ec6f66</color>
     <color name="transparent">#00ffffff</color>
     <color name="gray">#cccccc</color>
+    <color name="nice_green">#00E676</color>
+    <color name="black">#000000</color>
+    <color name="dark_gray">#424242</color>
 </resources>

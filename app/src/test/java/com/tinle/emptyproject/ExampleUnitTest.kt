@@ -1,9 +1,8 @@
 package com.tinle.emptyproject
 
-import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import com.tinle.emptyproject.api.ApiHandler
-import com.tinle.emptyproject.api.MyApi
+import com.tinle.emptyproject.api.GposService
+import com.tinle.emptyproject.api.GPOSApi
 import com.tinle.emptyproject.data.Post
 import com.tinle.emptyproject.vm.MainViewModel
 import org.junit.Assert
@@ -23,10 +22,10 @@ class ExampleUnitTest {
     lateinit var mainViewModel:MainViewModel
 
     @Mock
-    lateinit var apiHandler:ApiHandler
+    lateinit var gposService:GposService
 
     @Mock
-    lateinit var api: MyApi
+    lateinit var api: GPOSApi
 
 
 

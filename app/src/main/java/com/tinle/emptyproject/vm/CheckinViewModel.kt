@@ -1,7 +1,7 @@
 package com.tinle.emptyproject.vm
 
 import android.arch.lifecycle.ViewModel
-import com.tinle.emptyproject.api.ApiHandler
+import com.tinle.emptyproject.api.GposService
 import com.tinle.emptyproject.core.AppEvent
 import com.tinle.emptyproject.core.AppExecutor
 import com.tinle.emptyproject.core.EventBus
@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 class CheckinViewModel @Inject constructor(
         private val executor: AppExecutor,
-        private val apiHandler: ApiHandler,
+        private val gposService: GposService,
         private val checkinDao: CheckinDao
 
 ):ViewModel() {
@@ -41,7 +41,7 @@ class CheckinViewModel @Inject constructor(
         val rawPhone = re.replace(phone, "")
 
         executor.networkIO().execute {
-            apiHandler.getCustomerInfo(rawPhone,
+            gposService.getCustomerInfo(rawPhone,
                     object: Callback<CustomerInfo> {
                         override fun onFailure(call: Call<CustomerInfo>?, t: Throwable?) {
                             print("Result failed")

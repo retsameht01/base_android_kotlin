@@ -2,15 +2,11 @@ package com.tinle.emptyproject.data
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import com.tinle.emptyproject.api.ApiHandler
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class PostRepo {
-    //private lateinit var apiHandler:ApiHandler
+    //private lateinit var apiHandler:GposService
     init{
-        //apiHandler = ApiHandler(null)
+        //apiHandler = GposService(null)
     }
 
     fun getPosts(): LiveData<List<Post>> {

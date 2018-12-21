@@ -12,13 +12,13 @@ import com.tinle.emptyproject.core.PreferenceStore
 import javax.inject.Inject
 
 
-class ApiHandler @Inject constructor(
+class GposService @Inject constructor(
         prefStore:PreferenceStore
 
 ) {
     private val BASE_URL = "https://www.gposdev.com/%s/api/"
     private  var retrofit:Retrofit
-    private  var api:MyApi
+    private  var api:GPOSApi
     private  var authString:String
 
     init {
@@ -28,7 +28,7 @@ class ApiHandler @Inject constructor(
                 .baseUrl(URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-        api  = retrofit.create(MyApi::class.java)
+        api  = retrofit.create(GPOSApi::class.java)
         authString =  "Basic "  + android.util.Base64.encodeToString("admin:6786716888".toByteArray(Charsets.UTF_8), android.util.Base64.DEFAULT)
         authString = authString.replace("\n","")
     }
@@ -47,7 +47,7 @@ class ApiHandler @Inject constructor(
 
 }
 
-interface MyApi{
+interface GPOSApi{
     @GET("/promos")
     fun getPosts(): Call<List<Post>>
 
