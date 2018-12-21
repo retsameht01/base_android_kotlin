@@ -5,10 +5,13 @@ import android.content.Context
 import android.content.DialogInterface
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
+import android.view.View
+import com.tinle.emptyproject.MainActivity
 import com.tinle.emptyproject.R
 import com.tinle.emptyproject.core.BusListener
 import com.tinle.emptyproject.core.EventBus
 import dagger.android.support.AndroidSupportInjection
+import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.Exception
 import javax.inject.Inject
 
@@ -63,6 +66,15 @@ abstract class BaseFragment:Fragment(), BusListener {
         // Display the alert dialog on app interface
         dialog.show()
 
+    }
+
+    fun setToolbarVisibility(visValue:Int) {
+        try {
+            (activity as MainActivity).toolbar.visibility = visValue
+        }
+        catch (e:Exception) {
+
+        }
     }
 
 }

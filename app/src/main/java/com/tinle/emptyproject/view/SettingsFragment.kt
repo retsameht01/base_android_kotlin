@@ -23,6 +23,8 @@ class SettingsFragment:BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setToolbarVisibility(View.GONE)
         apiText.setText(viewModel.getAPIValue())
         saveBtn.setOnClickListener {
             viewModel.saveAPI(apiText.text.toString().trim())

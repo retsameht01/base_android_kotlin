@@ -39,7 +39,7 @@ class ExampleUnitTest {
     fun testDataPull() {
         val sourceData:MutableLiveData<List<Post>> = MutableLiveData()
         sourceData.value = getSampleData()
-        `when`(mainViewModel.setResult(emptyList())).then {  }
+        //`when`(mainViewModel.setResult(emptyList())).then {  }
         `when`(mainViewModel.getData())
                 .thenReturn(sourceData)
 

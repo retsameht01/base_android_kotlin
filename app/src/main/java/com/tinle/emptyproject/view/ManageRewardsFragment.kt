@@ -24,6 +24,7 @@ class ManageRewardsFragment:BaseFragment() {
     lateinit var dialog: CheckoutDialog
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        setToolbarVisibility(View.GONE)
         var view = inflater.inflate(R.layout.fragment_manage_rewards, container, false)
         viewModel = ViewModelProviders.of(activity!!, vmFactory).get(RewardsManagerVM::class.java)
         return view;
@@ -35,6 +36,9 @@ class ManageRewardsFragment:BaseFragment() {
         viewModel.getAllCheckIns().observe(this, Observer<List<RewardsMember>> {
             rewardMembers.adapter = MembersAdapter(it!!)
         })
+        backIcon.setOnClickListener {
+            changeFragment(CheckinFragment())
+        }
     }
 
     override fun onBusEvent(event: AppEvent) {
@@ -54,9 +58,7 @@ class ManageRewardsFragment:BaseFragment() {
 
     val clickListner = DialogInterface.OnClickListener { _, i ->
     if(dialog != null) {
-
         Toast.makeText(this.context, " checkout clicked", Toast.LENGTH_LONG).show()
-
     }
 }
 

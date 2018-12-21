@@ -2,9 +2,7 @@ package com.tinle.emptyproject.view
 
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
-import android.support.v4.app.FragmentManager
 import android.telephony.PhoneNumberFormattingTextWatcher
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -20,14 +18,6 @@ import kotlinx.android.synthetic.main.activity_checkin.*
 
 class CheckinFragment:BaseFragment() {
     lateinit var viewModel: CheckinViewModel
-    lateinit var dialog: PasscodeDialog
-    val clickListner = DialogInterface.OnClickListener { _, i ->
-        if(dialog != null) {
-            if(dialog.isValidPasscode()) {
-                changeFragment(ManageRewardsFragment())
-            }
-        }
-     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = inflater.inflate(R.layout.activity_checkin, container, false)
@@ -37,12 +27,9 @@ class CheckinFragment:BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setToolbarVisibility(View.VISIBLE)
         checkinBtn.setOnClickListener {
             doCheckin()
-        }
-
-        settingsBtn.setOnClickListener {
-            showPasswordDialog()
         }
 
         checkinPhone.setOnEditorActionListener(object:TextView.OnEditorActionListener {
@@ -65,16 +52,8 @@ class CheckinFragment:BaseFragment() {
         super.onResume()
     }
 
-
-
     private fun doCheckin(){
         viewModel.checkIn(checkinPhone.text.toString())
-    }
-
-    private fun showPasswordDialog() {
-        val fm: FragmentManager = activity!!.supportFragmentManager
-        dialog  = PasscodeDialog.newInstance("Some Title", clickListner)
-        dialog.show(fm, "fragment_edit_name")
     }
 
     override fun onBusEvent(event: AppEvent) {

@@ -28,7 +28,6 @@ class CheckinViewModel @Inject constructor(
             checkInPhones = checkinDao.getAllPhones()
             println("init complete")
             //TODO AutoCompleteTextView Handle typing suggestions to users
-            //
         }
     }
 
@@ -50,7 +49,6 @@ class CheckinViewModel @Inject constructor(
                         override fun onResponse(call: Call<CustomerInfo>?, response: Response<CustomerInfo>?) {
                             var custInfo =  response?.body()
                             if (custInfo != null) {
-                                //TODO determine if this is a good place to store the checkin info
                                 executor.diskIO().execute{
                                     checkinDao.insertAll(Checkin(getTimeStamp(), rawPhone))
                                 }
