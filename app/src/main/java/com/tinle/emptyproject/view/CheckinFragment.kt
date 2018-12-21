@@ -14,13 +14,13 @@ import android.widget.TextView
 import com.tinle.emptyproject.R
 import com.tinle.emptyproject.core.AppEvent
 import com.tinle.emptyproject.vm.CheckinViewModel
-import kotlinx.android.synthetic.main.activity_checkin.*
+import kotlinx.android.synthetic.main.fragment_checkin.*
 
 class CheckinFragment:BaseFragment() {
     lateinit var viewModel: CheckinViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view = inflater.inflate(R.layout.activity_checkin, container, false)
+        var view = inflater.inflate(R.layout.fragment_checkin, container, false)
         viewModel = ViewModelProviders.of(activity!!, vmFactory).get(CheckinViewModel::class.java)
         return view;
     }
@@ -42,6 +42,9 @@ class CheckinFragment:BaseFragment() {
             }
         })
         checkinPhone.addTextChangedListener(PhoneNumberFormattingTextWatcher())
+        signiupLink.setOnClickListener{
+            changeFragment(SignUpFragment())
+        }
     }
 
     override fun onResume() {

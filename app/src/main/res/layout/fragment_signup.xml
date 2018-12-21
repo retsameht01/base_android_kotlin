@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/vert_grad_cool"
+    >
+
+    <ImageView
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/ic_left_chevron"
+        android:id="@+id/backIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
+
+
+    <EditText
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:maxLength="100"
+        android:inputType="text"
+        android:id="@+id/signupName"
+        android:hint="Name"
+        android:maxLines="1"
+        android:paddingLeft="10dp"
+        android:textSize="30sp"
+        android:textColor="@color/white"
+        android:background="@drawable/round_corner_bg_outline"
+        android:textColorHint="@color/white"
+        android:layout_width="600dp"
+        android:layout_height="60dp" />
+
+    <EditText
+        android:paddingLeft="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:maxLength="14"
+        android:inputType="phone"
+        android:id="@+id/signupPhone"
+        android:hint="Phone"
+        android:maxLines="1"
+        android:textSize="30sp"
+        android:textColor="@color/white"
+        android:background="@drawable/round_corner_bg_outline"
+        android:textColorHint="@color/white"
+        android:layout_width="600dp"
+        android:layout_height="60dp" />
+
+    <EditText
+        android:paddingLeft="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:maxLength="100"
+        android:inputType="textEmailAddress"
+        android:id="@+id/signupEmail"
+        android:hint="Email"
+        android:maxLines="1"
+        android:textSize="30sp"
+        android:textColor="@color/white"
+        android:background="@drawable/round_corner_bg_outline"
+        android:textColorHint="@color/white"
+        android:layout_width="600dp"
+        android:layout_height="60dp" />
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp"
+        android:id="@+id/signupBtn"
+        android:padding="5dp"
+        android:textSize="25sp"
+        android:background="@drawable/round_corner_bg"
+        android:text="Sign Up"
+        android:layout_toRightOf="@id/notCheckinText"
+        android:textColor="@color/cool_grad_1"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/checkinBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

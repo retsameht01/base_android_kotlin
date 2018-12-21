@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:paddingHorizontal="20dp"
-    android:background="@drawable/horizontal_grad_warm"
+    android:background="@drawable/vert_grad_cool"
     >
 
     <TextView

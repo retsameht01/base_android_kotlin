@@ -21,4 +21,7 @@ abstract class FragmentBuildersModule {
     @ContributesAndroidInjector
     abstract  fun manageRewards():ManageRewardsFragment
 
+    @ContributesAndroidInjector
+    abstract  fun sigup():SignUpFragment
+
 }

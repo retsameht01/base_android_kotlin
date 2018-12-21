@@ -37,6 +37,11 @@ abstract class ViewModelModule {
     @ViewModelKey(RewardsManagerVM::class)
     abstract fun bindRewardsManagerVM(viewModel: RewardsManagerVM):ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(SignUpVM::class)
+    abstract fun bindSignUpVM(viewModel: SignUpVM):ViewModel
+
 
 
 }

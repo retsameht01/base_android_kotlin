@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@drawable/vert_grad_cool"
     >
 
     <EditText
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="60dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:maxLength="14"
         android:inputType="phone"
         android:id="@+id/checkinPhone"
         android:hint="Phone"
+        android:maxLines="1"
         android:textAlignment="center"
         android:textSize="30sp"
         android:textColor="@color/white"
@@ -25,8 +27,9 @@
         android:id="@+id/checkinBtn"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:layout_marginBottom="30dp"
         android:textAllCaps="false"
-        android:textSize="22sp"
+        android:textSize="20sp"
         android:textColor="@color/cool_grad_1"
         android:background="@drawable/round_corner_bg"
         android:layout_marginTop="30dp"
@@ -36,10 +39,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <Button
+    <TextView
+        android:padding="5dp"
+        android:id="@+id/notCheckinText"
+        android:textSize="15sp"
         android:textColor="@color/white"
-        android:id="@+id/settingsBtn"
-        android:text="Settings"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/checkinBtn"
+        android:text="Not a member?"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/signiupLink"
+        android:padding="5dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/round_corner_bg"
+        android:text="Sign Up"
+        android:layout_toRightOf="@id/notCheckinText"
+        android:textColor="@color/cool_grad_1"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/checkinBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

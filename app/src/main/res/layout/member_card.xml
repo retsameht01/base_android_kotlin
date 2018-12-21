@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/cv"
         android:padding="16dp"
-        app:cardBackgroundColor="@color/nice_green"
+        app:cardBackgroundColor="@color/dark_green"
         app:cardCornerRadius="3dp"
         app:cardUseCompatPadding="true"
         app:elevation="10dp"
@@ -35,7 +35,7 @@
                 />
 
             <TextView
-                android:textColor="@color/black"
+                android:textColor="@color/nice_green"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/mem_name"
@@ -43,6 +43,16 @@
                 android:layout_toRightOf="@+id/mem_photo"
                 android:layout_alignParentTop="true"
                 android:textSize="30sp"
+                />
+
+            <TextView
+                android:textColor="@color/white"
+                android:layout_marginLeft="10dp"
+                android:layout_alignBaseline="@id/mem_name"
+                android:layout_toRightOf="@id/mem_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Joined 09/18"
                 />
 
             <TextView
@@ -62,7 +72,7 @@
                 android:layout_alignBaseline="@id/mem_points"
                 android:textSize="20sp"
                 android:text="8:00 am"
-                android:textColor="@color/dark_gray"
+                android:textColor="@color/white"
                 android:layout_toRightOf="@id/mem_points"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
