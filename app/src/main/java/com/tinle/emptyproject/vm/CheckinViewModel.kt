@@ -7,7 +7,7 @@ import com.tinle.emptyproject.core.AppExecutor
 import com.tinle.emptyproject.core.EventBus
 import com.tinle.emptyproject.data.Checkin
 import com.tinle.emptyproject.data.CheckinDao
-import com.tinle.emptyproject.data.CustomerInfo
+import com.tinle.emptyproject.data.RewardsMember
 import com.tinle.emptyproject.data.SessionManager
 import retrofit2.Call
 import retrofit2.Callback
@@ -41,12 +41,12 @@ class CheckinViewModel @Inject constructor(
 
         executor.networkIO().execute {
             gposService.getCustomerInfo(rawPhone,
-                    object: Callback<CustomerInfo> {
-                        override fun onFailure(call: Call<CustomerInfo>?, t: Throwable?) {
+                    object: Callback<RewardsMember> {
+                        override fun onFailure(call: Call<RewardsMember>?, t: Throwable?) {
                             print("Result failed")
                         }
 
-                        override fun onResponse(call: Call<CustomerInfo>?, response: Response<CustomerInfo>?) {
+                        override fun onResponse(call: Call<RewardsMember>?, response: Response<RewardsMember>?) {
                             var custInfo =  response?.body()
                             if (custInfo != null) {
                                 executor.diskIO().execute{
@@ -65,5 +65,10 @@ class CheckinViewModel @Inject constructor(
         val simpleDateFormat = SimpleDateFormat("MM-dd-yyyy hh-mm-ss")
         val format = simpleDateFormat.format(Date())
         return format
+    }
+
+    fun isPhoneValid(phone:String):Boolean {
+        val regex = Regex("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}\$")
+        return regex.matches(phone)
     }
 }

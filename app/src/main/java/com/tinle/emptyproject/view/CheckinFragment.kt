@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.telephony.PhoneNumberFormattingTextWatcher
+import android.text.Editable
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -41,7 +42,7 @@ class CheckinFragment:BaseFragment() {
                 return true
             }
         })
-        checkinPhone.addTextChangedListener(PhoneNumberFormattingTextWatcher())
+        checkinPhone.addTextChangedListener(PhoneTextListener())
         signiupLink.setOnClickListener{
             changeFragment(SignUpFragment())
         }
@@ -68,6 +69,17 @@ class CheckinFragment:BaseFragment() {
     override fun onBusEvent(event: AppEvent) {
         if (event == AppEvent.CustomerRetrieved) {
             changeFragment(RewardsFragment())
+        }
+    }
+
+    inner class PhoneTextListener: PhoneNumberFormattingTextWatcher() {
+
+        override fun afterTextChanged(s: Editable) {
+            super.afterTextChanged(s)
+            val phone = s.toString()
+            if(viewModel.isPhoneValid(phone)){
+                viewModel.checkIn(phone)
+            }
         }
     }
 }

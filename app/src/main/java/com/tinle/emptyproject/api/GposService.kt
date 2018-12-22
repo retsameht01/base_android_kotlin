@@ -3,7 +3,7 @@ package com.tinle.emptyproject.api
 import android.util.Log
 import com.tinle.emptyproject.core.DateUtil
 import com.tinle.emptyproject.core.IEncryption
-import com.tinle.emptyproject.data.CustomerInfo
+import com.tinle.emptyproject.data.RewardsMember
 import com.tinle.emptyproject.data.SignInPost
 import retrofit2.Call
 import retrofit2.Callback
@@ -43,8 +43,13 @@ class GposService @Inject constructor(
         Log.d(TAG, "init complete")
     }
 
-    fun getCustomerInfo(phone:String, callback: Callback<CustomerInfo>) {
+    fun getCustomerInfo(phone:String, callback: Callback<RewardsMember>) {
         val call = api.getCustomer(authString, token, phone)
+        call.enqueue(callback)
+    }
+
+    fun getCustomers(callback: Callback<List<RewardsMember>>){
+        val call = api.getCustomers(authString, token)
         call.enqueue(callback)
     }
 
@@ -58,6 +63,9 @@ interface GPOSApi{
     fun doCheckIn(@Header("Authorization") authToken:String, @Body checkin:SignInPost):Call<String>
 
     @GET("customers/{phone}")
-    fun getCustomer(@Header("Authorization")authToken: String, @Header("token")token:String, @Path("phone") phone:String):Call<CustomerInfo>
+    fun getCustomer(@Header("Authorization")authToken: String, @Header("token")token:String, @Path("phone") phone:String):Call<RewardsMember>
+
+    @GET("customers")
+    fun getCustomers(@Header("Authorization")authToken: String, @Header("token")token:String):Call<List<RewardsMember>>
 
 }

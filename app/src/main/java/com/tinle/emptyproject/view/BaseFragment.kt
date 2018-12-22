@@ -1,5 +1,6 @@
 package com.tinle.emptyproject.view
 
+import android.app.ProgressDialog
 import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
 import android.content.DialogInterface
@@ -19,11 +20,20 @@ abstract class BaseFragment:Fragment(), BusListener {
     @Inject
     lateinit var vmFactory:ViewModelProvider.Factory
 
+    lateinit var progressDialog:ProgressDialog
+
     override fun onAttach(context: Context){
         AndroidSupportInjection.inject(this)
         setHasOptionsMenu(false)
         super.onAttach(context)
         EventBus.addListener(this)
+
+
+        progressDialog = ProgressDialog(this.context)
+        progressDialog.setTitle("Loading")
+        progressDialog.setMessage("Wait while loading...")
+        progressDialog.setCancelable(false) // disable dismiss by tapping outside of the dialog
+
     }
 
     fun changeFragment(target:BaseFragment) {
@@ -75,6 +85,14 @@ abstract class BaseFragment:Fragment(), BusListener {
         catch (e:Exception) {
 
         }
+    }
+
+    fun showProgress() {
+        progressDialog.show()
+    }
+
+    fun hideProgress(){
+        progressDialog.dismiss()
     }
 
 }

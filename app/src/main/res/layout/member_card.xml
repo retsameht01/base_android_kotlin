@@ -41,21 +41,24 @@
                 android:id="@+id/mem_name"
                 android:text="John Doe"
                 android:layout_toRightOf="@+id/mem_photo"
-                android:layout_alignParentTop="true"
                 android:textSize="30sp"
+                android:layout_marginLeft="20dp"
                 />
 
             <TextView
+                android:id="@+id/lastVisit"
                 android:textColor="@color/white"
                 android:layout_marginLeft="10dp"
-                android:layout_alignBaseline="@id/mem_name"
-                android:layout_toRightOf="@id/mem_name"
+                android:layout_alignBaseline="@id/checkinTime"
+                android:layout_toRightOf="@id/checkinTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Joined 09/18"
+                android:text="Last Visit 09/18 (115 days)"
+                android:textSize="15sp"
                 />
 
             <TextView
+                android:layout_marginTop="10dp"
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 android:textSize="20sp"
@@ -63,24 +66,26 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/mem_points"
                 android:text="100 pts"
-                android:layout_toRightOf="@+id/mem_photo"
                 android:layout_below="@+id/mem_name"
                 />
 
             <TextView
+                android:id="@+id/checkinTime"
                 android:layout_marginLeft="20dp"
                 android:layout_alignBaseline="@id/mem_points"
-                android:textSize="20sp"
-                android:text="8:00 am"
+                android:textSize="15sp"
+                android:text="Checked in: 8:00 am"
                 android:textColor="@color/white"
                 android:layout_toRightOf="@id/mem_points"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <Button
+            <TextView
+                android:paddingVertical="5dp"
+                android:paddingHorizontal="10dp"
                 android:id="@+id/checkoutBtn"
                 android:textSize="16sp"
-                android:textColor="@color/cool_grad_1"
+                android:textColor="@color/dark_gray"
                 android:background="@drawable/round_corner_bg"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"

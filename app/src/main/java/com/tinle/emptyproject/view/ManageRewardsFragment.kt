@@ -33,12 +33,15 @@ class ManageRewardsFragment:BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rewardMembers.layoutManager = LinearLayoutManager(activity)
+        showProgress()
         viewModel.getAllCheckIns().observe(this, Observer<List<RewardsMember>> {
             rewardMembers.adapter = MembersAdapter(it!!)
+            hideProgress()
         })
         backIcon.setOnClickListener {
             changeFragment(CheckinFragment())
         }
+
     }
 
     override fun onBusEvent(event: AppEvent) {
@@ -47,23 +50,19 @@ class ManageRewardsFragment:BaseFragment() {
 
     private fun handleCheckout(member:RewardsMember) {
         activity?.let {
-            dialog = CheckoutDialog.newInstance("Checkout ${member.name}?", clickListner)
+            dialog = CheckoutDialog.newInstance("Checkout ${member.FirstName}?", clickListner)
             dialog.show(it.supportFragmentManager, "checkout dialog")
             dialog.isCancelable = false
         }
 
     }
 
-
-
     val clickListner = DialogInterface.OnClickListener { _, i ->
     if(dialog != null) {
-        Toast.makeText(this.context, " checkout clicked", Toast.LENGTH_LONG).show()
+        //TODO Handle the check out, need api to save the checkout.
+        Toast.makeText(this.context, "Customer is checkedout", Toast.LENGTH_LONG).show()
     }
 }
-
-
-
 
     inner class MembersAdapter(val members:List<RewardsMember>):RecyclerView.Adapter<MemberViewHolder>(){
         override fun onCreateViewHolder(p0: ViewGroup, p1: Int): MemberViewHolder {
@@ -77,23 +76,23 @@ class ManageRewardsFragment:BaseFragment() {
 
         override fun onBindViewHolder(holder: MemberViewHolder, pos: Int) {
             val member = members[pos]
-            holder.member_name.text = member.name
-            holder.member_points.text = "${member.points} Points"
+            holder.member_name.text = "${member.FirstName} ${member.LastName}"
+            holder.member_points.text = "${member.RewardPoints} Points"
+            holder.member_last_visit.text = viewModel.getLastVisitInfo(member.LastPurchase)
+            holder.member_checkin_time.text = "Checkin 10:22 am"
             holder.member_checkout.setOnClickListener {
                 handleCheckout(member)
             }
         }
-
     }
 
     inner class MemberViewHolder(view:View):RecyclerView.ViewHolder(view) {
-
         val member_photo:ImageView = view.findViewById(R.id.mem_photo)
         val member_name:TextView = view.findViewById(R.id.mem_name)
         val member_points:TextView = view.findViewById(R.id.mem_points)
-        val member_checkout:Button = view.findViewById(R.id.checkoutBtn)
-
-
+        val member_checkout:TextView = view.findViewById(R.id.checkoutBtn)
+        val member_last_visit:TextView = view.findViewById(R.id.lastVisit)
+        val member_checkin_time:TextView = view.findViewById(R.id.checkinTime)
     }
 
 }

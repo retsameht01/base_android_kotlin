@@ -12,7 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.tinle.emptyproject.R
-import com.tinle.emptyproject.data.CustomerInfo
+import com.tinle.emptyproject.data.RewardsMember
 import com.tinle.emptyproject.data.Promotion
 import com.tinle.emptyproject.vm.CustomerRewardsVM
 import dagger.android.AndroidInjection
@@ -30,7 +30,7 @@ class CustomerRewardsActivity:AppCompatActivity() {
         AndroidInjection.inject(this)
         setContentView(R.layout.activity_customer_rewards)
         vieModel = ViewModelProviders.of(this, vmFactory).get(CustomerRewardsVM::class.java)
-        vieModel.getCustomerInfo().observe(this, Observer<CustomerInfo>{
+        vieModel.getCustomerInfo().observe(this, Observer<RewardsMember>{
             welcomeText.text = "Welcome, ${it!!.FirstName}"
             rewardPoints.text = "${it!!.RewardPoints} pts"
         })

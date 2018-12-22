@@ -12,7 +12,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.tinle.emptyproject.R
 import com.tinle.emptyproject.core.AppEvent
-import com.tinle.emptyproject.data.CustomerInfo
+import com.tinle.emptyproject.data.RewardsMember
 import com.tinle.emptyproject.data.Promotion
 import com.tinle.emptyproject.vm.CustomerRewardsVM
 import kotlinx.android.synthetic.main.activity_customer_rewards.*
@@ -33,7 +33,7 @@ class RewardsFragment:BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setToolbarVisibility(View.GONE)
         viewModel = ViewModelProviders.of(this, vmFactory).get(CustomerRewardsVM::class.java)
-        viewModel.getCustomerInfo().observe(this, Observer<CustomerInfo>{
+        viewModel.getCustomerInfo().observe(this, Observer<RewardsMember>{
             welcomeText.text = "Welcome, ${it!!.FirstName}"
             rewardPoints.text = "${it!!.RewardPoints} pts"
         })
