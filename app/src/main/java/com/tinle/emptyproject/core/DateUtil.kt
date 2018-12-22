@@ -5,8 +5,14 @@ import java.util.*
 
 class DateUtil {
     private val DATEFORMAT:String = "MM/dd/yyyy"
-    fun getUTCdatetimeAsString(): String {
+    fun getUTCdateAsString(): String {
         val sdf = SimpleDateFormat(DATEFORMAT)
+        sdf.timeZone = TimeZone.getTimeZone("UTC")
+        return sdf.format(Date())
+    }
+    private val DATETIMEFORMAT:String = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+    fun getUTCDateTimestamp():String{
+        val sdf = SimpleDateFormat(DATETIMEFORMAT)
         sdf.timeZone = TimeZone.getTimeZone("UTC")
         return sdf.format(Date())
     }

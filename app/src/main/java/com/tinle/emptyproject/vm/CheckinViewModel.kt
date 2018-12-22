@@ -4,11 +4,9 @@ import android.arch.lifecycle.ViewModel
 import com.tinle.emptyproject.api.GposService
 import com.tinle.emptyproject.core.AppEvent
 import com.tinle.emptyproject.core.AppExecutor
+import com.tinle.emptyproject.core.DateUtil
 import com.tinle.emptyproject.core.EventBus
-import com.tinle.emptyproject.data.Checkin
-import com.tinle.emptyproject.data.CheckinDao
-import com.tinle.emptyproject.data.RewardsMember
-import com.tinle.emptyproject.data.SessionManager
+import com.tinle.emptyproject.data.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,7 +17,8 @@ import javax.inject.Inject
 class CheckinViewModel @Inject constructor(
         private val executor: AppExecutor,
         private val gposService: GposService,
-        private val checkinDao: CheckinDao
+        private val checkinDao: CheckinDao,
+        private val dateUtil:DateUtil
 
 ):ViewModel() {
     private lateinit var checkInPhones: List<String>
@@ -54,11 +53,35 @@ class CheckinViewModel @Inject constructor(
                                 }
                                 SessionManager.setCustomer(custInfo)
                                 EventBus.notify(AppEvent.CustomerRetrieved)
+                                gposService.signIn(getSignInData(custInfo), object:Callback<String>{
+                                    override fun onFailure(call: Call<String>, t: Throwable) {
+                                        print("Failed")
+                                    }
+
+                                    override fun onResponse(call: Call<String>, response: Response<String>) {
+                                        println("response")
+                                    }
+
+                                })
                             }
                         }
                     }
             )
         }
+    }
+
+    private fun getSignInData(cust:RewardsMember):SignIn {
+        return SignIn(
+                cust.Id,
+                dateUtil.getUTCDateTimestamp(),
+                false,
+                "",
+                cust.Id,
+                cust.Phone,
+                cust.FirstName,
+                cust.LastName,
+                "None"
+        )
     }
 
     private fun getTimeStamp(): String {

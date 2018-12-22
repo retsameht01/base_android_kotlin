@@ -18,7 +18,7 @@ import com.tinle.emptyproject.vm.CheckinViewModel
 import kotlinx.android.synthetic.main.fragment_checkin.*
 
 class CheckinFragment:BaseFragment() {
-    lateinit var viewModel: CheckinViewModel
+        lateinit var viewModel: CheckinViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = inflater.inflate(R.layout.fragment_checkin, container, false)

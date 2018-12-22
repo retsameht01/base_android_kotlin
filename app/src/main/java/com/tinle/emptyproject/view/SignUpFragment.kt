@@ -25,10 +25,10 @@ class SignUpFragment:BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setToolbarVisibility(View.GONE)
         signupBtn.setOnClickListener{
-            viewModel.signup(signupName.text.toString(), signupPhone.text.toString(), signupEmail.text.toString())
+            viewModel.signup(signupFirstName.text.toString(), signupPhone.text.toString(), signupEmail.text.toString())
         }
 
-        backIcon.setOnClickListener {
+        backBtn.setOnClickListener {
             changeFragment(CheckinFragment())
         }
     }

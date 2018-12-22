@@ -4,14 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/vert_grad_cool"
+    android:gravity="center"
     >
 
-    <ImageView
-        android:layout_marginLeft="10dp"
-        android:src="@drawable/ic_left_chevron"
-        android:id="@+id/backIcon"
-        android:layout_width="40dp"
-        android:layout_height="40dp" />
+    <TextView
+        android:layout_marginTop="10dp"
+        android:paddingVertical="5dp"
+        android:paddingHorizontal="10dp"
+        android:text="Back"
+        android:background="@drawable/round_corner_bg"
+        android:id="@+id/backBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 
     <EditText
@@ -21,8 +25,25 @@
         android:layout_marginRight="40dp"
         android:maxLength="100"
         android:inputType="text"
-        android:id="@+id/signupName"
-        android:hint="Name"
+        android:id="@+id/signupFirstName"
+        android:hint="First Name"
+        android:maxLines="1"
+        android:paddingLeft="10dp"
+        android:textSize="30sp"
+        android:textColor="@color/white"
+        android:background="@drawable/round_corner_bg_outline"
+        android:textColorHint="@color/white"
+        android:layout_width="600dp"
+        android:layout_height="60dp" />
+    <EditText
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:maxLength="100"
+        android:inputType="text"
+        android:id="@+id/signupLastName"
+        android:hint="Last Name"
         android:maxLines="1"
         android:paddingLeft="10dp"
         android:textSize="30sp"
@@ -70,7 +91,6 @@
 
     <TextView
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="40dp"
         android:id="@+id/signupBtn"
         android:padding="5dp"
         android:textSize="25sp"

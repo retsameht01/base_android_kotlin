@@ -11,6 +11,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import com.tinle.emptyproject.core.PreferenceStore
+import com.tinle.emptyproject.data.SignIn
 import javax.inject.Inject
 
 
@@ -38,7 +39,7 @@ class GposService @Inject constructor(
         var tokenKey = android.util.Base64.encodeToString("admin:6786716888".toByteArray(Charsets.UTF_8), android.util.Base64.DEFAULT)
         tokenKey = tokenKey.replace("\n", "")
         authString =  "Basic $tokenKey"
-        token = encryptService.encryptHmacSha1(tokenKey, dateUtil.getUTCdatetimeAsString())
+        token = encryptService.encryptHmacSha1(tokenKey, dateUtil.getUTCdateAsString())
         token = token.replace("\n", "")
         Log.d(TAG, "init complete")
     }
@@ -50,6 +51,11 @@ class GposService @Inject constructor(
 
     fun getCustomers(callback: Callback<List<RewardsMember>>){
         val call = api.getCustomers(authString, token)
+        call.enqueue(callback)
+    }
+
+    fun signIn(data:SignIn, callback: Callback<String>) {
+        val call = api.signin(authString, token, data)
         call.enqueue(callback)
     }
 
@@ -67,5 +73,8 @@ interface GPOSApi{
 
     @GET("customers")
     fun getCustomers(@Header("Authorization")authToken: String, @Header("token")token:String):Call<List<RewardsMember>>
+
+    @POST("signins")
+    fun signin(@Header("Authorization")authToken: String, @Header("token")token:String, @Body data:SignIn):Call<String>
 
 }
