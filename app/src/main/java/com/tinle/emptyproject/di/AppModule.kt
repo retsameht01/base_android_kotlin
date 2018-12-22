@@ -4,8 +4,7 @@ import android.arch.persistence.room.Room
 import android.content.Context
 import com.tinle.emptyproject.App
 import com.tinle.emptyproject.api.GposService
-import com.tinle.emptyproject.core.AppExecutor
-import com.tinle.emptyproject.core.PreferenceStore
+import com.tinle.emptyproject.core.*
 import com.tinle.emptyproject.data.AppDatabase
 import com.tinle.emptyproject.data.CheckinDao
 import dagger.Module
@@ -26,8 +25,8 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideApi(pref:PreferenceStore):GposService{
-        return GposService(pref)
+    fun provideApi(pref:PreferenceStore, encryptService:EncryptionService, dateUtil:DateUtil):GposService{
+        return GposService(pref, encryptService, dateUtil)
     }
 
     @Provides
@@ -49,6 +48,18 @@ class AppModule {
     @Provides
     fun provideCheckinDao(db: AppDatabase):CheckinDao{
         return db.checkinDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideDateUtil():DateUtil{
+        return DateUtil()
+    }
+
+    @Provides
+    @Singleton
+    fun provideEncryptServide(): EncryptionService {
+        return EncryptionService()
     }
 
 }

@@ -31,6 +31,7 @@ class RewardsFragment:BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setToolbarVisibility(View.GONE)
         viewModel = ViewModelProviders.of(this, vmFactory).get(CustomerRewardsVM::class.java)
         viewModel.getCustomerInfo().observe(this, Observer<CustomerInfo>{
             welcomeText.text = "Welcome, ${it!!.FirstName}"
@@ -41,6 +42,9 @@ class RewardsFragment:BaseFragment() {
         viewModel.getPromotions().observe(this, Observer<List<Promotion>>{
             rewardsList.adapter = PromoAdapter(it!!)
         })
+        backBtn.setOnClickListener{
+            changeFragment(CheckinFragment())
+        }
     }
 
     inner class PromoAdapter(val promos:List<Promotion>): RecyclerView.Adapter<PromoHolder>(){

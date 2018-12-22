@@ -29,15 +29,16 @@
         android:layout_width="400dp"
         android:layout_height="40dp" />
 
-    <Button
-        android:layout_marginTop="30dp"
-        android:textStyle="bold"
-        android:background="@color/warm2"
+    <TextView
         android:id="@+id/saveBtn"
-        android:layout_marginBottom="30dp"
+        android:textColor="@color/cool_grad_2"
+        android:layout_marginTop="30dp"
+        android:paddingVertical="5dp"
+        android:paddingHorizontal="10dp"
+        android:background="@drawable/round_corner_bg"
         android:text="Save"
-        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
 
 </LinearLayout>

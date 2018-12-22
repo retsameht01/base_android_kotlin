@@ -64,7 +64,7 @@ class PasscodeDialog:DialogFragment() {
     override fun onStart() {
         super.onStart()
         if (dialog != null) {
-           dialog.window.setLayout(600,300)
+           dialog.window.setLayout(400,250)
         }
     }
 

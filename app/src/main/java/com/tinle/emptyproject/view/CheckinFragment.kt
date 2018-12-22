@@ -55,6 +55,12 @@ class CheckinFragment:BaseFragment() {
         super.onResume()
     }
 
+    override fun onPause(){
+        super.onPause()
+        val imm = context!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(checkinPhone.windowToken, 0)
+    }
+
     private fun doCheckin(){
         viewModel.checkIn(checkinPhone.text.toString())
     }
