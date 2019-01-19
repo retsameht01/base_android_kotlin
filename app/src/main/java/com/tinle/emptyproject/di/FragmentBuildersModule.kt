@@ -24,4 +24,7 @@ abstract class FragmentBuildersModule {
     @ContributesAndroidInjector
     abstract  fun sigup():SignUpFragment
 
+    @ContributesAndroidInjector
+    abstract fun payment():PaymentFragment
+
 }

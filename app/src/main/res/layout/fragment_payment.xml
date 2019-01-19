@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/vert_grad_cool"
+    android:paddingHorizontal="10dp"
+    >
+
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_marginTop="20dp"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:text="Payment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/saleAmount"
+        android:hint="$"
+        android:textColorHint="@color/white"
+        android:backgroundTint="@color/white"
+        android:textSize="20sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/title"
+        android:layout_width="500dp"
+        android:layout_height="50dp" />
+
+    <TextView
+        android:id="@+id/submitPayment"
+        android:paddingHorizontal="10dp"
+        android:textSize="30sp"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:text="Submit"
+        android:layout_below="@id/saleAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

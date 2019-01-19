@@ -3,7 +3,6 @@ package com.tinle.emptyproject
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.DialogInterface
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.tinle.emptyproject.vm.MainViewModel
@@ -20,13 +19,21 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBar
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
+import com.fantasticsoft.TransactionType
+import com.fantasticsoft.gposlinklib.EdcType
+import com.fantasticsoft.gposlinklib.PosLinkCallback
+import com.fantasticsoft.gposlinklib.PoslinkActivity
+import com.fantasticsoft.gposlinklib.PostLinkHandler
+import com.pax.poslink.PaymentResponse
+import com.pax.poslink.ProcessTransResult
 import com.tinle.emptyproject.R.id.nav_settings
 import com.tinle.emptyproject.R.id.nave_manage_checkin
 import com.tinle.emptyproject.services.MusicService
 import com.tinle.emptyproject.view.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
+class MainActivity : PoslinkActivity(), HasSupportFragmentInjector {
     @Inject
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
 
@@ -55,11 +62,18 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         }
     }
 
+    public fun getPosHandler():PostLinkHandler{
+        return handler
+    }
+
+    //private lateinit var postlinkHandler:PostLinkHandler
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
         vieModel = ViewModelProviders.of(this, vmFactory).get(MainViewModel::class.java)
         setContentView(R.layout.activity_main)
+        //postlinkHandler = PostLinkHandler(this)
 
         mDrawerLayout = findViewById(R.id.drawer_layout)
         val navigationView: NavigationView = findViewById(R.id.nav_view)
@@ -80,7 +94,19 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
             true
         }
 
+        testPaymentBtn.setOnClickListener {
+            handler.ProcessPayment(100, EdcType.CREDIT, "11", TransactionType.SALE, object: PosLinkCallback{
+                override fun onProcessSuccess(payResponse: PaymentResponse?) {
+                    print("onsuccess ${payResponse?.Message} + raw: response ${payResponse?.RawResponse}")
+                }
 
+                override fun onProcessFailed(ptr: ProcessTransResult?) {
+                    print("onfailed ${ptr?.Msg} + code ${ptr?.Code }}")
+                }
+
+            })
+            //postlinkHandler.ProcessPayment()
+        }
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -90,8 +116,13 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.ic_hamburger)
         }
-        switchFrag(CheckinFragment())
+        switchFrag(PaymentFragment())
+
+        //calling init credit card payment method
+        handler.Init();
+        handler.SaveCommSettings("192.168.1.232", "HTTP", "");
     }
+
 
     private fun showPasswordDialog() {
         val fm: FragmentManager = supportFragmentManager
