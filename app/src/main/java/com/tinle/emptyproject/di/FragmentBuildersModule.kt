@@ -27,4 +27,10 @@ abstract class FragmentBuildersModule {
     @ContributesAndroidInjector
     abstract fun payment():PaymentFragment
 
+    @ContributesAndroidInjector
+    abstract fun manageTrans():ManageTransactionFragment
+
+
+
+
 }

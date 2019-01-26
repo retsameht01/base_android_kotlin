@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog
 import android.view.View
 import com.tinle.emptyproject.MainActivity
 import com.tinle.emptyproject.R
+import com.tinle.emptyproject.core.AppEvent
 import com.tinle.emptyproject.core.BusListener
 import com.tinle.emptyproject.core.EventBus
 import dagger.android.support.AndroidSupportInjection
@@ -93,6 +94,10 @@ abstract class BaseFragment:Fragment(), BusListener {
 
     fun hideProgress(){
         progressDialog.dismiss()
+    }
+
+    override fun onBusEvent(event: AppEvent) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 }

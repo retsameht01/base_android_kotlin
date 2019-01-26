@@ -7,6 +7,7 @@ import com.tinle.emptyproject.api.GposService
 import com.tinle.emptyproject.core.*
 import com.tinle.emptyproject.data.AppDatabase
 import com.tinle.emptyproject.data.CheckinDao
+import com.tinle.emptyproject.data.PaymentTransactionDao
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -41,13 +42,19 @@ class AppModule {
         val db = Room.databaseBuilder(
                 app,
                 AppDatabase::class.java, "gpos_rewards"
-        ).build()
+        ).fallbackToDestructiveMigration()
+                .build()
         return db
     }
 
     @Provides
     fun provideCheckinDao(db: AppDatabase):CheckinDao{
         return db.checkinDao()
+    }
+
+    @Provides
+    fun provideTransactionDao(db:AppDatabase):PaymentTransactionDao{
+        return db.paymentTransactionDao()
     }
 
     @Provides

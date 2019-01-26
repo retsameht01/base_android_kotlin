@@ -1,44 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/vert_grad_cool"
-    android:paddingHorizontal="10dp"
-    >
+    android:paddingHorizontal="10dp">
 
 
     <TextView
         android:id="@+id/title"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:textSize="50sp"
-        android:textStyle="bold"
+        android:textAllCaps="true"
         android:layout_centerHorizontal="true"
         android:textColor="@color/white"
         android:text="Payment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/saleAmount"
-        android:hint="$"
-        android:textColorHint="@color/white"
-        android:backgroundTint="@color/white"
-        android:textSize="20sp"
-        android:layout_centerHorizontal="true"
+    <LinearLayout
+        android:id="@+id/paymentContent"
         android:layout_below="@id/title"
-        android:layout_width="500dp"
-        android:layout_height="50dp" />
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <faranjit.currency.edittext.CurrencyEditText
+            android:textAlignment="center"
+            android:id="@+id/saleAmount"
+            android:textColor="@color/white"
+            android:inputType="numberDecimal"
+            android:textColorHint="@color/white"
+            android:backgroundTint="@color/white"
+            android:textSize="35sp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/title"
+            android:layout_width="wrap_content"
+            android:minWidth="300dp"
+            app:locale="en_US"
+            app:showSymbol="true"
+            android:layout_height="wrap_content" />
+
+        <Spinner
+            android:backgroundTint="@color/white"
+            android:layout_marginTop="20dp"
+            android:id="@+id/tenderType"
+            android:popupBackground="@color/cool_grad_1"
+            android:entries="@array/payment_tenders"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Spinner
+            android:popupBackground="@color/cool_grad_2"
+            android:id="@+id/transType"
+            android:layout_marginTop="20dp"
+            android:entries="@array/payment_trans"
+            android:backgroundTint="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
 
     <TextView
+        android:background="@drawable/round_corner_bg_outline"
         android:id="@+id/submitPayment"
-        android:paddingHorizontal="10dp"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="5dp"
         android:textSize="30sp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
         android:textColor="@color/white"
         android:text="Submit"
-        android:layout_below="@id/saleAmount"
+        android:layout_below="@id/paymentContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

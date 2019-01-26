@@ -28,6 +28,7 @@ import com.pax.poslink.PaymentResponse
 import com.pax.poslink.ProcessTransResult
 import com.tinle.emptyproject.R.id.nav_settings
 import com.tinle.emptyproject.R.id.nave_manage_checkin
+import com.tinle.emptyproject.R.id.nav_manage_transaction
 import com.tinle.emptyproject.services.MusicService
 import com.tinle.emptyproject.view.*
 import kotlinx.android.synthetic.main.activity_main.*
@@ -57,6 +58,9 @@ class MainActivity : PoslinkActivity(), HasSupportFragmentInjector {
                     nav_settings->{
                         switchFrag(SettingsFragment())
                     }
+                    nav_manage_transaction->{
+                        switchFrag(ManageTransactionFragment())
+                    }
                 }
             }
         }
@@ -84,7 +88,7 @@ class MainActivity : PoslinkActivity(), HasSupportFragmentInjector {
             // Add code here to update the UI based on the item selected
             // For example, swap UI fragments here
             when(menuItem.itemId){
-                nave_manage_checkin, nav_settings ->{
+                nave_manage_checkin, nav_settings, nav_manage_transaction ->{
                     selectedMenu = menuItem.itemId
                     showPasswordDialog()
                 }
@@ -119,8 +123,8 @@ class MainActivity : PoslinkActivity(), HasSupportFragmentInjector {
         switchFrag(PaymentFragment())
 
         //calling init credit card payment method
-        handler.Init();
-        handler.SaveCommSettings("192.168.1.232", "HTTP", "");
+        //handler.Init();
+        handler.SaveCommSettings("192.168.1.232", "HTTP", "")
     }
 
 

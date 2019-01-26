@@ -30,6 +30,28 @@
         android:layout_height="40dp" />
 
     <TextView
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/settingsLabel"
+        android:textColor="@color/white"
+        android:id="@+id/creditCardIpLabel"
+        android:text="Credit Card Machine IP"
+        android:textSize="22sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:paddingTop="5dp"
+        android:paddingLeft="10dp"
+        android:background="@drawable/round_corner_bg_outline"
+        android:textColor="@color/white"
+        android:id="@+id/creditCardIpText"
+        android:textColorHint="@color/white"
+        android:hint="0.0.0.0"
+        android:layout_width="400dp"
+        android:layout_height="40dp" />
+
+    <TextView
         android:id="@+id/saveBtn"
         android:textColor="@color/cool_grad_2"
         android:layout_marginTop="30dp"
