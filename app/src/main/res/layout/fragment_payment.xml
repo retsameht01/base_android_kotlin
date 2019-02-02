@@ -64,7 +64,7 @@
             android:layout_marginTop="20dp"
             android:id="@+id/tenderType"
             android:popupBackground="@color/cool_grad_1"
-            android:entries="@array/payment_tenders"
+            android:entries="@array/payment_types"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -72,7 +72,7 @@
             android:popupBackground="@color/cool_grad_2"
             android:id="@+id/transType"
             android:layout_marginTop="20dp"
-            android:entries="@array/payment_trans"
+            android:entries="@array/payment_transactions"
             android:backgroundTint="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

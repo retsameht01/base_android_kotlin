@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.fantasticsoft.gposlinklib.ManageRequestCallback
-import com.fantasticsoft.gposlinklib.PostLinkHandler
-import com.fantasticsoft.gposlinklib.ReportCallback
+import com.fantasticsoft.gposlinklib.*
+import com.pax.poslink.BatchResponse
+import com.pax.poslink.PaymentResponse
 import com.pax.poslink.ProcessTransResult
 import com.pax.poslink.ReportResponse
 import com.tinle.emptyproject.MainActivity
@@ -20,6 +20,7 @@ import javax.inject.Inject
 
 class ManageTransactionFragment:BaseFragment() {
     private lateinit var posHandler: PostLinkHandler
+    private val totalReportName = "LOCALTOTALREPORT"
     @Inject
     lateinit var executor:AppExecutor
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -60,31 +61,89 @@ class ManageTransactionFragment:BaseFragment() {
 
         closeBatchBtn.setOnClickListener {
 
+            progressDialog.setTitle("Process Batch")
+            progressDialog.setMessage("Processing batch close...")
+            progressDialog.show()
+            posHandler.CloseBatch("BATCHCLOSE", "ALL" ,object:BatchCallback{
+                override fun onSuccess(p0: BatchResponse?) {
+                    hideProgDialog(true, "success")
+                }
+
+                override fun onFailed(p0: ProcessTransResult?) {
+                    hideProgDialog(false, "failed")
+                }
+
+            })
+
         }
 
         totalSummaryBtn.setOnClickListener {
 
-            posHandler.ReportSummary(object: ReportCallback{
+            progressDialog.setTitle("Process Report")
+            progressDialog.setMessage("Processing summary report...")
+            progressDialog.show()
+            posHandler.ReportSummary( totalReportName, object: ReportCallback{
                 override fun onReportSuccess(p0: ReportResponse?) {
                     setResultText(p0)
+                    hideProgDialog(true, "success")
 
                 }
 
                 override fun onReportFailed(p0: ProcessTransResult?) {
                     setResultText(null)
+                    hideProgDialog(false, "failed")
                 }
 
             })
         }
 
         voidBtn.setOnClickListener {
+            progressDialog.setTitle("Process Transaction")
+            progressDialog.setMessage("Processing void transaction...")
+            progressDialog.show()
 
+            posHandler.VoidTransaction("","", object:PosLinkCallback{
+                override fun onProcessSuccess(p0: PaymentResponse?) {
+                    hideProgDialog(true, p0?.ResultTxt?:"unknown result")
+                }
+
+                override fun onProcessFailed(p0: ProcessTransResult?) {
+                   hideProgDialog(false, p0?.Msg?:"Failed")
+                }
+
+            })
         }
 
-        adjustTipBtn.setOnClickListener {  }
+        adjustTipBtn.setOnClickListener {
+            progressDialog.setTitle("Process Transaction")
+            progressDialog.setMessage("Processing adjust tip...")
+            progressDialog.show()
+            posHandler.AdjustTip("ecref", "ref",  100, object :PosLinkCallback{
 
+                override fun onProcessSuccess(p0: PaymentResponse?) {
+                    hideProgDialog(false, "success")
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
 
+                override fun onProcessFailed(p0: ProcessTransResult?) {
+                    hideProgDialog(false, "failed")
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
 
+            })
+        }
+    }
+
+    fun hideProgDialog(success:Boolean, msg:String) {
+        executor.mainThread().execute{
+            if(success) {
+                Toast.makeText(activity, "Success", Toast.LENGTH_LONG).show()
+            }
+            else {
+                Toast.makeText(activity, "failed", Toast.LENGTH_LONG).show()
+            }
+            hideProgress()
+        }
     }
 
     private fun setResultText(reportResponse:ReportResponse?){

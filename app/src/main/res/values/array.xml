@@ -6,4 +6,19 @@
         <item>Debit</item>
         <item>Cash</item>
     </string-array>
+
+    <string-array name="payment_types">
+        <item>CREDIT</item>
+        <item>DEBIT</item>
+        <item>CHECK</item>
+        <item>EBT_FOODSTAMP</item>
+        <item>EBT_CASHBENEFIT</item>
+        <item>GIFT</item>
+        <item>LOYALTY</item>
+        <item>CASH</item>
+        <item>EBT</item>
+    </string-array>
+    <string-array name="payment_transactions">
+        <item>SALE</item>
+    </string-array>
 </resources>

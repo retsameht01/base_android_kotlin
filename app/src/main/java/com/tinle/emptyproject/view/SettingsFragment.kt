@@ -31,11 +31,14 @@ class SettingsFragment:BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setToolbarVisibility(View.GONE)
         apiText.setText(viewModel.getAPIValue())
+        creditCardIpText.setText(viewModel.getCommIP())
         saveBtn.setOnClickListener {
             viewModel.saveAPI(apiText.text.toString().trim())
+            viewModel.saveCommIP(creditCardIpText.text.toString())
             posHandler.SaveCommSettings(creditCardIpText.text.toString(), "", "")
             changeFragment(CheckinFragment())
         }
+
     }
 
 }

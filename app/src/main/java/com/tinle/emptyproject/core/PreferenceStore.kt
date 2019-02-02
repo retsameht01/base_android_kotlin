@@ -11,6 +11,9 @@ class PreferenceStore @Inject constructor(
 {
     private val PREF = "MyPref"
     private val API_KEY = "API_KEY"
+    private val COMM_IP = "COMM_IP"
+
+
     private var sharePref: SharedPreferences
     //sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
     init {
@@ -25,7 +28,15 @@ class PreferenceStore @Inject constructor(
 
     fun getAPI():String {
         return sharePref.getString(API_KEY, "20002")
+    }
 
+    fun saveCommIP(ip:String) {
+        val editor = sharePref.edit()
+        editor.putString(COMM_IP, ip).commit()
+    }
+
+    fun getCommIP():String{
+        return sharePref.getString(COMM_IP, "192.168.1.1")
     }
 
 }

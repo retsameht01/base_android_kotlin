@@ -19,24 +19,22 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBar
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
-import com.fantasticsoft.TransactionType
-import com.fantasticsoft.gposlinklib.EdcType
-import com.fantasticsoft.gposlinklib.PosLinkCallback
 import com.fantasticsoft.gposlinklib.PoslinkActivity
 import com.fantasticsoft.gposlinklib.PostLinkHandler
-import com.pax.poslink.PaymentResponse
-import com.pax.poslink.ProcessTransResult
 import com.tinle.emptyproject.R.id.nav_settings
 import com.tinle.emptyproject.R.id.nave_manage_checkin
 import com.tinle.emptyproject.R.id.nav_manage_transaction
+import com.tinle.emptyproject.core.PreferenceStore
 import com.tinle.emptyproject.services.MusicService
 import com.tinle.emptyproject.view.*
-import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : PoslinkActivity(), HasSupportFragmentInjector {
     @Inject
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+
+    @Inject
+    lateinit var prefStore:PreferenceStore
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> = fragmentInjector
 
@@ -66,11 +64,10 @@ class MainActivity : PoslinkActivity(), HasSupportFragmentInjector {
         }
     }
 
-    public fun getPosHandler():PostLinkHandler{
+    fun getPosHandler():PostLinkHandler{
         return handler
     }
 
-    //private lateinit var postlinkHandler:PostLinkHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,20 +95,6 @@ class MainActivity : PoslinkActivity(), HasSupportFragmentInjector {
             true
         }
 
-        testPaymentBtn.setOnClickListener {
-            handler.ProcessPayment(100, EdcType.CREDIT, "11", TransactionType.SALE, object: PosLinkCallback{
-                override fun onProcessSuccess(payResponse: PaymentResponse?) {
-                    print("onsuccess ${payResponse?.Message} + raw: response ${payResponse?.RawResponse}")
-                }
-
-                override fun onProcessFailed(ptr: ProcessTransResult?) {
-                    print("onfailed ${ptr?.Msg} + code ${ptr?.Code }}")
-                }
-
-            })
-            //postlinkHandler.ProcessPayment()
-        }
-
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         toolbar.setTitleTextColor(resources.getColor(android.R.color.white))
@@ -124,7 +107,7 @@ class MainActivity : PoslinkActivity(), HasSupportFragmentInjector {
 
         //calling init credit card payment method
         //handler.Init();
-        handler.SaveCommSettings("192.168.1.232", "HTTP", "")
+        handler.SaveCommSettings(prefStore.getCommIP(), "HTTP", "")
     }
 
 

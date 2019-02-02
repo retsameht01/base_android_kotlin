@@ -8,8 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.fantasticsoft.TransactionType
-import com.fantasticsoft.gposlinklib.EdcType
 import com.fantasticsoft.gposlinklib.PosLinkCallback
 import com.fantasticsoft.gposlinklib.PostLinkHandler
 import com.pax.poslink.PaymentResponse
@@ -47,10 +45,10 @@ class PaymentFragment:BaseFragment() {
                 progressDialog.setMessage("Processing payment...")
                 progressDialog.show()
 
-                val edcType = getTenderTypee()
+                val paymentType = getTenderTypee()
                 val tranType = getTransType()
 
-                posHandler.ProcessPayment(getSaleAmount(), EdcType.CREDIT, "$refNumber", TransactionType.SALE, object :PosLinkCallback{
+                posHandler.ProcessPayment(getSaleAmount(), getTipAmount() ,paymentType , "$refNumber", tranType, object :PosLinkCallback{
                     override fun onProcessSuccess(p0: PaymentResponse?) {
                         hideProgDialog(true)
                         refNumber++
@@ -58,7 +56,6 @@ class PaymentFragment:BaseFragment() {
 
                     override fun onProcessFailed(p0: ProcessTransResult?) {
                         hideProgDialog(false)
-
                     }
                 })
             }
@@ -97,14 +94,15 @@ class PaymentFragment:BaseFragment() {
         return amtCents
     }
 
-    private fun getTransType():TransactionType{
-        val transType =  TransactionType.values()[transType.selectedItemPosition]
-        return transType
+    private fun getTransType():String{
+        val result = transType.selectedItemPosition.toString()
+        return result
     }
 
-    private fun getTenderTypee():EdcType{
-        val edcType = EdcType.values()[tenderType.selectedItemPosition + 1]
+    private fun getTenderTypee():String{
+        val edcType = tenderType.selectedItem.toString()
         return edcType
+        //return edcType?:"CREDIT" COOL USE of elvis operator
     }
 
 

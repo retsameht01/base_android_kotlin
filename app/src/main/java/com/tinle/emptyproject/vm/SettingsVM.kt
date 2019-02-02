@@ -16,4 +16,12 @@ class SettingsVM @Inject constructor(
     fun getAPIValue():String{
         return prefStore.getAPI()
     }
+
+    fun getCommIP():String{
+        return prefStore.getCommIP()
+    }
+
+    fun saveCommIP(ip:String) {
+        return prefStore.saveCommIP(ip)
+    }
 }
