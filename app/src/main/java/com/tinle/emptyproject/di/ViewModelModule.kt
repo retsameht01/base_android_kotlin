@@ -47,6 +47,12 @@ abstract class ViewModelModule {
     @ViewModelKey(PaymentVM::class)
     abstract fun bindPaymentVM(viewModel: PaymentVM):ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(ManageTransactionVM::class)
+    abstract fun bindManageTransVM(viewModel: ManageTransactionVM):ViewModel
+
+
 
 
 

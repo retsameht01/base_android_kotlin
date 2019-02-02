@@ -62,18 +62,16 @@ class PaymentFragment:BaseFragment() {
         }
 
         val paymentAdapter = ArrayAdapter.createFromResource(activity,
-                R.array.payment_tenders, R.layout.payment_type_spinner_text)
+                R.array.payment_types, R.layout.payment_type_spinner_text)
 
         paymentAdapter.setDropDownViewResource(R.layout.payment_type_spinner_text_dropdown)
         tenderType.adapter = paymentAdapter
 
         val transactionAdapter = ArrayAdapter.createFromResource(activity,
-                R.array.payment_trans, R.layout.payment_type_spinner_text)
+                R.array.payment_transactions, R.layout.payment_type_spinner_text)
 
         transactionAdapter.setDropDownViewResource(R.layout.payment_type_spinner_text_dropdown)
         transType.adapter = transactionAdapter
-        //SET DEFAULT TO CREDIT
-        transType.setSelection(2)
     }
 
     private fun getSaleAmount():Int{

@@ -15,4 +15,12 @@ class TransactionRepo @Inject constructor(
 
     }
 
+    fun getTransactions():List<PaymentTransaction> {
+        return transDao.getAllTransactions()
+    }
+
+    fun getTransActionCount():Int {
+        return transDao.getTransActionCount()
+    }
+
 }

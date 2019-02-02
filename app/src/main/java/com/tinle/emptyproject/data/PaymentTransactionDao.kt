@@ -10,8 +10,11 @@ interface PaymentTransactionDao {
     @Insert
     fun insertAll(vararg transaction: PaymentTransaction)
 
-    @Query("SELECT Id FROM PaymentTransaction ORDER BY Id DESC LIMIT 1 ")
-    fun getLastTransActionId():Int
+    @Query("SELECT COUNT(*) FROM PaymentTransaction")
+    fun getTransActionCount():Int
+
+    @Query("SELECT * FROM PaymentTransaction")
+    fun getAllTransactions():List<PaymentTransaction>
 
 
 }

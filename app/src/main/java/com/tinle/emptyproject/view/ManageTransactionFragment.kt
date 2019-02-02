@@ -1,6 +1,7 @@
 package com.tinle.emptyproject.view
 
 
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,21 +15,31 @@ import com.pax.poslink.ReportResponse
 import com.tinle.emptyproject.MainActivity
 import com.tinle.emptyproject.R
 import com.tinle.emptyproject.core.AppExecutor
+import com.tinle.emptyproject.data.PaymentTransaction
+import com.tinle.emptyproject.vm.ManageTransactionVM
 import kotlinx.android.synthetic.main.fragment_manage_transaction.*
+import java.io.Serializable
 import javax.inject.Inject
 
 
-class ManageTransactionFragment:BaseFragment() {
+class ManageTransactionFragment:BaseFragment(), TransactionSelectDialog.OnTransactionSelectListener {
+    override fun onSelectTransaction(trans: PaymentTransaction) {
+        Toast.makeText(context, " Success ${trans.Timestamp}", Toast.LENGTH_LONG).show()
+    }
+
     private lateinit var posHandler: PostLinkHandler
     private val totalReportName = "LOCALTOTALREPORT"
     @Inject
     lateinit var executor:AppExecutor
+    private lateinit var viewModel:ManageTransactionVM
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = inflater.inflate(R.layout.fragment_manage_transaction, container, false)
         posHandler = (activity as MainActivity).getPosHandler()
+        viewModel = ViewModelProviders.of(activity!!, vmFactory).get(ManageTransactionVM::class.java)
         return view;
     }
-    //todo add tip, adjust tip, finish void transaction
+    //todo add tip, adjust tip, finish void transactions
     //todo handle saving checkin info locally save user check in locall, pull customer data and store locally in case the internet is down
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -72,7 +83,6 @@ class ManageTransactionFragment:BaseFragment() {
                 override fun onFailed(p0: ProcessTransResult?) {
                     hideProgDialog(false, "failed")
                 }
-
             })
 
         }
@@ -98,8 +108,16 @@ class ManageTransactionFragment:BaseFragment() {
         }
 
         voidBtn.setOnClickListener {
+            val dialog = TransactionSelectDialog()
+            var bundle =  Bundle()
+            bundle.putSerializable("transList", getSampleData() as Serializable)
+            dialog.arguments= bundle
+            dialog.setTargetFragment(this, 1)
+            dialog.show(fragmentManager, "trans_dialog")
+            /*
+
             progressDialog.setTitle("Process Transaction")
-            progressDialog.setMessage("Processing void transaction...")
+            progressDialog.setMessage("Processing void transactions...")
             progressDialog.show()
 
             posHandler.VoidTransaction("","", object:PosLinkCallback{
@@ -110,8 +128,8 @@ class ManageTransactionFragment:BaseFragment() {
                 override fun onProcessFailed(p0: ProcessTransResult?) {
                    hideProgDialog(false, p0?.Msg?:"Failed")
                 }
-
             })
+            */
         }
 
         adjustTipBtn.setOnClickListener {
@@ -132,6 +150,20 @@ class ManageTransactionFragment:BaseFragment() {
 
             })
         }
+    }
+
+    private fun getSampleData():List<PaymentTransaction> {
+        var trans = mutableListOf<PaymentTransaction>()
+        for (i in 0..5) {
+            val tran = PaymentTransaction()
+            tran.Timestamp = "time $i"
+            tran.CardType = "CREDIT$i"
+            tran.RequestedAmount = "$23.23"
+            tran.RefNum = "3"
+            trans.add(tran)
+        }
+        trans.add(PaymentTransaction())
+        return trans
     }
 
     fun hideProgDialog(success:Boolean, msg:String) {
