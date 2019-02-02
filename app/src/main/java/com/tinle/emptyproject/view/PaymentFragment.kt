@@ -26,6 +26,7 @@ import com.tinle.emptyproject.vm.PaymentVM
 class PaymentFragment:BaseFragment() {
     private lateinit var posHandler:PostLinkHandler
     lateinit var viewModel: PaymentVM
+    var refNumber:Int = 12
 
     @Inject
     lateinit var exexutor:AppExecutor
@@ -49,10 +50,10 @@ class PaymentFragment:BaseFragment() {
                 val edcType = getTenderTypee()
                 val tranType = getTransType()
 
-                posHandler.ProcessPayment(getSaleAmount(), EdcType.CREDIT, "12", TransactionType.SALE, object :PosLinkCallback{
+                posHandler.ProcessPayment(getSaleAmount(), EdcType.CREDIT, "$refNumber", TransactionType.SALE, object :PosLinkCallback{
                     override fun onProcessSuccess(p0: PaymentResponse?) {
                         hideProgDialog(true)
-
+                        refNumber++
                     }
 
                     override fun onProcessFailed(p0: ProcessTransResult?) {
@@ -74,13 +75,26 @@ class PaymentFragment:BaseFragment() {
 
         transactionAdapter.setDropDownViewResource(R.layout.payment_type_spinner_text_dropdown)
         transType.adapter = transactionAdapter
+        //SET DEFAULT TO CREDIT
         transType.setSelection(2)
     }
 
     private fun getSaleAmount():Int{
-        val amount =  saleAmount.currencyDouble
-        val amountInCents:Int = (amount * 100).toInt()
+        var amountInCents:Int = 0;
+        if(!saleAmount.text.toString().isEmpty()){
+            val amount =  saleAmount.currencyDouble
+            amountInCents = (amount * 100).toInt()
+        }
         return amountInCents
+    }
+
+    private fun getTipAmount():Int{
+        var amtCents = 0;
+        if(!tipAmount.text.toString().isEmpty()) {
+            val amt = tipAmount.currencyDouble
+            amtCents = (amt*100).toInt()
+        }
+        return amtCents
     }
 
     private fun getTransType():TransactionType{

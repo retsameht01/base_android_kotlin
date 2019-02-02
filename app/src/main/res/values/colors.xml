@@ -13,6 +13,7 @@
     <color name="transparent">#00ffffff</color>
     <color name="gray">#cccccc</color>
     <color name="nice_green">#00E676</color>
+    <color name="easy_green">#66bb6a</color>
     <color name="black">#000000</color>
     <color name="dark_gray">#424242</color>
     <color name="dark_green">#455A64</color>

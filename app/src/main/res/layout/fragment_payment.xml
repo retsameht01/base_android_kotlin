@@ -42,6 +42,23 @@
             app:showSymbol="true"
             android:layout_height="wrap_content" />
 
+        <faranjit.currency.edittext.CurrencyEditText
+            android:textAlignment="center"
+            android:id="@+id/tipAmount"
+            android:textColor="@color/white"
+            android:inputType="numberDecimal"
+            android:textColorHint="@color/white"
+            android:backgroundTint="@color/white"
+            android:textSize="35sp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/title"
+            android:layout_width="wrap_content"
+            android:minWidth="300dp"
+            android:hint="Tip"
+            app:locale="en_US"
+            app:showSymbol="true"
+            android:layout_height="wrap_content" />
+
         <Spinner
             android:backgroundTint="@color/white"
             android:layout_marginTop="20dp"
@@ -64,7 +81,7 @@
     </LinearLayout>
 
     <TextView
-        android:background="@drawable/round_corner_bg_outline"
+        android:background="@drawable/btn_click_outline"
         android:id="@+id/submitPayment"
         android:paddingHorizontal="15dp"
         android:paddingVertical="5dp"

@@ -23,10 +23,10 @@
         android:layout_width="500dp"
         android:layout_height="60dp" />
 
-    <Button
+    <TextView
         android:id="@+id/checkinBtn"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="5dp"
         android:layout_marginBottom="30dp"
         android:textAllCaps="false"
         android:textSize="20sp"
