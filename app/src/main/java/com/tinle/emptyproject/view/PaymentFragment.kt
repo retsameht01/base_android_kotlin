@@ -24,12 +24,13 @@ import com.tinle.emptyproject.vm.PaymentVM
 class PaymentFragment:BaseFragment() {
     private lateinit var posHandler:PostLinkHandler
     lateinit var viewModel: PaymentVM
-    var refNumber:Int = 12
+    var refNumber:Int = 0;
 
     @Inject
     lateinit var exexutor:AppExecutor
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        setToolbarVisibility(View.VISIBLE)
         var view = inflater.inflate(R.layout.fragment_payment, container, false)
         posHandler = (activity as MainActivity).getPosHandler()
         viewModel = ViewModelProviders.of(activity!!, vmFactory).get(PaymentVM::class.java)
@@ -39,6 +40,7 @@ class PaymentFragment:BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         //setToolbarVisibility(View.GONE)
+        refNumber = viewModel.getTransactionCount()
         submitPayment.setOnClickListener{
             if(posHandler != null) {
                 progressDialog.setTitle("Process Payment")
@@ -51,6 +53,9 @@ class PaymentFragment:BaseFragment() {
                 posHandler.ProcessPayment(getSaleAmount(), getTipAmount() ,paymentType , "$refNumber", tranType, object :PosLinkCallback{
                     override fun onProcessSuccess(p0: PaymentResponse?) {
                         hideProgDialog(true)
+                        if(p0 != null) {
+                            viewModel.saveTransaction(p0)
+                        }
                         refNumber++
                     }
 
@@ -75,7 +80,7 @@ class PaymentFragment:BaseFragment() {
     }
 
     private fun getSaleAmount():Int{
-        var amountInCents:Int = 0;
+        var amountInCents:Int = 0
         if(!saleAmount.text.toString().isEmpty()){
             val amount =  saleAmount.currencyDouble
             amountInCents = (amount * 100).toInt()
@@ -93,7 +98,7 @@ class PaymentFragment:BaseFragment() {
     }
 
     private fun getTransType():String{
-        val result = transType.selectedItemPosition.toString()
+        val result = transType.selectedItem.toString()
         return result
     }
 

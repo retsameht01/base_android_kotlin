@@ -12,8 +12,15 @@ class ManageTransactionVM @Inject constructor(
 
 ):ViewModel() {
 
+    lateinit var transactions:List<PaymentTransaction>
+    init {
+        executor.diskIO().execute {
+            transactions = transactionRepo.getTransactions()
+        }
+    }
+
     fun getTransActions():List<PaymentTransaction> {
-        return transactionRepo.getTransactions()
+        return transactions
     }
 
 }

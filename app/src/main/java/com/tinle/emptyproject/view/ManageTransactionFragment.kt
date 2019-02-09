@@ -2,16 +2,15 @@ package com.tinle.emptyproject.view
 
 
 import android.arch.lifecycle.ViewModelProviders
+import android.content.DialogInterface
 import android.os.Bundle
+import android.support.v4.app.FragmentManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.fantasticsoft.gposlinklib.*
-import com.pax.poslink.BatchResponse
-import com.pax.poslink.PaymentResponse
-import com.pax.poslink.ProcessTransResult
-import com.pax.poslink.ReportResponse
+import com.pax.poslink.*
 import com.tinle.emptyproject.MainActivity
 import com.tinle.emptyproject.R
 import com.tinle.emptyproject.core.AppExecutor
@@ -23,15 +22,18 @@ import javax.inject.Inject
 
 
 class ManageTransactionFragment:BaseFragment(), TransactionSelectDialog.OnTransactionSelectListener {
-    override fun onSelectTransaction(trans: PaymentTransaction) {
-        Toast.makeText(context, " Success ${trans.Timestamp}", Toast.LENGTH_LONG).show()
-    }
 
     private lateinit var posHandler: PostLinkHandler
     private val totalReportName = "LOCALTOTALREPORT"
+    private val AdjustTip = "ADJUSTTIP"
+    private val Void = "VOID"
+    private lateinit var dialog: InputDialog
+    private var selectedTransaction: PaymentTransaction? = null
+
     @Inject
     lateinit var executor:AppExecutor
     private lateinit var viewModel:ManageTransactionVM
+    var lastAction  = "DEFAULT"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = inflater.inflate(R.layout.fragment_manage_transaction, container, false)
@@ -49,11 +51,25 @@ class ManageTransactionFragment:BaseFragment(), TransactionSelectDialog.OnTransa
             changeFragment(PaymentFragment())
         }
 
-        initBtn.setOnClickListener {
-            posHandler.ManageCommand("INIT", object: ManageRequestCallback{
-                override fun onManageCallback(p0: ProcessTransResult?) {
+        /*
+        override fun onManageCallback(p0: ProcessTransResult?) {
                     executor.mainThread().execute {
                         Toast.makeText(activity, "Init " + p0?.Msg,Toast.LENGTH_LONG).show()
+                    }
+                }
+         */
+
+        initBtn.setOnClickListener {
+            posHandler.ManageCommand("INIT", object: ManageRequestCallback{
+                override fun onFailed(p0: ProcessTransResult?) {
+                    executor.mainThread().execute {
+                        Toast.makeText(activity, "Init failed" , Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                override fun onManageCallback(p0: ManageResponse?) {
+                    executor.mainThread().execute {
+                        Toast.makeText(activity, "Init Success" , Toast.LENGTH_LONG).show()
                     }
                 }
             })
@@ -62,9 +78,15 @@ class ManageTransactionFragment:BaseFragment(), TransactionSelectDialog.OnTransa
 
         resetBtn.setOnClickListener {
             posHandler.ManageCommand("RESET", object: ManageRequestCallback{
-                override fun onManageCallback(p0: ProcessTransResult?) {
+                override fun onFailed(p0: ProcessTransResult?) {
                     executor.mainThread().execute {
-                        Toast.makeText(activity, "Init " + p0?.Msg,Toast.LENGTH_LONG).show()
+                        Toast.makeText(activity, "Reset failed" , Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                override fun onManageCallback(p0: ManageResponse?) {
+                    executor.mainThread().execute {
+                        Toast.makeText(activity, "Reset Success" , Toast.LENGTH_LONG).show()
                     }
                 }
             })
@@ -108,48 +130,55 @@ class ManageTransactionFragment:BaseFragment(), TransactionSelectDialog.OnTransa
         }
 
         voidBtn.setOnClickListener {
-            val dialog = TransactionSelectDialog()
-            var bundle =  Bundle()
-            bundle.putSerializable("transList", getSampleData() as Serializable)
-            dialog.arguments= bundle
-            dialog.setTargetFragment(this, 1)
-            dialog.show(fragmentManager, "trans_dialog")
-            /*
-
-            progressDialog.setTitle("Process Transaction")
-            progressDialog.setMessage("Processing void transactions...")
-            progressDialog.show()
-
-            posHandler.VoidTransaction("","", object:PosLinkCallback{
-                override fun onProcessSuccess(p0: PaymentResponse?) {
-                    hideProgDialog(true, p0?.ResultTxt?:"unknown result")
-                }
-
-                override fun onProcessFailed(p0: ProcessTransResult?) {
-                   hideProgDialog(false, p0?.Msg?:"Failed")
-                }
-            })
-            */
+            lastAction = Void
+            showTransDialog()
         }
 
         adjustTipBtn.setOnClickListener {
-            progressDialog.setTitle("Process Transaction")
-            progressDialog.setMessage("Processing adjust tip...")
-            progressDialog.show()
-            posHandler.AdjustTip("ecref", "ref",  100, object :PosLinkCallback{
-
-                override fun onProcessSuccess(p0: PaymentResponse?) {
-                    hideProgDialog(false, "success")
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                }
-
-                override fun onProcessFailed(p0: ProcessTransResult?) {
-                    hideProgDialog(false, "failed")
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                }
-
-            })
+            lastAction = AdjustTip
+            showTransDialog()
         }
+    }
+
+    private fun showTransDialog(){
+        val dialog = TransactionSelectDialog()
+        var bundle =  Bundle()
+        bundle.putSerializable("transList", viewModel.getTransActions() as Serializable)
+        dialog.arguments= bundle
+        dialog.setTargetFragment(this, 1)
+        dialog.show(fragmentManager, "trans_dialog")
+
+    }
+
+    override fun onSelectTransaction(trans: PaymentTransaction) {
+        selectedTransaction = trans
+        Toast.makeText(context, " Success ${trans.Timestamp}", Toast.LENGTH_LONG).show()
+        if (lastAction.equals(Void, true)) {
+            handleVoid(trans)
+        }
+        else if(lastAction.equals(AdjustTip, true)){
+            handleAdjustTip(trans)
+        }
+    }
+
+    private fun handleVoid(tras:PaymentTransaction) {
+        progressDialog.setTitle("Process Transaction")
+        progressDialog.setMessage("Processing void transactions...")
+        progressDialog.show()
+
+        posHandler.VoidTransaction(tras.RefNum,"", object:PosLinkCallback{
+            override fun onProcessSuccess(p0: PaymentResponse?) {
+                hideProgDialog(true, p0?.ResultTxt?:"unknown result")
+            }
+
+            override fun onProcessFailed(p0: ProcessTransResult?) {
+                hideProgDialog(false, p0?.Msg?:"Failed")
+            }
+        })
+    }
+
+    private fun handleAdjustTip(trans: PaymentTransaction) {
+        showTipDialog()
     }
 
     private fun getSampleData():List<PaymentTransaction> {
@@ -192,6 +221,41 @@ class ManageTransactionFragment:BaseFragment(), TransactionSelectDialog.OnTransa
             executor.mainThread().execute {
                 resultText.setText("Error getting result report")
             }
+        }
+    }
+
+    private fun showTipDialog() {
+        val fm: FragmentManager = fragmentManager!!
+        dialog  = InputDialog.newInstance("Tip Amount", inputDialogClickListener)
+        dialog.show(fm, "insert_tip")
+
+    }
+
+    val inputDialogClickListener = DialogInterface.OnClickListener { _, i ->
+        if(dialog != null) {
+            var amtCents = 0
+            var tipAmount =  dialog.getInputText()
+            try {
+                amtCents = (tipAmount*100).toInt()
+            }
+            catch (e:Exception) {
+
+            }
+            progressDialog.setTitle("Process Transaction")
+            progressDialog.setMessage("Processing adjust tip...")
+            progressDialog.show()
+            posHandler.AdjustTip("1", "${selectedTransaction?.RefNum}",  amtCents, object :PosLinkCallback{
+
+                override fun onProcessSuccess(p0: PaymentResponse?) {
+                    hideProgDialog(true, "success")
+                }
+
+                override fun onProcessFailed(p0: ProcessTransResult?) {
+                    hideProgDialog(false, "failed")
+                }
+            })
+
+
         }
     }
 
