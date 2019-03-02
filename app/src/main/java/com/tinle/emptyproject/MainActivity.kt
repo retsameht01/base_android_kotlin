@@ -21,9 +21,7 @@ import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import com.fantasticsoft.gposlinklib.PoslinkActivity
 import com.fantasticsoft.gposlinklib.PostLinkHandler
-import com.tinle.emptyproject.R.id.nav_settings
-import com.tinle.emptyproject.R.id.nave_manage_checkin
-import com.tinle.emptyproject.R.id.nav_manage_transaction
+import com.tinle.emptyproject.R.id.*
 import com.tinle.emptyproject.core.PreferenceStore
 import com.tinle.emptyproject.services.MusicService
 import com.tinle.emptyproject.view.*
@@ -77,7 +75,7 @@ class MainActivity : PoslinkActivity(), HasSupportFragmentInjector {
         //postlinkHandler = PostLinkHandler(this)
 
         mDrawerLayout = findViewById(R.id.drawer_layout)
-        val navigationView: NavigationView = findViewById(R.id.nav_view)
+        val navigationView: NavigationView = findViewById(R.id.main_nav_menu)
         navigationView.setNavigationItemSelectedListener { menuItem ->
             // set item as selected to persist highlight
             //menuItem.isChecked = true
@@ -89,8 +87,11 @@ class MainActivity : PoslinkActivity(), HasSupportFragmentInjector {
                     selectedMenu = menuItem.itemId
                     showPasswordDialog()
                 }
-            }
 
+                nav_payment->{
+                    switchFrag(PaymentFragment())
+                }
+            }
             mDrawerLayout.closeDrawers()
             true
         }
@@ -103,7 +104,7 @@ class MainActivity : PoslinkActivity(), HasSupportFragmentInjector {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.ic_hamburger)
         }
-        switchFrag(PaymentFragment())
+        switchFrag(CheckinFragment())
 
         //calling init credit card payment method
         //handler.Init();

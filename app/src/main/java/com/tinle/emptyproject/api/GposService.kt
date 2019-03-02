@@ -45,7 +45,7 @@ class GposService @Inject constructor(
     }
 
     fun getCustomerInfo(phone:String, callback: Callback<RewardsMember>) {
-        val call = api.getCustomer(authString, token, phone)
+        val call = api.getCustomer(authString,"application/json",token, phone)
         call.enqueue(callback)
     }
 
@@ -61,6 +61,9 @@ class GposService @Inject constructor(
 
 }
 
+//https://www.gposdev.com/20002/api/customers/7705391185
+//Call<playlist> addToPlaylist(@Header("Content-Type") String content_type, @Body PlaylistParm parm);
+
 interface GPOSApi{
     @GET("/categories")
     fun getCategories():Call<List<Object>>
@@ -69,7 +72,8 @@ interface GPOSApi{
     fun doCheckIn(@Header("Authorization") authToken:String, @Body checkin:SignInPost):Call<String>
 
     @GET("customers/{phone}")
-    fun getCustomer(@Header("Authorization")authToken: String, @Header("token")token:String, @Path("phone") phone:String):Call<RewardsMember>
+    fun getCustomer(@Header("Authorization")authToken: String, @Header("Content-Type")content_type:String ,
+                    @Header("token")token:String, @Path("phone") phone:String):Call<RewardsMember>
 
     @GET("customers")
     fun getCustomers(@Header("Authorization")authToken: String, @Header("token")token:String):Call<List<RewardsMember>>

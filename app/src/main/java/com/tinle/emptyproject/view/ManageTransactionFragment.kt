@@ -3,6 +3,7 @@ package com.tinle.emptyproject.view
 
 import android.arch.lifecycle.ViewModelProviders
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.FragmentManager
 import android.view.LayoutInflater
@@ -21,7 +22,7 @@ import java.io.Serializable
 import javax.inject.Inject
 
 
-class ManageTransactionFragment:BaseFragment(), TransactionSelectDialog.OnTransactionSelectListener {
+class ManageTransactionFragment:PaxHandlingFragment(), TransactionSelectDialog.OnTransactionSelectListener {
 
     private lateinit var posHandler: PostLinkHandler
     private val totalReportName = "LOCALTOTALREPORT"
@@ -29,6 +30,9 @@ class ManageTransactionFragment:BaseFragment(), TransactionSelectDialog.OnTransa
     private val Void = "VOID"
     private lateinit var dialog: InputDialog
     private var selectedTransaction: PaymentTransaction? = null
+    private val PAX_UTIL_ACTION = "com.gpos.paxrequest"
+    private val INIT_REQUEST_CODE = 100
+    private val RESET_REQUEST_CODE = 101
 
     @Inject
     lateinit var executor:AppExecutor
@@ -41,6 +45,17 @@ class ManageTransactionFragment:BaseFragment(), TransactionSelectDialog.OnTransa
         viewModel = ViewModelProviders.of(activity!!, vmFactory).get(ManageTransactionVM::class.java)
         return view;
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(data != null) {
+            val result = data.getStringExtra(Intent.EXTRA_TEXT)
+            if(requestCode == INIT_REQUEST_CODE) {
+                showToast("Init success")
+            }
+        }
+    }
+
     //todo add tip, adjust tip, finish void transactions
     //todo handle saving checkin info locally save user check in locall, pull customer data and store locally in case the internet is down
 
@@ -51,32 +66,14 @@ class ManageTransactionFragment:BaseFragment(), TransactionSelectDialog.OnTransa
             changeFragment(PaymentFragment())
         }
 
-        /*
-        override fun onManageCallback(p0: ProcessTransResult?) {
-                    executor.mainThread().execute {
-                        Toast.makeText(activity, "Init " + p0?.Msg,Toast.LENGTH_LONG).show()
-                    }
-                }
-         */
 
         initBtn.setOnClickListener {
-            posHandler.ManageCommand("INIT", object: ManageRequestCallback{
-                override fun onFailed(p0: ProcessTransResult?) {
-                    executor.mainThread().execute {
-                        Toast.makeText(activity, "Init failed" , Toast.LENGTH_LONG).show()
-                    }
-                }
-
-                override fun onManageCallback(p0: ManageResponse?) {
-                    executor.mainThread().execute {
-                        Toast.makeText(activity, "Init Success" , Toast.LENGTH_LONG).show()
-                    }
-                }
-            })
-
+            ProcessPAXCommand("MANAGE","INIT", viewModel.getInitData(), INIT_REQUEST_CODE)
         }
 
         resetBtn.setOnClickListener {
+            ProcessPAXCommand("MANAGE","RESET", viewModel.getInitData(), RESET_REQUEST_CODE)
+            /*
             posHandler.ManageCommand("RESET", object: ManageRequestCallback{
                 override fun onFailed(p0: ProcessTransResult?) {
                     executor.mainThread().execute {
@@ -90,10 +87,11 @@ class ManageTransactionFragment:BaseFragment(), TransactionSelectDialog.OnTransa
                     }
                 }
             })
+
+            */
         }
 
         closeBatchBtn.setOnClickListener {
-
             progressDialog.setTitle("Process Batch")
             progressDialog.setMessage("Processing batch close...")
             progressDialog.show()
@@ -110,7 +108,6 @@ class ManageTransactionFragment:BaseFragment(), TransactionSelectDialog.OnTransa
         }
 
         totalSummaryBtn.setOnClickListener {
-
             progressDialog.setTitle("Process Report")
             progressDialog.setMessage("Processing summary report...")
             progressDialog.show()
@@ -125,7 +122,6 @@ class ManageTransactionFragment:BaseFragment(), TransactionSelectDialog.OnTransa
                     setResultText(null)
                     hideProgDialog(false, "failed")
                 }
-
             })
         }
 

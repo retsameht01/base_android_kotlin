@@ -20,6 +20,12 @@
             android:title="Manage Transaction"
             android:iconTint="@color/white"
             />
+
+        <item android:id="@+id/nav_payment"
+              android:title="Payment"
+              android:iconTint="@color/white"
+            android:icon="@drawable/ic_baseline_payment_24px"
+            />
     </group>
 
 </menu>

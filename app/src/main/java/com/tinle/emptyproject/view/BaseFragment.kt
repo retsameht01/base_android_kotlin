@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
-import android.view.View
+import android.widget.Toast
 import com.tinle.emptyproject.MainActivity
 import com.tinle.emptyproject.R
 import com.tinle.emptyproject.core.AppEvent
@@ -28,13 +28,10 @@ abstract class BaseFragment:Fragment(), BusListener {
         setHasOptionsMenu(false)
         super.onAttach(context)
         EventBus.addListener(this)
-
-
         progressDialog = ProgressDialog(this.context)
         progressDialog.setTitle("Loading")
         progressDialog.setMessage("Wait while loading...")
         progressDialog.setCancelable(false) // disable dismiss by tapping outside of the dialog
-
     }
 
     fun changeFragment(target:BaseFragment) {
@@ -98,6 +95,10 @@ abstract class BaseFragment:Fragment(), BusListener {
 
     override fun onBusEvent(event: AppEvent) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun showToast(msg:String) {
+        Toast.makeText(this.context, msg, Toast.LENGTH_SHORT).show()
     }
 
 }

@@ -46,24 +46,30 @@ class CheckinViewModel @Inject constructor(
                         }
 
                         override fun onResponse(call: Call<RewardsMember>?, response: Response<RewardsMember>?) {
-                            var custInfo =  response?.body()
-                            if (custInfo != null) {
-                                executor.diskIO().execute{
-                                    checkinDao.insertAll(Checkin(getTimeStamp(), rawPhone))
+                            try{
+                                var custInfo =  response?.body()
+                                if (custInfo != null) {
+                                    executor.diskIO().execute{
+                                        checkinDao.insertAll(Checkin(getTimeStamp(), rawPhone))
+                                    }
+                                    SessionManager.setCustomer(custInfo)
+                                    EventBus.notify(AppEvent.CustomerRetrieved)
+                                    gposService.signIn(getSignInData(custInfo), object:Callback<String>{
+                                        override fun onFailure(call: Call<String>, t: Throwable) {
+                                            print("Failed")
+                                        }
+
+                                        override fun onResponse(call: Call<String>, response: Response<String>) {
+                                            println("response")
+                                        }
+
+                                    })
                                 }
-                                SessionManager.setCustomer(custInfo)
-                                EventBus.notify(AppEvent.CustomerRetrieved)
-                                gposService.signIn(getSignInData(custInfo), object:Callback<String>{
-                                    override fun onFailure(call: Call<String>, t: Throwable) {
-                                        print("Failed")
-                                    }
-
-                                    override fun onResponse(call: Call<String>, response: Response<String>) {
-                                        println("response")
-                                    }
-
-                                })
+                            }catch (ex:Exception) {
+                                print("Error " + ex.message);
                             }
+
+
                         }
                     }
             )
