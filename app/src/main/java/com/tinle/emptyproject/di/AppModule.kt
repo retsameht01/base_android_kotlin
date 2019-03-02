@@ -7,6 +7,7 @@ import com.tinle.emptyproject.api.GposService
 import com.tinle.emptyproject.core.*
 import com.tinle.emptyproject.data.AppDatabase
 import com.tinle.emptyproject.data.CheckinDao
+import com.tinle.emptyproject.data.CustomerDao
 import com.tinle.emptyproject.data.PaymentTransactionDao
 import dagger.Module
 import dagger.Provides
@@ -55,6 +56,11 @@ class AppModule {
     @Provides
     fun provideTransactionDao(db:AppDatabase):PaymentTransactionDao{
         return db.paymentTransactionDao()
+    }
+
+    @Provides
+    fun provideCustomerDao(db:AppDatabase):CustomerDao{
+        return db.customerDao()
     }
 
     @Provides

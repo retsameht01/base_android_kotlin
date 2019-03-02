@@ -69,6 +69,8 @@ class CheckinFragment:BaseFragment() {
     override fun onBusEvent(event: AppEvent) {
         if (event == AppEvent.CustomerRetrieved) {
             changeFragment(RewardsFragment())
+        } else if(event == AppEvent.CustomerNotFound) {
+            doCheckin()
         }
     }
 

@@ -41,7 +41,7 @@ class RewardsManagerVM @Inject constructor(
         return data
     }
 
-    fun getLastVisitInfo(visitDate:String):String {
+    fun getLastVisitInfo(visitDate:String?):String {
         if(visitDate == null || visitDate.isEmpty()){
             return "Last Visit: NA"
         }

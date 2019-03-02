@@ -18,17 +18,17 @@ class CheckinViewModel @Inject constructor(
         private val executor: AppExecutor,
         private val gposService: GposService,
         private val checkinDao: CheckinDao,
-        private val dateUtil:DateUtil
+        private val dateUtil:DateUtil,
+        private val customerRepo:CustomerRepo
 
 ):ViewModel() {
     private lateinit var checkInPhones: List<String>
     init {
         executor.diskIO().execute{
             checkInPhones = checkinDao.getAllPhones()
-            println("init complete")
-            //TODO AutoCompleteTextView Handle typing suggestions to users
         }
     }
+    //TODO If phone does not exist, user will be created and return an id (sign in id, if try to sign in agin will throw 409, already sign in
 
     fun getExistingPhones():List<String> {
         return checkInPhones
@@ -43,6 +43,8 @@ class CheckinViewModel @Inject constructor(
                     object: Callback<RewardsMember> {
                         override fun onFailure(call: Call<RewardsMember>?, t: Throwable?) {
                             print("Result failed")
+                            EventBus.notify(AppEvent.CustomerNotFound)
+                            //Todo Requires new user sign up
                         }
 
                         override fun onResponse(call: Call<RewardsMember>?, response: Response<RewardsMember>?) {
@@ -62,13 +64,11 @@ class CheckinViewModel @Inject constructor(
                                         override fun onResponse(call: Call<String>, response: Response<String>) {
                                             println("response")
                                         }
-
                                     })
                                 }
                             }catch (ex:Exception) {
                                 print("Error " + ex.message);
                             }
-
 
                         }
                     }
@@ -84,8 +84,8 @@ class CheckinViewModel @Inject constructor(
                 "",
                 cust.Id,
                 cust.Phone,
-                cust.FirstName,
-                cust.LastName,
+                cust.FirstName?:"",
+                cust.LastName?:"",
                 "None"
         )
     }
