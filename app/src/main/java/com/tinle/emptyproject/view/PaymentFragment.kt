@@ -1,6 +1,7 @@
 package com.tinle.emptyproject.view
 
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.telephony.PhoneNumberFormattingTextWatcher
 import android.text.Editable
@@ -8,10 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.fantasticsoft.gposlinklib.PosLinkCallback
 import com.fantasticsoft.gposlinklib.PostLinkHandler
 import com.pax.poslink.PaymentResponse
-import com.pax.poslink.ProcessTransResult
 import com.tinle.emptyproject.MainActivity
 import com.tinle.emptyproject.R
 import com.tinle.emptyproject.core.AppEvent
@@ -19,12 +18,15 @@ import com.tinle.emptyproject.core.AppExecutor
 import kotlinx.android.synthetic.main.fragment_payment.*
 import javax.inject.Inject
 import android.widget.ArrayAdapter
+import com.google.gson.Gson
+import com.pax.poslink.PaymentRequest
 import com.tinle.emptyproject.vm.PaymentVM
 
 class PaymentFragment:BaseFragment() {
     private lateinit var posHandler:PostLinkHandler
     lateinit var viewModel: PaymentVM
-    var refNumber:Int = 0;
+    var refNumber:Int = 0
+    private val PaymentRequestCode = 9
 
     @Inject
     lateinit var exexutor:AppExecutor
@@ -35,37 +37,13 @@ class PaymentFragment:BaseFragment() {
         posHandler = (activity as MainActivity).getPosHandler()
         viewModel = ViewModelProviders.of(activity!!, vmFactory).get(PaymentVM::class.java)
 
-        return view;
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         //setToolbarVisibility(View.GONE)
         refNumber = viewModel.getTransactionCount()
-        submitPayment.setOnClickListener{
-            if(posHandler != null) {
-                progressDialog.setTitle("Process Payment")
-                progressDialog.setMessage("Processing payment...")
-                progressDialog.show()
-
-                val paymentType = getTenderTypee()
-                val tranType = getTransType()
-
-                posHandler.ProcessPayment(getSaleAmount(), getTipAmount() ,paymentType , "$refNumber", tranType, object :PosLinkCallback{
-                    override fun onProcessSuccess(p0: PaymentResponse?) {
-                        hideProgDialog(true)
-                        if(p0 != null) {
-                            viewModel.saveTransaction(p0)
-                        }
-                        refNumber++
-                    }
-
-                    override fun onProcessFailed(p0: ProcessTransResult?) {
-                        hideProgDialog(false)
-                    }
-                })
-            }
-        }
-
+        setPaymentClickHandler()
         val paymentAdapter = ArrayAdapter.createFromResource(activity,
                 R.array.payment_types, R.layout.payment_type_spinner_text)
 
@@ -77,6 +55,37 @@ class PaymentFragment:BaseFragment() {
 
         transactionAdapter.setDropDownViewResource(R.layout.payment_type_spinner_text_dropdown)
         transType.adapter = transactionAdapter
+    }
+
+    private fun setPaymentClickHandler(){
+        submitPayment.setOnClickListener{
+            val request = PaymentRequest()
+            val saleAmt = getSaleAmount()
+            val tip = getTipAmount()
+            request.Amount = "$saleAmt"
+            request.TipAmt = "$tip"
+            request.TenderType = request.ParseTenderType(getTenderTypee())
+            request.TransType = request.ParseTransType(getTransType())
+            request.ECRRefNum = "1234"
+
+            val json:String = Gson().toJson(request, PaymentRequest::class.java)
+            val intent = Intent()
+            intent.action ="com.gpos.paxrequest"
+            intent.putExtra("RequestType", "PAYMENT")
+            intent.putExtra("Data", json)
+            startActivityForResult(intent, PaymentRequestCode)
+        }
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(data != null) {
+            val resp = data.getStringExtra(Intent.EXTRA_TEXT)
+            val paymentResponse = Gson().fromJson<PaymentResponse>(resp, PaymentResponse::class.java)
+            viewModel.saveTransaction(paymentResponse)
+            showToast("Payment complete")
+        }
     }
 
     private fun getSaleAmount():Int{
@@ -115,7 +124,7 @@ class PaymentFragment:BaseFragment() {
                 Toast.makeText(activity, "Payment process successfully", Toast.LENGTH_LONG).show()
                 saleAmount.setText("")
             }
-            hideProgress()
+            hideDialog()
          })
     }
 

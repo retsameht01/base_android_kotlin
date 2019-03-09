@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import com.tinle.emptyproject.R
 import com.tinle.emptyproject.core.AppEvent
+import com.tinle.emptyproject.core.DateUtil
 import com.tinle.emptyproject.vm.CheckinViewModel
 import kotlinx.android.synthetic.main.fragment_checkin.*
 
@@ -46,6 +47,8 @@ class CheckinFragment:BaseFragment() {
         signiupLink.setOnClickListener{
             changeFragment(SignUpFragment())
         }
+
+        todayDate.setText(viewModel.getDate())
     }
 
     override fun onResume() {
@@ -60,17 +63,27 @@ class CheckinFragment:BaseFragment() {
         super.onPause()
         val imm = context!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(checkinPhone.windowToken, 0)
+        hideDialog()
     }
 
     private fun doCheckin(){
-        viewModel.checkIn(checkinPhone.text.toString())
+        try {
+            showDialog("Check In", "Checking in...")
+            viewModel.checkIn(checkinPhone.text.toString())
+        }
+        catch (ex:Exception) {
+            println("Unable to perform checkin ");
+        }
+
     }
 
     override fun onBusEvent(event: AppEvent) {
         if (event == AppEvent.CustomerRetrieved) {
             changeFragment(RewardsFragment())
         } else if(event == AppEvent.CustomerNotFound) {
-            doCheckin()
+            val bundle = Bundle()
+            bundle.putString("Phone", viewModel.getCurrentPhone())
+            changeFragment(SignUpFragment(), bundle)
         }
     }
 

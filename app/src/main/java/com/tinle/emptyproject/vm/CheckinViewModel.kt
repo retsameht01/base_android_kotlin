@@ -23,6 +23,7 @@ class CheckinViewModel @Inject constructor(
 
 ):ViewModel() {
     private lateinit var checkInPhones: List<String>
+    private var currentPhone = ""
     init {
         executor.diskIO().execute{
             checkInPhones = checkinDao.getAllPhones()
@@ -34,9 +35,19 @@ class CheckinViewModel @Inject constructor(
         return checkInPhones
     }
 
+    fun getCurrentPhone():String {
+        return currentPhone
+    }
+
+    fun getDate():String {
+        val date = dateUtil.getBasicDate()
+        return date
+    }
+
     fun checkIn(phone:String){
         val re = Regex("[^0-9]")
         val rawPhone = re.replace(phone, "")
+        currentPhone = rawPhone;
 
         executor.networkIO().execute {
             gposService.getCustomerInfo(rawPhone,

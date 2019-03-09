@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
 import android.content.DialogInterface
+import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.widget.Toast
@@ -29,9 +30,13 @@ abstract class BaseFragment:Fragment(), BusListener {
         super.onAttach(context)
         EventBus.addListener(this)
         progressDialog = ProgressDialog(this.context)
+        setDefaultDialogTexts();
+        progressDialog.setCancelable(false) // disable dismiss by tapping outside of the dialog
+    }
+
+    private fun setDefaultDialogTexts() {
         progressDialog.setTitle("Loading")
         progressDialog.setMessage("Wait while loading...")
-        progressDialog.setCancelable(false) // disable dismiss by tapping outside of the dialog
     }
 
     fun changeFragment(target:BaseFragment) {
@@ -41,7 +46,19 @@ abstract class BaseFragment:Fragment(), BusListener {
             trans.commit()
         }
         catch (ex:Exception) {
+            println("Error switching fragment ${ex.message}")
+        }
+    }
 
+    fun changeFragment(target:BaseFragment, bundle:Bundle) {
+        try {
+            target.arguments = bundle
+            val trans =  activity!!.supportFragmentManager.beginTransaction()
+            trans.replace(R.id.fragment_container,target)
+            trans.commit()
+        }
+        catch (ex:Exception) {
+            println("Error switching fragment ${ex.message}")
         }
     }
 
@@ -85,11 +102,18 @@ abstract class BaseFragment:Fragment(), BusListener {
         }
     }
 
-    fun showProgress() {
+    fun showLoadingDialog(){
+        setDefaultDialogTexts()
         progressDialog.show()
     }
 
-    fun hideProgress(){
+    fun showDialog(title:String, msg:String) {
+        progressDialog.setTitle(title)
+        progressDialog.setMessage(msg)
+        progressDialog.show()
+    }
+
+    fun hideDialog(){
         progressDialog.dismiss()
     }
 

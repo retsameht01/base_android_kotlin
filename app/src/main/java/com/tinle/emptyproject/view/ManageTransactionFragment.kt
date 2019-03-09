@@ -199,7 +199,7 @@ class ManageTransactionFragment:PaxHandlingFragment(), TransactionSelectDialog.O
             else {
                 Toast.makeText(activity, "failed", Toast.LENGTH_LONG).show()
             }
-            hideProgress()
+            hideDialog()
         }
     }
 

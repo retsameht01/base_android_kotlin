@@ -15,4 +15,11 @@
     <string-array name="payment_transactions">
         <item>SALE</item>
     </string-array>
+
+    <string-array name="comm_types">
+        <item>HTTP</item>
+        <item>HTTPS</item>
+        <item>TCP</item>
+        <item>AIDL</item>
+    </string-array>
 </resources>

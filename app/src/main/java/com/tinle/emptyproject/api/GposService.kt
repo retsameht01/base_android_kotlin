@@ -12,6 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import com.tinle.emptyproject.core.PreferenceStore
 import com.tinle.emptyproject.data.SignIn
+import com.tinle.emptyproject.data.SignUp
 import javax.inject.Inject
 
 
@@ -59,10 +60,13 @@ class GposService @Inject constructor(
         call.enqueue(callback)
     }
 
+    fun signUp(data:SignUp, callback: Callback<String>) {
+        val call = api.signup(authString, token, data)
+        call.enqueue(callback)
+    }
+
 }
 
-//https://www.gposdev.com/20002/api/customers/7705391185
-//Call<playlist> addToPlaylist(@Header("Content-Type") String content_type, @Body PlaylistParm parm);
 
 interface GPOSApi{
     @GET("/categories")
@@ -80,5 +84,9 @@ interface GPOSApi{
 
     @POST("signins")
     fun signin(@Header("Authorization")authToken: String, @Header("token")token:String, @Body data:SignIn):Call<String>
+
+    @POST("customers")
+    fun signup(@Header("Authorization")authToken: String, @Header("token")token: String, @Body data:SignUp):Call<String>
+
 
 }

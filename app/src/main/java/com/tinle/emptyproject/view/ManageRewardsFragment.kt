@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -33,10 +32,10 @@ class ManageRewardsFragment:BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rewardMembers.layoutManager = LinearLayoutManager(activity)
-        showProgress()
+        showLoadingDialog()
         viewModel.getAllCheckIns().observe(this, Observer<List<RewardsMember>> {
             rewardMembers.adapter = MembersAdapter(it!!)
-            hideProgress()
+            hideDialog()
         })
         backIcon.setOnClickListener {
             changeFragment(CheckinFragment())

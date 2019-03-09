@@ -17,4 +17,9 @@
     <color name="black">#000000</color>
     <color name="dark_gray">#424242</color>
     <color name="dark_green">#455A64</color>
+    <color name="sienna_brown">#A0522D</color>
+    <color name="cornsilk">#FFF8DC</color>
+
+    <color name="grad_green1">#1D976C</color>
+    <color name="grad_green2">#93F9B9</color>
 </resources>

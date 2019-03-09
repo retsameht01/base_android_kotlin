@@ -144,6 +144,11 @@ class MainActivity : PoslinkActivity(), HasSupportFragmentInjector {
     }
 
     override fun onBackPressed() {
-
+        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+        if(fragment is SettingsFragment
+                || fragment is SignUpFragment
+        ) {
+            switchFrag(CheckinFragment())
+        }
     }
 }
