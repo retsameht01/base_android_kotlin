@@ -9,6 +9,10 @@ import com.tinle.emptyproject.R
 import com.tinle.emptyproject.core.AppEvent
 import com.tinle.emptyproject.vm.SignUpVM
 import kotlinx.android.synthetic.main.fragment_signup.*
+import android.widget.DatePicker
+import android.app.DatePickerDialog
+import java.util.*
+import java.text.SimpleDateFormat
 
 
 class SignUpFragment:BaseFragment() {
@@ -52,9 +56,31 @@ class SignUpFragment:BaseFragment() {
             }
         }
 
+        datePickerBtn.setOnClickListener {
+            DatePickerDialog(this.context, date, myCalendar
+                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                    myCalendar.get(Calendar.DAY_OF_MONTH)).show()
+        }
+
         backBtn.setOnClickListener {
             changeFragment(CheckinFragment())
         }
+    }
+
+    val myCalendar = Calendar.getInstance()
+
+    private fun updateLabel() {
+        val myFormat = "MM/dd/yy" //In which you need put here
+        val sdf = SimpleDateFormat(myFormat, Locale.US)
+
+        signupDOB.setText(sdf.format(myCalendar.time))
+    }
+
+    val date = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+        myCalendar.set(Calendar.YEAR, year)
+        myCalendar.set(Calendar.MONTH, monthOfYear)
+        myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        updateLabel()
     }
 
 

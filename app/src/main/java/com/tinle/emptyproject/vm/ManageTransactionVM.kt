@@ -14,7 +14,7 @@ class ManageTransactionVM @Inject constructor(
 
 ):ViewModel() {
 
-    lateinit var gson:Gson
+    var gson:Gson
     lateinit var transactions:List<PaymentTransaction>
     init {
         executor.diskIO().execute {
@@ -31,6 +31,21 @@ class ManageTransactionVM @Inject constructor(
         val req = ManageRequest()
         req.TransType =  req.ParseTransType("INIT")
         return gson.toJson(req, ManageRequest::class.java)
+    }
+
+    fun getResetData():String {
+        val req = ManageRequest()
+        req.TransType =  req.ParseTransType("RESET")
+        return gson.toJson(req, ManageRequest::class.java)
+    }
+
+    fun getPrintData():String {
+        val req = ManageRequest()
+        req.TransType = 29
+        req.PrintCopy = "1"
+        req.PrintData = "Some data"
+        return gson.toJson(req, ManageRequest::class.java)
+
     }
 
 }

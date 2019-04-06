@@ -33,6 +33,7 @@ class ManageTransactionFragment:PaxHandlingFragment(), TransactionSelectDialog.O
     private val PAX_UTIL_ACTION = "com.gpos.paxrequest"
     private val INIT_REQUEST_CODE = 100
     private val RESET_REQUEST_CODE = 101
+    private val PRINT_REQUEST_CODE = 102
 
     @Inject
     lateinit var executor:AppExecutor
@@ -57,7 +58,7 @@ class ManageTransactionFragment:PaxHandlingFragment(), TransactionSelectDialog.O
     }
 
     //todo add tip, adjust tip, finish void transactions
-    //todo handle saving checkin info locally save user check in locall, pull customer data and store locally in case the internet is down
+    //todo handle saving checkin info locally save user check in local, pull customer data and store locally in case the internet is down
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -68,11 +69,11 @@ class ManageTransactionFragment:PaxHandlingFragment(), TransactionSelectDialog.O
 
 
         initBtn.setOnClickListener {
-            ProcessPAXCommand("MANAGE","INIT", viewModel.getInitData(), INIT_REQUEST_CODE)
+            ProcessPAXCommand("MANAGE", viewModel.getInitData(), INIT_REQUEST_CODE)
         }
 
         resetBtn.setOnClickListener {
-            ProcessPAXCommand("MANAGE","RESET", viewModel.getInitData(), RESET_REQUEST_CODE)
+            ProcessPAXCommand("MANAGE", viewModel.getResetData(), RESET_REQUEST_CODE)
             /*
             posHandler.ManageCommand("RESET", object: ManageRequestCallback{
                 override fun onFailed(p0: ProcessTransResult?) {
@@ -105,6 +106,10 @@ class ManageTransactionFragment:PaxHandlingFragment(), TransactionSelectDialog.O
                 }
             })
 
+        }
+
+        printBtn.setOnClickListener {
+            ProcessPAXCommand("MANAGE", viewModel.getPrintData(), PRINT_REQUEST_CODE)
         }
 
         totalSummaryBtn.setOnClickListener {

@@ -83,9 +83,13 @@ class MainActivity : PoslinkActivity(), HasSupportFragmentInjector {
             // Add code here to update the UI based on the item selected
             // For example, swap UI fragments here
             when(menuItem.itemId){
-                nave_manage_checkin, nav_settings, nav_manage_transaction ->{
+                nave_manage_checkin, nav_settings ->{
                     selectedMenu = menuItem.itemId
                     showPasswordDialog()
+                }
+
+                nav_manage_transaction ->{
+                    switchFrag(ManageTransactionFragment())
                 }
 
                 nav_payment->{
@@ -114,8 +118,13 @@ class MainActivity : PoslinkActivity(), HasSupportFragmentInjector {
 
     private fun showPasswordDialog() {
         val fm: FragmentManager = supportFragmentManager
+
+        val fragment:BaseFragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as BaseFragment
+        //fragment.showPasswordDialog()
+        switchFrag(SettingsFragment())
+        /*
         dialog  = PasscodeDialog.newInstance("Some Title", clickListner)
-        dialog.show(fm, "fragment_edit_name")
+        dialog.show(fm, "fragment_edit_name")  */
     }
 
     private fun switchFrag(fragment:BaseFragment) {

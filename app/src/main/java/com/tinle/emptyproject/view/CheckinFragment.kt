@@ -73,6 +73,7 @@ class CheckinFragment:BaseFragment() {
         }
         catch (ex:Exception) {
             println("Unable to perform checkin ");
+            hideDialog()
         }
 
     }

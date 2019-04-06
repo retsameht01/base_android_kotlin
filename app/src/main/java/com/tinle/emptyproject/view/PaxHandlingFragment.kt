@@ -15,7 +15,7 @@ abstract class PaxHandlingFragment:BaseFragment(), PAXInterface {
      private val REQUEST_DATA_KEY = "Data"
 
 
-    override fun ProcessPAXCommand(command:String, action:String, requestJson:String, requestCode:Int ){
+    override fun ProcessPAXCommand(command:String, requestJson:String, requestCode:Int ){
          if(isValidCommand(command)) {
              val intent = Intent()
              intent.action = PAX_UTIL_ACTION

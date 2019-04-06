@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/vert_grad_cool"
+    android:paddingHorizontal="10dp"
     >
 
     <TextView
@@ -17,10 +18,9 @@
         android:layout_height="wrap_content" />
 
     <EditText
+        android:layout_below="@id/todayDate"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginTop="30dp"
         android:maxLength="14"
         android:inputType="phone"
         android:id="@+id/checkinPhone"
@@ -31,8 +31,8 @@
         android:textColor="@color/white"
         android:background="@drawable/round_corner_bg_outline"
         android:textColorHint="@color/white"
-        android:layout_width="500dp"
-        android:layout_height="60dp" />
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
 
     <TextView
         android:id="@+id/checkinBtn"
@@ -50,28 +50,34 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <TextView
-        android:padding="5dp"
-        android:id="@+id/notCheckinText"
-        android:textSize="15sp"
-        android:textColor="@color/white"
+    <LinearLayout
         android:layout_centerHorizontal="true"
         android:layout_below="@id/checkinBtn"
-        android:text="Not a member?"
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/signiupLink"
-        android:padding="5dp"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/round_corner_bg"
-        android:text="Sign Up"
-        android:layout_toRightOf="@id/notCheckinText"
-        android:textColor="@color/cool_grad_1"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/checkinBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:padding="5dp"
+            android:id="@+id/notCheckinText"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:layout_centerHorizontal="true"
+            android:text="Not a member?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
+        <TextView
+            android:id="@+id/signiupLink"
+            android:padding="5dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/round_corner_bg"
+            android:text="Sign Up"
+            android:layout_toRightOf="@id/notCheckinText"
+            android:textColor="@color/cool_grad_1"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/checkinBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 </RelativeLayout>

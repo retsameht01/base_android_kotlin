@@ -7,16 +7,14 @@
     >
 
     <TextView
-        android:paddingVertical="10dp"
-        android:paddingHorizontal="20dp"
-        android:background="@color/easy_green"
         android:id="@+id/title"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:textSize="30sp"
         android:textAllCaps="true"
+        android:textStyle="bold"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/black"
-        android:text="Manage"
+        android:textColor="@color/grad_green2"
+        android:text="Manage Transactions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -73,6 +71,11 @@
         <TextView
             android:id="@+id/adjustTipBtn"
             android:text="Adjust  Tip"
+            style="@style/manage_button_style"
+            />
+        <TextView
+            android:id="@+id/printBtn"
+            android:text="Print"
             style="@style/manage_button_style"
             />
 

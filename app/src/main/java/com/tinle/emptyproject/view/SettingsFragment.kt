@@ -1,5 +1,6 @@
 package com.tinle.emptyproject.view
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
@@ -16,6 +17,7 @@ import com.tinle.emptyproject.vm.SettingsVM
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_settings.*
 
+
 class SettingsFragment:BaseFragment() {
     override fun onBusEvent(event: AppEvent) {
 
@@ -28,7 +30,6 @@ class SettingsFragment:BaseFragment() {
         viewModel = ViewModelProviders.of(activity!!, vmFactory).get(SettingsVM::class.java)
         var view = inflater.inflate(R.layout.fragment_settings, container, false)
         posHandler = (activity as MainActivity).getPosHandler()
-
 
         return view
     }
@@ -60,6 +61,15 @@ class SettingsFragment:BaseFragment() {
             intent.putExtra("Data", json)
             startActivityForResult(intent, 112)
         }
+
+        testSocketBtn.setOnClickListener {
+            viewModel.doSocketConnection(terminalIp.text.toString(), terminalHost.text.toString())
+        }
+
+        viewModel.getServerString().observe(this, Observer<String>{
+                showToast("result $it")
+            }
+        )
 
     }
 

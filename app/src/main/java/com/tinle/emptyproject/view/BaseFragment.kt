@@ -17,6 +17,10 @@ import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.Exception
 import javax.inject.Inject
+import android.widget.EditText
+import android.view.LayoutInflater
+import android.view.View
+
 
 abstract class BaseFragment:Fragment(), BusListener {
     @Inject
@@ -118,11 +122,32 @@ abstract class BaseFragment:Fragment(), BusListener {
     }
 
     override fun onBusEvent(event: AppEvent) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //
     }
 
     fun showToast(msg:String) {
         Toast.makeText(this.context, msg, Toast.LENGTH_SHORT).show()
+    }
+
+    fun showPasswordDialog(){
+        val layoutInflaterAndroid = LayoutInflater.from(this.context)
+        val mView = layoutInflaterAndroid.inflate(R.layout.password_dialog, null)
+
+        val alertDialogBuilderUserInput = AlertDialog.Builder(this.context!!)
+        alertDialogBuilderUserInput.setView(mView)
+
+        val userInputDialogEditText = mView.findViewById(R.id.passcodeTxt) as EditText
+        alertDialogBuilderUserInput
+                .setCancelable(false)
+                .setPositiveButton("Send") { dialogBox, id ->
+                    showToast("Send button click " + userInputDialogEditText.text.toString())
+                }
+
+                .setNegativeButton("Cancel"
+                ) { dialogBox, id -> dialogBox.cancel() }
+
+        val alertDialogAndroid = alertDialogBuilderUserInput.create()
+        alertDialogAndroid.show()
     }
 
 }

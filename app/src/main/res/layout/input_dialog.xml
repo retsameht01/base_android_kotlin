@@ -3,9 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:gravity="center"
+    android:minWidth="600dp"
+    android:minHeight="400dp"
     android:paddingHorizontal="20dp"
+    android:layout_gravity="center"
     android:background="@drawable/round_corner_bg">
 
     <TextView
@@ -19,7 +22,7 @@
 
     <faranjit.currency.edittext.CurrencyEditText
         android:textAlignment="center"
-        android:id="@+id/tipInput"
+        android:id="@+id/inputText"
         android:textColor="@color/nice_green"
         android:inputType="numberDecimal"
         android:textColorHint="@color/dark_gray"
@@ -27,7 +30,7 @@
         android:textSize="35sp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:minWidth="300dp"
         android:hint="Tip"
         app:locale="en_US"

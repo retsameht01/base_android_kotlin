@@ -22,4 +22,6 @@
 
     <color name="grad_green1">#1D976C</color>
     <color name="grad_green2">#93F9B9</color>
+    <color name="grad_green3">#093637</color>
+    <color name="grad_green4">#44A08D</color>
 </resources>
