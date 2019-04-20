@@ -52,9 +52,10 @@ abstract class ViewModelModule {
     @ViewModelKey(ManageTransactionVM::class)
     abstract fun bindManageTransVM(viewModel: ManageTransactionVM):ViewModel
 
-
-
-
+    @Binds
+    @IntoMap
+    @ViewModelKey(MangeCheckinVM::class)
+    abstract fun bindMangeCheckinVM(viewModel: MangeCheckinVM):ViewModel
 
 
 }

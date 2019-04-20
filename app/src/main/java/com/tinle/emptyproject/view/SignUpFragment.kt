@@ -11,15 +11,18 @@ import com.tinle.emptyproject.vm.SignUpVM
 import kotlinx.android.synthetic.main.fragment_signup.*
 import android.widget.DatePicker
 import android.app.DatePickerDialog
+import com.tinle.emptyproject.vm.CheckinViewModel
 import java.util.*
 import java.text.SimpleDateFormat
 
 
 class SignUpFragment:BaseFragment() {
     private lateinit var viewModel: SignUpVM
+    private lateinit var checkInVM: CheckinViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewModel = ViewModelProviders.of(activity!!, vmFactory).get(SignUpVM::class.java)
+        checkInVM = ViewModelProviders.of(activity!!, vmFactory).get(CheckinViewModel::class.java)
         var view = inflater.inflate(R.layout.fragment_signup, container, false)
         return view
     }
@@ -38,13 +41,13 @@ class SignUpFragment:BaseFragment() {
                     object: SignUpVM.SignupListener {
                         override fun onComplete(success: Boolean, msg: String) {
                             hideDialog()
-                            if (!success) {
+                            if (success) {
+                                showToast("Check-In Success")
+                                changeFragment(CheckinFragment())
+                            }
+                            else {
                                 showToast(msg)
                             }
-
-                            //TODO:: Do the user check - in and Save new record, and navigate to appropriate screen
-                            //And take user to the check in screen
-
                         }
                     }
             )

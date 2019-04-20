@@ -11,7 +11,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import com.tinle.emptyproject.core.PreferenceStore
-import com.tinle.emptyproject.data.SignIn
+import com.tinle.emptyproject.data.SignInDTO
 import com.tinle.emptyproject.data.SignUp
 import javax.inject.Inject
 
@@ -55,7 +55,7 @@ class GposService @Inject constructor(
         call.enqueue(callback)
     }
 
-    fun signIn(data:SignIn, callback: Callback<String>) {
+    fun signIn(data:SignInDTO, callback: Callback<String>) {
         val call = api.signin(authString, token, data)
         call.enqueue(callback)
     }
@@ -83,7 +83,7 @@ interface GPOSApi{
     fun getCustomers(@Header("Authorization")authToken: String, @Header("token")token:String):Call<List<RewardsMember>>
 
     @POST("signins")
-    fun signin(@Header("Authorization")authToken: String, @Header("token")token:String, @Body data:SignIn):Call<String>
+    fun signin(@Header("Authorization")authToken: String, @Header("token")token:String, @Body data:SignInDTO):Call<String>
 
     @POST("customers")
     fun signup(@Header("Authorization")authToken: String, @Header("token")token: String, @Body data:SignUp):Call<String>

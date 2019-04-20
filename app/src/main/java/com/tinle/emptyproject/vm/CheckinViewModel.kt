@@ -29,7 +29,6 @@ class CheckinViewModel @Inject constructor(
             checkInPhones = checkinDao.getAllPhones()
         }
     }
-    //TODO If phone does not exist, user will be created and return an id (sign in id, if try to sign in agin will throw 409, already sign in
 
     fun getExistingPhones():List<String> {
         return checkInPhones
@@ -87,8 +86,8 @@ class CheckinViewModel @Inject constructor(
         }
     }
 
-    private fun getSignInData(cust:RewardsMember):SignIn {
-        return SignIn(
+    private fun getSignInData(cust:RewardsMember):SignInDTO {
+        return SignInDTO(
                 cust.Id,
                 dateUtil.getUTCDateTimestamp(),
                 false,

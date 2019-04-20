@@ -30,7 +30,7 @@ abstract class FragmentBuildersModule {
     @ContributesAndroidInjector
     abstract fun manageTrans():ManageTransactionFragment
 
-
-
+    @ContributesAndroidInjector
+    abstract fun manageCheckin(): ManageCheckinsFragment
 
 }

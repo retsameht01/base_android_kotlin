@@ -15,4 +15,7 @@ interface CheckinDao {
     @Query("SELECT DISTINCT phone FROM Checkin")
     fun getAllPhones():List<String>
 
+    @Query("UPDATE Checkin SET checkoutTime = :checkoutTime WHERE phone = :phone")
+    fun setCheckout(checkoutTime: String, phone:String)
+
 }

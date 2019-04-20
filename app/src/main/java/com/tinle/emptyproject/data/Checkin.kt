@@ -5,9 +5,10 @@ import android.arch.persistence.room.PrimaryKey
 
 @Entity
 data class Checkin(
-        val date:String,
+        val checkinTime:String,
         val phone:String) {
 
     @PrimaryKey(autoGenerate = true)
-    var id:Int = 0
+    var id: Int = 0
+    var checkoutTime:String? = null
 }

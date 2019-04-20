@@ -83,9 +83,14 @@ class MainActivity : PoslinkActivity(), HasSupportFragmentInjector {
             // Add code here to update the UI based on the item selected
             // For example, swap UI fragments here
             when(menuItem.itemId){
-                nave_manage_checkin, nav_settings ->{
+                nav_settings ->{
                     selectedMenu = menuItem.itemId
                     showPasswordDialog()
+                }
+
+                nave_manage_checkin -> {
+                    selectedMenu = menuItem.itemId
+                    switchFrag(ManageCheckinsFragment())
                 }
 
                 nav_manage_transaction ->{

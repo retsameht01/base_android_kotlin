@@ -4,20 +4,21 @@ import android.arch.lifecycle.ViewModel
 import com.tinle.emptyproject.api.GposService
 import com.tinle.emptyproject.core.AppExecutor
 import com.tinle.emptyproject.core.DateUtil
-import com.tinle.emptyproject.data.RewardsMember
+import com.tinle.emptyproject.data.Checkin
+import com.tinle.emptyproject.data.CheckinDao
 import com.tinle.emptyproject.data.SignUp
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.StringBuilder
 import javax.inject.Inject
 
 class SignUpVM @Inject constructor(
         private val executor:AppExecutor,
         private val gposService:GposService,
-        private val dateUtil: DateUtil
+        private val dateUtil: DateUtil,
+        private val checkinDao: CheckinDao
 
-):ViewModel() {
+        ):ViewModel() {
 
     private lateinit var signupListener: SignupListener
 
@@ -48,11 +49,14 @@ class SignUpVM @Inject constructor(
 
             override fun onResponse(call: Call<String>, response: Response<String>) {
                 if(response.body() != null) {
+                    executor.diskIO().execute {
+                        checkinDao.insertAll(Checkin(dateUtil.getUTCDateTimestamp(), phone))
+                    }
                     signupListener.onComplete(true, "${response.body()}")
-                } else {
+                }
+                else {
                     signupListener.onComplete(false, response.message())
                 }
-
             }
         })
     }
