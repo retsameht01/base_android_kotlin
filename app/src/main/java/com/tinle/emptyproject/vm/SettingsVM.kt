@@ -79,30 +79,6 @@ class SettingsVM @Inject constructor(
             catch (ex:Exception) {
                 println("Connection refused, msg: ${ex.message}")
             }
-
-            /*
-            val host = "localhost"
-            val data = "testing client data ${System.currentTimeMillis()}"
-            val sb = StringBuilder()
-            try {
-                val socket = Socket(host, 54321)
-                val out = socket.getOutputStream()
-                out.write(data.toByteArray(Charsets.UTF_8))
-                val input = socket.getInputStream()
-                val buf = ByteArray(1024)
-                var nbytes: Int
-                do {
-                    nbytes = input.read(buf)
-                    sb.append(String(buf, 0, nbytes))
-                }
-                while (nbytes != -1)
-                socket.close()
-
-                val result = sb.toString()
-                println("result $result")
-            } catch (e: IOException) {
-                println("Error sending socket connection")
-            }*/
         }
     }
 

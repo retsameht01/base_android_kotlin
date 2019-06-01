@@ -4,14 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/vert_grad_green"
-    android:paddingHorizontal="20dp"
+    android:paddingHorizontal="10dp"
     >
     <ImageView
+        android:layout_marginTop="5dp"
         android:src="@drawable/ic_left_chevron"
-        android:id="@+id/backIcon"
+        android:id="@+id/backBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
     <LinearLayout
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -19,12 +23,13 @@
             android:id="@+id/checkinCountTxt"
             android:textColor="@color/white"
             android:textSize="18sp"
-            android:text="Total Check - Ins: 35"
+            android:text="@string/checkin_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:id="@+id/checkinList"
         android:layout_width="match_parent"

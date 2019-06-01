@@ -14,5 +14,10 @@ interface CustomerDao {
     @Query("SELECT * FROM RewardsMember")
     fun getAllCustomers():List<RewardsMember>
 
+    @Query("UPDATE RewardsMember SET SyncStatus =:syncStatus WHERE Phone =:phone")
+    fun updateSyncStatus(syncStatus:Int, phone:String)
+
+    @Query("SELECT * FROM RewardsMember WHERE Phone =:phone")
+    fun getCustomer(phone: String):RewardsMember
 
 }

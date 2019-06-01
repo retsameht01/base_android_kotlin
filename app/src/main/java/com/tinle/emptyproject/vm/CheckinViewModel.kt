@@ -18,8 +18,8 @@ class CheckinViewModel @Inject constructor(
         private val executor: AppExecutor,
         private val gposService: GposService,
         private val checkinDao: CheckinDao,
-        private val dateUtil:DateUtil,
-        private val customerRepo:CustomerRepo
+        private val dateUtil:DateUtil
+
 
 ):ViewModel() {
     private lateinit var checkInPhones: List<String>
@@ -54,15 +54,13 @@ class CheckinViewModel @Inject constructor(
                         override fun onFailure(call: Call<RewardsMember>?, t: Throwable?) {
                             print("Result failed")
                             EventBus.notify(AppEvent.CustomerNotFound)
-                            //Todo Requires new user sign up
                         }
-
                         override fun onResponse(call: Call<RewardsMember>?, response: Response<RewardsMember>?) {
-                            try{
+                            try {
                                 var custInfo =  response?.body()
                                 if (custInfo != null) {
                                     executor.diskIO().execute{
-                                        checkinDao.insertAll(Checkin(getTimeStamp(), rawPhone))
+                                        checkinDao.insertAll(Checkin(dateUtil.getCurrentTime(), dateUtil.getCurrentDate(), getTimeStamp(), rawPhone))
                                     }
                                     SessionManager.setCustomer(custInfo)
                                     EventBus.notify(AppEvent.CustomerRetrieved)
@@ -70,16 +68,15 @@ class CheckinViewModel @Inject constructor(
                                         override fun onFailure(call: Call<String>, t: Throwable) {
                                             print("Failed")
                                         }
-
                                         override fun onResponse(call: Call<String>, response: Response<String>) {
                                             println("response")
                                         }
                                     })
                                 }
-                            }catch (ex:Exception) {
+                            } catch (ex:Exception) {
                                 print("Error " + ex.message);
+                                EventBus.notify(AppEvent.GenericError)
                             }
-
                         }
                     }
             )

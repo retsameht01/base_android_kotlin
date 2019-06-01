@@ -44,6 +44,7 @@ class ManageTransactionFragment:PaxHandlingFragment(), TransactionSelectDialog.O
         var view = inflater.inflate(R.layout.fragment_manage_transaction, container, false)
         posHandler = (activity as MainActivity).getPosHandler()
         viewModel = ViewModelProviders.of(activity!!, vmFactory).get(ManageTransactionVM::class.java)
+        //transGrid.numColumns = 3
         return view;
     }
 
@@ -139,7 +140,10 @@ class ManageTransactionFragment:PaxHandlingFragment(), TransactionSelectDialog.O
             lastAction = AdjustTip
             showTransDialog()
         }
+        transGrid.adapter = ManageTransGridViewAdapter(this.context!!, -1, viewModel.getViewData())
     }
+
+
 
     private fun showTransDialog(){
         val dialog = TransactionSelectDialog()
@@ -255,9 +259,8 @@ class ManageTransactionFragment:PaxHandlingFragment(), TransactionSelectDialog.O
                     hideProgDialog(false, "failed")
                 }
             })
-
-
         }
     }
+
 
 }

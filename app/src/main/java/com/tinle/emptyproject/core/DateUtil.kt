@@ -25,6 +25,18 @@ class DateUtil {
         return sdf.format(Date())
     }
 
+    private val DATE_FORMAT:String = "MM-dd-yyyy"
+    fun getCurrentDate():String {
+        val sdf = SimpleDateFormat(DATE_FORMAT)
+        return sdf.format(Date())
+    }
+
+    private val TIME_FORMAT:String = "hh:mm:ss"
+    fun getCurrentTime():String {
+        val sdf = SimpleDateFormat(TIME_FORMAT)
+        return sdf.format(Date())
+    }
+
 
     fun findDaysDiff(startDate: String): Long {
         val unixStartTime = getTimeMillis(startDate)

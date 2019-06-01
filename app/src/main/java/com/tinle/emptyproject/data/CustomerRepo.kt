@@ -24,6 +24,7 @@ class CustomerRepo @Inject constructor(
                     appExecutor.diskIO().execute {
                         response.body()?.let {
                             for (member in it){
+                                member.SyncStatus = 1
                                 customerDao.insertAll(member)}
                         }
                     }
@@ -36,7 +37,15 @@ class CustomerRepo @Inject constructor(
         return customerDao.getAllCustomers()
     }
 
+    fun getCustomer(phone:String):RewardsMember? {
+        return customerDao.getCustomer(phone)
+    }
+
     fun addCustomer(rewardsCustomer:RewardsMember){
         customerDao.insertAll(rewardsCustomer)
+    }
+
+    fun updateSyncStatus(phone:String, syncStatus:Int) {
+        customerDao.updateSyncStatus(syncStatus, phone)
     }
 }

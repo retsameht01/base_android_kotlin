@@ -13,7 +13,9 @@ class CheckinRepo @Inject constructor(
 
     fun doCheckin(phone:String) {
         val timeStamp = dateUtil.getUTCDateTimestamp()
-        val checkin = Checkin(timeStamp, phone)
+        val time = dateUtil.getCurrentTime()
+        val todayDate = dateUtil.getCurrentDate()
+        val checkin = Checkin(time, todayDate, timeStamp, phone)
         appExecutor.networkIO().execute{
             checkinDao.insertAll(checkin)
         }
@@ -27,6 +29,10 @@ class CheckinRepo @Inject constructor(
     }
 
     fun getCheckins():List<Checkin> {
+        return checkinDao.getAllCheckins()
+    }
+
+    fun getTodayCheckins():List<Checkin> {
         return checkinDao.getAllCheckins()
     }
 }

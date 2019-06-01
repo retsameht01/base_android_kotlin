@@ -4,9 +4,7 @@ import android.arch.lifecycle.ViewModel
 import com.tinle.emptyproject.api.GposService
 import com.tinle.emptyproject.core.AppExecutor
 import com.tinle.emptyproject.core.DateUtil
-import com.tinle.emptyproject.data.Checkin
-import com.tinle.emptyproject.data.CheckinDao
-import com.tinle.emptyproject.data.SignUp
+import com.tinle.emptyproject.data.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,7 +14,8 @@ class SignUpVM @Inject constructor(
         private val executor:AppExecutor,
         private val gposService:GposService,
         private val dateUtil: DateUtil,
-        private val checkinDao: CheckinDao
+        private val checkinDao: CheckinDao,
+        private val customerRepo: CustomerRepo
 
         ):ViewModel() {
 
@@ -36,8 +35,16 @@ class SignUpVM @Inject constructor(
             return "Invalid Phone"
         }
         signupListener = listener
+        saveCustomer(firstName, lastName, phone, email)
         doSignup(firstName, lastName, phone, email)
         return ""
+    }
+
+    private fun saveCustomer(firstName:String, lastName:String, phone:String, email:String) {
+        var customer = RewardsMember(1,firstName, lastName,phone,email, 2, 0.0f, null, 0)
+        executor.diskIO().execute{
+            customerRepo.addCustomer(customer)
+        }
     }
 
     private fun doSignup(firstName:String, lastName:String, phone:String, email:String) {
@@ -50,7 +57,9 @@ class SignUpVM @Inject constructor(
             override fun onResponse(call: Call<String>, response: Response<String>) {
                 if(response.body() != null) {
                     executor.diskIO().execute {
-                        checkinDao.insertAll(Checkin(dateUtil.getUTCDateTimestamp(), phone))
+                        checkinDao.insertAll(Checkin(dateUtil.getCurrentTime(), dateUtil.getCurrentDate(), dateUtil.getUTCDateTimestamp(), phone))
+                        customerRepo.updateSyncStatus(phone, 1)
+
                     }
                     signupListener.onComplete(true, "${response.body()}")
                 }

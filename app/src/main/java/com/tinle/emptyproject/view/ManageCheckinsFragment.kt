@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.tinle.emptyproject.R
-import com.tinle.emptyproject.data.Checkin
+import com.tinle.emptyproject.data.CheckinViewData
 import com.tinle.emptyproject.vm.MangeCheckinVM
 import kotlinx.android.synthetic.main.fragment_manage_checkins.*
 
@@ -31,9 +31,9 @@ class ManageCheckinsFragment: BaseFragment() {
         checkinList.layoutManager = LinearLayoutManager(activity)
         showLoadingDialog()
 
-
-        viewModel.allCheckin.observe(this, Observer<List<Checkin>>{
+        viewModel.getCheckins().observe(this, Observer<List<CheckinViewData>>{
            if( it != null) {
+               checkinCountTxt.text = String.format(getString(R.string.checkin_count), "${it.size}")
                checkinList.adapter = CheckinAdapter(it)
            }
             hideDialog()
@@ -44,6 +44,9 @@ class ManageCheckinsFragment: BaseFragment() {
 
         })
 
+        backBtn.setOnClickListener {
+            changeFragment(CheckinFragment())
+        }
     }
 
     override fun onDestroy() {
@@ -52,7 +55,7 @@ class ManageCheckinsFragment: BaseFragment() {
     }
 
 
-    inner class CheckinAdapter(val checkins:List<Checkin>): RecyclerView.Adapter<CheckinViewHolder>(){
+    inner class CheckinAdapter(val checkins:List<CheckinViewData>): RecyclerView.Adapter<CheckinViewHolder>(){
         override fun onCreateViewHolder(p0: ViewGroup, p1: Int): CheckinViewHolder {
             val view = LayoutInflater.from(p0.context).inflate(R.layout.checkin_row, p0,false)
             return CheckinViewHolder(view)
@@ -64,8 +67,8 @@ class ManageCheckinsFragment: BaseFragment() {
 
         override fun onBindViewHolder(holder: CheckinViewHolder, pos: Int) {
             val checkin = checkins[pos]
-            holder.checkinName.text = checkin.phone
-            holder.checkinTime.text = checkin.checkinTime
+            holder.checkinName.text = "${checkin.lastName} ${checkin.firstName} ${checkin.phone}"
+            holder.checkinTime.text = checkin.timeStamp
         }
     }
 

@@ -13,6 +13,7 @@ data class RewardsMember(
         var EmailAddress:String?,
         var RewardPointRate:Int?,
         var RewardPoints:Float?,
-        var LastPurchase:String?
+        var LastPurchase:String?,
+        var SyncStatus: Int
 
 )

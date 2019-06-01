@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GPOS Rewards</string>
+    <string name="checkin_count">Checkins Today: %s</string>
 </resources>

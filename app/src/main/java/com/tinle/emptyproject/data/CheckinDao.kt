@@ -12,6 +12,10 @@ interface CheckinDao {
     @Query("SELECT * FROM Checkin")
     fun getAllCheckins(): List<Checkin>
 
+    @Query("SELECT * FROM Checkin WHERE checkinTime >=:today")
+    fun getTodayCheckin(today:String): List<Checkin>
+
+
     @Query("SELECT DISTINCT phone FROM Checkin")
     fun getAllPhones():List<String>
 
