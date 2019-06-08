@@ -41,7 +41,7 @@ class SignUpVM @Inject constructor(
     }
 
     private fun saveCustomer(firstName:String, lastName:String, phone:String, email:String) {
-        var customer = RewardsMember(1,firstName, lastName,phone,email, 2, 0.0f, null, 0)
+        var customer = RewardsMember(1, firstName, lastName, phone, email, 2, 0, null, 0)
         executor.diskIO().execute{
             customerRepo.addCustomer(customer)
         }
@@ -55,7 +55,7 @@ class SignUpVM @Inject constructor(
             }
 
             override fun onResponse(call: Call<String>, response: Response<String>) {
-                if(response.body() != null) {
+                if (response.body() != null) {
                     executor.diskIO().execute {
                         checkinDao.insertAll(Checkin(dateUtil.getCurrentTime(), dateUtil.getCurrentDate(), dateUtil.getUTCDateTimestamp(), phone))
                         customerRepo.updateSyncStatus(phone, 1)

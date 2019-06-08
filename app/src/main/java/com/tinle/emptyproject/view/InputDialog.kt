@@ -50,7 +50,7 @@ class InputDialog:DialogFragment() {
         super.onStart()
         if (dialog != null) {
             dialog.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-           //dialog.window.setLayout(600,400)
+           //checkoutDialog.window.setLayout(600,400)
             dialog.getWindow().setLayout(LinearLayoutCompat.LayoutParams.FILL_PARENT, LinearLayoutCompat.LayoutParams.FILL_PARENT);
         }
     }

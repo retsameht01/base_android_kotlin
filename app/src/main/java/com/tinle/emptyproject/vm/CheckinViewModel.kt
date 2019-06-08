@@ -18,7 +18,8 @@ class CheckinViewModel @Inject constructor(
         private val executor: AppExecutor,
         private val gposService: GposService,
         private val checkinDao: CheckinDao,
-        private val dateUtil:DateUtil
+        private val dateUtil:DateUtil,
+        private val customerRepo: CustomerRepo
 
 
 ):ViewModel() {
@@ -59,9 +60,13 @@ class CheckinViewModel @Inject constructor(
                             try {
                                 var custInfo =  response?.body()
                                 if (custInfo != null) {
-                                    executor.diskIO().execute{
+                                    executor.diskIO().execute {
                                         checkinDao.insertAll(Checkin(dateUtil.getCurrentTime(), dateUtil.getCurrentDate(), getTimeStamp(), rawPhone))
+                                        customerRepo.addCustomer(RewardsMember(0, custInfo.FirstName, custInfo.LastName, custInfo.Phone, custInfo.EmailAddress,
+                                                custInfo.RewardPointRate, custInfo.RewardPoints, custInfo.LastPurchase, 1
+                                        ))
                                     }
+
                                     SessionManager.setCustomer(custInfo)
                                     EventBus.notify(AppEvent.CustomerRetrieved)
                                     gposService.signIn(getSignInData(custInfo), object:Callback<String>{

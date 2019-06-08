@@ -140,6 +140,7 @@ class ManageTransactionFragment:PaxHandlingFragment(), TransactionSelectDialog.O
             lastAction = AdjustTip
             showTransDialog()
         }
+        //TODO fix this transGrid null issue!!!!!
         transGrid.adapter = ManageTransGridViewAdapter(this.context!!, -1, viewModel.getViewData())
     }
 
@@ -149,7 +150,7 @@ class ManageTransactionFragment:PaxHandlingFragment(), TransactionSelectDialog.O
         val dialog = TransactionSelectDialog()
         var bundle =  Bundle()
         bundle.putSerializable("transList", viewModel.getTransActions() as Serializable)
-        dialog.arguments= bundle
+        dialog.arguments = bundle
         dialog.setTargetFragment(this, 1)
         dialog.show(fragmentManager, "trans_dialog")
 

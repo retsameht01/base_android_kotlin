@@ -7,42 +7,47 @@ import com.tinle.emptyproject.core.AppExecutor
 import com.tinle.emptyproject.data.*
 import javax.inject.Inject
 
-class MangeCheckinVM @Inject constructor(
-        checkinRepo: CheckinRepo,
-        appExecutor: AppExecutor,
-        customerRepo: CustomerRepo
+class MangeCheckinVM @Inject constructor (
+        private val checkinRepo: CheckinRepo,
+        private val appExecutor: AppExecutor,
+        private val customerRepo: CustomerRepo
 
 
 ) : ViewModel() {
-
-    //private var allCheckin: MutableLiveData<List<Checkin>> = MutableLiveData()
-    private var customers:HashMap<String, RewardsMember> = hashMapOf()
+    private var customerCheckinMap:HashMap<String, RewardsMember> = hashMapOf()
     private var checkinsData:MutableLiveData<List<CheckinViewData>> = MutableLiveData()
+    private lateinit var selectedCheckin:CheckinViewData
 
-    init {
-        appExecutor.diskIO().execute{
+    private fun loadCheckin() {
+        appExecutor.diskIO().execute {
             val checkins = checkinRepo.getCheckins()
+            val customers = customerRepo.getCustomers()
             val checkinData = mutableListOf<CheckinViewData>()
             for (checkin in checkins) {
                 val customer =  customerRepo.getCustomer(checkin.phone)
-                if(customer != null) {
+                if (customer != null) {
                     val checkinViewData = CheckinViewData(checkin.phone, customer.FirstName!!,
-                            customer.LastName!!, customer.EmailAddress!!, checkin.checkinTime)
+                            customer.LastName!!, customer.EmailAddress!!, checkin.checkinTime, "${customer.RewardPoints}")
                     checkinData.add(checkinViewData)
-                    customers.put(checkin.phone, customer)
+                    customerCheckinMap.put(checkin.phone, customer)
                 }
             }
 
             checkinsData.postValue(checkinData)
-            //allCheckin.postValue(checkins)
         }
     }
 
     fun getCheckins():LiveData<List<CheckinViewData>> {
+        loadCheckin();
         return checkinsData
     }
 
+    fun setSelectedCheckin(checkin: CheckinViewData) {
+        selectedCheckin = checkin
+    }
 
-
+    fun getSelectedCheckin():CheckinViewData {
+        return selectedCheckin
+    }
 
 }

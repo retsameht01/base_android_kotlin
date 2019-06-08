@@ -19,14 +19,16 @@ import kotlinx.android.synthetic.main.fragment_payment.*
 import javax.inject.Inject
 import android.widget.ArrayAdapter
 import com.google.gson.Gson
-import com.pax.poslink.PaymentRequest
+import com.tinle.emptyproject.data.CheckinViewData
 import com.tinle.emptyproject.vm.PaymentVM
 
 class PaymentFragment:BaseFragment() {
     private lateinit var posHandler:PostLinkHandler
     lateinit var viewModel: PaymentVM
-    var refNumber:Int = 0
+    private var refNumber:Int = 0
     private val PaymentRequestCode = 9
+    private val RewardsPercent:Double = .05
+    private lateinit var checkInData: CheckinViewData
 
     @Inject
     lateinit var exexutor:AppExecutor
@@ -36,7 +38,10 @@ class PaymentFragment:BaseFragment() {
         var view = inflater.inflate(R.layout.fragment_payment, container, false)
         posHandler = (activity as MainActivity).getPosHandler()
         viewModel = ViewModelProviders.of(activity!!, vmFactory).get(PaymentVM::class.java)
-
+        val bundle = arguments
+        if (bundle != null) {
+            checkInData = bundle.getSerializable("Checkin") as CheckinViewData
+        }
         return view
     }
 
@@ -59,8 +64,15 @@ class PaymentFragment:BaseFragment() {
 
     private fun setPaymentClickHandler(){
         submitPayment.setOnClickListener{
-            val request = PaymentRequest()
+            //val request = PaymentRequest()
             val saleAmt = getSaleAmount()
+            val rewardPoints = getRewardPoints(saleAmt)
+            showToast("You've earned $rewardPoints points.")
+            if (checkInData != null) {
+               viewModel.updateCustomerRewards(rewardPoints, checkInData.phone)
+            }
+            changeFragment(ManageCheckinsFragment())
+            /*
             val tip = getTipAmount()
             request.Amount = "$saleAmt"
             request.TipAmt = "$tip"
@@ -73,14 +85,19 @@ class PaymentFragment:BaseFragment() {
             intent.action ="com.gpos.paxrequest"
             intent.putExtra("RequestType", "PAYMENT")
             intent.putExtra("Data", json)
-            startActivityForResult(intent, PaymentRequestCode)
+            startActivityForResult(intent, PaymentRequestCode) */
         }
+    }
+
+    private fun getRewardPoints(sales:Int):Int {
+        val points = sales * RewardsPercent
+        return points.toInt()
     }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(data != null) {
+        if (data != null) {
             val resp = data.getStringExtra(Intent.EXTRA_TEXT)
             val paymentResponse = Gson().fromJson<PaymentResponse>(resp, PaymentResponse::class.java)
             viewModel.saveTransaction(paymentResponse)
@@ -119,13 +136,13 @@ class PaymentFragment:BaseFragment() {
 
 
      fun hideProgDialog(success:Boolean) {
-         exexutor.mainThread().execute({
-            if(success) {
+         exexutor.mainThread().execute {
+            if (success) {
                 Toast.makeText(activity, "Payment process successfully", Toast.LENGTH_LONG).show()
                 saleAmount.setText("")
             }
             hideDialog()
-         })
+         }
     }
 
     override fun onBusEvent(event: AppEvent) {

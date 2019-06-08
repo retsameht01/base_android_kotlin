@@ -41,11 +41,11 @@ class PasscodeDialog:DialogFragment() {
 		//mEditText = (EditText) view.findViewById(R.id.txt_your_name);
 		// Fetch arguments from bundle and set title
 		val title = arguments!!.getString("title", "Enter Name");
-		getDialog().setTitle(title);
+		getCheckoutDialog().setTitle(title);
 		// Show soft keyboard automatically and request focus to field
 		//mEditText.requestFocus();
 
-		getDialog().getWindow().setSoftInputMode(
+		getCheckoutDialog().getWindow().setSoftInputMode(
 		    WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         super.onViewCreated(view, savedInstanceState);
 	}

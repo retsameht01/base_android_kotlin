@@ -29,9 +29,7 @@ class  TransactionSelectDialog:DialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
         val rootView = inflater.inflate(R.layout.dialog_transaction_select, container)
-
         //RECYCER
         rv = rootView.findViewById(R.id.transactionList)
         rv.layoutManager = LinearLayoutManager(this.context)
@@ -39,15 +37,11 @@ class  TransactionSelectDialog:DialogFragment() {
         //ADAPTER
         adapter = MyAdapter(this.context!!, transactions)
         rv.adapter = adapter
-
         this.dialog.setTitle("Transactions")
-
         return rootView
     }
 
-
-
-     inner class MyAdapter(var c: Context, var trans:List<PaymentTransaction>) : RecyclerView.Adapter<MyHolder>() {
+    inner class MyAdapter(var c: Context, var trans:List<PaymentTransaction>) : RecyclerView.Adapter<MyHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
             val v = LayoutInflater.from(parent.context).inflate(R.layout.transaction_item_view, parent, false)
             return MyHolder(v)

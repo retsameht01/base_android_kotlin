@@ -35,7 +35,7 @@ abstract class BaseFragment:Fragment(), BusListener {
         EventBus.addListener(this)
         progressDialog = ProgressDialog(this.context)
         setDefaultDialogTexts();
-        progressDialog.setCancelable(false) // disable dismiss by tapping outside of the dialog
+        progressDialog.setCancelable(false) // disable dismiss by tapping outside of the checkoutDialog
     }
 
     private fun setDefaultDialogTexts() {
@@ -69,30 +69,30 @@ abstract class BaseFragment:Fragment(), BusListener {
     fun showConfirmDialog(msg:String, title:String, okClick:DialogInterface.OnClickListener) {
         val builder = AlertDialog.Builder(this.activity!!)
 
-        // Set the alert dialog title
+        // Set the alert checkoutDialog title
         builder.setTitle(title)
 
-        // Display a message on alert dialog
+        // Display a message on alert checkoutDialog
         builder.setMessage(msg)
-        // Set a positive button and its click listener on alert dialog
+        // Set a positive button and its click listener on alert checkoutDialog
         builder.setPositiveButton("YES", okClick)
 
 
-        // Display a negative button on alert dialog
+        // Display a negative button on alert checkoutDialog
         builder.setNegativeButton("No"){dialog,which ->
             dialog.dismiss()
         }
 
 
-        // Display a neutral button on alert dialog
+        // Display a neutral button on alert checkoutDialog
         /*
         builder.setNeutralButton("Cancel"){_,_ ->
 
         } */
 
-        // Finally, make the alert dialog using builder
+        // Finally, make the alert checkoutDialog using builder
         val dialog: AlertDialog = builder.create()
-        // Display the alert dialog on app interface
+        // Display the alert checkoutDialog on app interface
         dialog.show()
 
     }

@@ -128,8 +128,8 @@ class MainActivity : PoslinkActivity(), HasSupportFragmentInjector {
         //fragment.showPasswordDialog()
         switchFrag(SettingsFragment())
         /*
-        dialog  = PasscodeDialog.newInstance("Some Title", clickListner)
-        dialog.show(fm, "fragment_edit_name")  */
+        checkoutDialog  = PasscodeDialog.newInstance("Some Title", clickListner)
+        checkoutDialog.show(fm, "fragment_edit_name")  */
     }
 
     private fun switchFrag(fragment:BaseFragment) {

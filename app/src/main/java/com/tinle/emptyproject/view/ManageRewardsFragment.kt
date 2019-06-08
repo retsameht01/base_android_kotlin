@@ -50,7 +50,7 @@ class ManageRewardsFragment:BaseFragment() {
     private fun handleCheckout(member:RewardsMember) {
         activity?.let {
             dialog = CheckoutDialog.newInstance("Checkout ${member.FirstName}?", clickListner)
-            dialog.show(it.supportFragmentManager, "checkout dialog")
+            dialog.show(it.supportFragmentManager, "checkout checkoutDialog")
             dialog.isCancelable = false
         }
 

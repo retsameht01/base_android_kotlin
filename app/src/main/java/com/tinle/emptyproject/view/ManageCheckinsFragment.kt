@@ -2,6 +2,7 @@ package com.tinle.emptyproject.view
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -17,7 +18,25 @@ import kotlinx.android.synthetic.main.fragment_manage_checkins.*
 
 class ManageCheckinsFragment: BaseFragment() {
     private lateinit var viewModel: MangeCheckinVM
-    lateinit var dialog: CheckoutDialog
+    lateinit var checkoutDialog: CheckoutDialog
+    private var checkoutDialogListener:DialogInterface.OnClickListener = DialogInterface.OnClickListener { dialogInterface, i ->
+
+        val frag = PaymentFragment()
+        val bundle = Bundle()
+        bundle.putSerializable("Checkin", viewModel.getSelectedCheckin())
+        //frag.arguments = bundle
+        changeFragment(frag, bundle)
+        print("something")
+    }
+
+    private fun gotoPaymentScreen() {
+        val frag = PaymentFragment()
+        val bundle = Bundle()
+        bundle.putSerializable("Checkin", viewModel.getSelectedCheckin())
+        //frag.arguments = bundle
+        changeFragment(frag, bundle)
+        print("something")
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setToolbarVisibility(View.GONE)
@@ -41,6 +60,7 @@ class ManageCheckinsFragment: BaseFragment() {
             //TODO Rethink the check in flow and update the app
             //TODO Also, for future features: add voice check in
             //TODO Add customizable features and skinning the app.
+            //TODO scan barcode to check-in
 
         })
 
@@ -56,8 +76,8 @@ class ManageCheckinsFragment: BaseFragment() {
 
 
     inner class CheckinAdapter(val checkins:List<CheckinViewData>): RecyclerView.Adapter<CheckinViewHolder>(){
-        override fun onCreateViewHolder(p0: ViewGroup, p1: Int): CheckinViewHolder {
-            val view = LayoutInflater.from(p0.context).inflate(R.layout.checkin_row, p0,false)
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CheckinViewHolder {
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.checkin_row, parent,false)
             return CheckinViewHolder(view)
         }
 
@@ -67,14 +87,21 @@ class ManageCheckinsFragment: BaseFragment() {
 
         override fun onBindViewHolder(holder: CheckinViewHolder, pos: Int) {
             val checkin = checkins[pos]
+            holder.root.setOnClickListener {
+                viewModel.setSelectedCheckin(checkin)
+                gotoPaymentScreen()
+            }
             holder.checkinName.text = "${checkin.lastName} ${checkin.firstName} ${checkin.phone}"
             holder.checkinTime.text = checkin.timeStamp
+            holder.points.text = "${checkin.rewardPoints} pts"
         }
     }
 
     inner class CheckinViewHolder(view:View): RecyclerView.ViewHolder(view) {
+        val root = view
         val checkinName: TextView = view.findViewById(R.id.checkinName)
         val checkinTime: TextView = view.findViewById(R.id.checkinTime)
+        val points: TextView = view.findViewById(R.id.rewardPoints)
     }
 
 }
