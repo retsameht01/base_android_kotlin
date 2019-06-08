@@ -64,15 +64,15 @@ class PaymentFragment:BaseFragment() {
 
     private fun setPaymentClickHandler(){
         submitPayment.setOnClickListener{
-            //val request = PaymentRequest()
             val saleAmt = getSaleAmount()
             val rewardPoints = getRewardPoints(saleAmt)
             showToast("You've earned $rewardPoints points.")
             if (checkInData != null) {
-               viewModel.updateCustomerRewards(rewardPoints, checkInData.phone)
+               viewModel.checkout(rewardPoints, checkInData.phone)
             }
             changeFragment(ManageCheckinsFragment())
             /*
+            val request = PaymentRequest()
             val tip = getTipAmount()
             request.Amount = "$saleAmt"
             request.TipAmt = "$tip"

@@ -20,8 +20,7 @@ class MangeCheckinVM @Inject constructor (
 
     private fun loadCheckin() {
         appExecutor.diskIO().execute {
-            val checkins = checkinRepo.getCheckins()
-            val customers = customerRepo.getCustomers()
+            val checkins = checkinRepo.getTodayCheckins()
             val checkinData = mutableListOf<CheckinViewData>()
             for (checkin in checkins) {
                 val customer =  customerRepo.getCustomer(checkin.phone)
@@ -32,7 +31,6 @@ class MangeCheckinVM @Inject constructor (
                     customerCheckinMap.put(checkin.phone, customer)
                 }
             }
-
             checkinsData.postValue(checkinData)
         }
     }

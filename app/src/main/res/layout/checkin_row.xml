@@ -14,7 +14,7 @@
         android:textSize="18sp"
         android:id="@+id/checkinName"
         android:layout_marginTop="10dp"
-        android:text = "John Doe"
+        android:text = "John Smith"
         android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -22,9 +22,12 @@
     <TextView
         android:id="@+id/rewardPoints"
         android:text="25 pts"
+        android:textSize="20sp"
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        />
 
     <TextView
         android:layout_marginTop="5dp"

@@ -21,7 +21,6 @@ import kotlinx.android.synthetic.main.fragment_manage_transaction.*
 import java.io.Serializable
 import javax.inject.Inject
 
-
 class ManageTransactionFragment:PaxHandlingFragment(), TransactionSelectDialog.OnTransactionSelectListener {
 
     private lateinit var posHandler: PostLinkHandler
@@ -153,7 +152,6 @@ class ManageTransactionFragment:PaxHandlingFragment(), TransactionSelectDialog.O
         dialog.arguments = bundle
         dialog.setTargetFragment(this, 1)
         dialog.show(fragmentManager, "trans_dialog")
-
     }
 
     override fun onSelectTransaction(trans: PaymentTransaction) {
@@ -237,7 +235,7 @@ class ManageTransactionFragment:PaxHandlingFragment(), TransactionSelectDialog.O
 
     }
 
-    val inputDialogClickListener = DialogInterface.OnClickListener { _, i ->
+    val inputDialogClickListener = DialogInterface.OnClickListener { _, _ ->
         if(dialog != null) {
             var amtCents = 0
             var tipAmount =  dialog.getInputText()

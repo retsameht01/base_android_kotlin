@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_manage_checkins.*
 class ManageCheckinsFragment: BaseFragment() {
     private lateinit var viewModel: MangeCheckinVM
     lateinit var checkoutDialog: CheckoutDialog
-    private var checkoutDialogListener:DialogInterface.OnClickListener = DialogInterface.OnClickListener { dialogInterface, i ->
+    private var checkoutDialogListener:DialogInterface.OnClickListener = DialogInterface.OnClickListener { _, _ ->
 
         val frag = PaymentFragment()
         val bundle = Bundle()

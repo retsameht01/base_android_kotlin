@@ -32,7 +32,13 @@ class CheckinRepo @Inject constructor(
         return checkinDao.getAllCheckins()
     }
 
+    fun getTodayCheckin() {
+
+    }
+
     fun getTodayCheckins():List<Checkin> {
-        return checkinDao.getAllCheckins()
+        val today = dateUtil.getCurrentDate()
+        val checkins = checkinDao.getAllCheckins()
+        return checkinDao.getCheckinForDate(today)
     }
 }
