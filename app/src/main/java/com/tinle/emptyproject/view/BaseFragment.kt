@@ -117,7 +117,7 @@ abstract class BaseFragment:Fragment(), BusListener {
         progressDialog.show()
     }
 
-    fun hideDialog(){
+    fun hideDialog() {
         progressDialog.dismiss()
     }
 

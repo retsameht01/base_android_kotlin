@@ -24,9 +24,9 @@ class MangeCheckinVM @Inject constructor (
             val checkinData = mutableListOf<CheckinViewData>()
             for (checkin in checkins) {
                 val customer =  customerRepo.getCustomer(checkin.phone)
-                if (customer != null) {
-                    val checkinViewData = CheckinViewData(checkin.phone, customer.FirstName!!,
-                            customer.LastName!!, customer.EmailAddress!!, checkin.checkinTime, "${customer.RewardPoints}")
+                customer?.let {
+                    val checkinViewData = CheckinViewData(checkin.phone, "${it.FirstName}",
+                            "${it.LastName}", "${it.EmailAddress}", checkin.checkinTime, "${it.RewardPoints}")
                     checkinData.add(checkinViewData)
                     customerCheckinMap.put(checkin.phone, customer)
                 }

@@ -25,6 +25,7 @@ class CheckinViewModel @Inject constructor(
 ):ViewModel() {
     private lateinit var checkInPhones: List<String>
     private var currentPhone = ""
+    private var checkinProgress = false
     init {
         executor.diskIO().execute{
             checkInPhones = checkinDao.getAllPhones()
@@ -44,51 +45,73 @@ class CheckinViewModel @Inject constructor(
         return date
     }
 
-    fun checkIn(phone:String){
-        val re = Regex("[^0-9]")
-        val rawPhone = re.replace(phone, "")
-        currentPhone = rawPhone;
-
+    fun checkIn(phone:String) {
+        if (checkinProgress ) {
+           return
+        }
         executor.networkIO().execute {
-            gposService.getCustomerInfo(rawPhone,
-                    object: Callback<RewardsMember> {
-                        override fun onFailure(call: Call<RewardsMember>?, t: Throwable?) {
-                            print("Result failed")
-                            EventBus.notify(AppEvent.CustomerNotFound)
-                        }
-                        override fun onResponse(call: Call<RewardsMember>?, response: Response<RewardsMember>?) {
-                            try {
-                                var custInfo =  response?.body()
-                                if (custInfo != null) {
-                                    executor.diskIO().execute {
-                                        checkinDao.insertAll(Checkin(dateUtil.getCurrentTime(), dateUtil.getCurrentDate(), getTimeStamp(), rawPhone))
-                                        customerRepo.addCustomer(RewardsMember(0, custInfo.FirstName, custInfo.LastName, custInfo.Phone, custInfo.EmailAddress,
-                                                custInfo.RewardPointRate, custInfo.RewardPoints, custInfo.LastPurchase, 1
-                                        ))
-                                    }
-
-                                    SessionManager.setCustomer(custInfo)
-                                    EventBus.notify(AppEvent.CustomerRetrieved)
-                                    gposService.signIn(getSignInData(custInfo), object:Callback<String>{
-                                        override fun onFailure(call: Call<String>, t: Throwable) {
-                                            print("Failed")
-                                        }
-                                        override fun onResponse(call: Call<String>, response: Response<String>) {
-                                            println("response")
-                                        }
-                                    })
-                                }
-                            } catch (ex:Exception) {
-                                print("Error " + ex.message);
-                                EventBus.notify(AppEvent.GenericError)
+            val rawPhone = removePhoneFormatting(phone)
+            val checkins = checkinDao.getOpenCheckin(rawPhone)
+            if (checkins.isEmpty()) {
+                checkinProgress = true
+                currentPhone = rawPhone
+                gposService.getCustomerInfo(rawPhone,
+                        object: Callback<RewardsMember> {
+                            override fun onFailure(call: Call<RewardsMember>?, t: Throwable?) {
+                                print("Result failed")
+                                EventBus.notify(AppEvent.CustomerNotFound)
+                                checkinProgress = false
+                            }
+                            override fun onResponse(call: Call<RewardsMember>?, response: Response<RewardsMember>?) {
+                                processCustomerInfoResponse(response, rawPhone)
                             }
                         }
-                    }
-            )
+                )
+            } else {
+                EventBus.notify(AppEvent.AlreadyCheckedIn)
+            }
         }
     }
 
-    private fun getSignInData(cust:RewardsMember):SignInDTO {
+    private  fun removePhoneFormatting(phone:String):String {
+        val re = Regex("[^0-9]")
+        val rawPhone = re.replace(phone, "")
+        return rawPhone
+    }
+
+    private fun processCustomerInfoResponse(response: Response<RewardsMember>?, phone:String) {
+        try {
+            var custInfo =  response?.body()
+            if (custInfo != null) {
+                executor.diskIO().execute {
+                    checkinDao.insertAll(Checkin(dateUtil.getCurrentTime(), dateUtil.getCurrentDate(), getTimeStamp(), phone))
+                    customerRepo.addCustomer(RewardsMember(0, custInfo.FirstName, custInfo.LastName, custInfo.Phone, custInfo.EmailAddress,
+                            custInfo.RewardPointRate, custInfo.RewardPoints, custInfo.LastPurchase, 1
+                    ))
+                }
+
+                SessionManager.setCustomer(custInfo)
+                //Do online checkin
+                gposService.signIn(buildSignInRequestData(custInfo), object:Callback<String>{
+                    override fun onFailure(call: Call<String>, t: Throwable) {
+                        print("Failed")
+                    }
+                    override fun onResponse(call: Call<String>, response: Response<String>) {
+                        println("response")
+                    }
+                })
+                EventBus.notify(AppEvent.CustomerRetrieved)
+                checkinProgress = false
+            }
+        } catch (ex:Exception) {
+            print("Error " + ex.message);
+            EventBus.notify(AppEvent.GenericError)
+            checkinProgress = false
+        }
+
+    }
+
+    private fun buildSignInRequestData(cust : RewardsMember):SignInDTO {
         return SignInDTO(
                 cust.Id,
                 dateUtil.getUTCDateTimestamp(),

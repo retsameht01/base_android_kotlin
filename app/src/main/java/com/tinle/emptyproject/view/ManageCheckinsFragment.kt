@@ -13,6 +13,7 @@ import android.widget.TextView
 import com.tinle.emptyproject.R
 import com.tinle.emptyproject.data.CheckinViewData
 import com.tinle.emptyproject.vm.MangeCheckinVM
+import com.tinle.emptyproject.core.capFirstLetter
 import kotlinx.android.synthetic.main.fragment_manage_checkins.*
 
 
@@ -91,7 +92,8 @@ class ManageCheckinsFragment: BaseFragment() {
                 viewModel.setSelectedCheckin(checkin)
                 gotoPaymentScreen()
             }
-            holder.checkinName.text = "${checkin.lastName} ${checkin.firstName} ${checkin.phone}"
+            val formattedName = capFirstLetter("${checkin.lastName}   ${checkin.firstName} ${checkin.phone}")
+            holder.checkinName.text = formattedName
             holder.checkinTime.text = checkin.timeStamp
             holder.points.text = "${checkin.rewardPoints} pts"
         }

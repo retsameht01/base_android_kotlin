@@ -14,7 +14,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import com.tinle.emptyproject.R
 import com.tinle.emptyproject.core.AppEvent
-import com.tinle.emptyproject.core.DateUtil
 import com.tinle.emptyproject.vm.CheckinViewModel
 import kotlinx.android.synthetic.main.fragment_checkin.*
 
@@ -48,7 +47,7 @@ class CheckinFragment:BaseFragment() {
             changeFragment(SignUpFragment())
         }
 
-        todayDate.setText(viewModel.getDate())
+        todayDate.text = viewModel.getDate()
     }
 
     override fun onResume() {
@@ -75,7 +74,6 @@ class CheckinFragment:BaseFragment() {
             println("Unable to perform checkin ");
             hideDialog()
         }
-
     }
 
     override fun onBusEvent(event: AppEvent) {
@@ -85,17 +83,19 @@ class CheckinFragment:BaseFragment() {
             val bundle = Bundle()
             bundle.putString("Phone", viewModel.getCurrentPhone())
             changeFragment(SignUpFragment(), bundle)
+        } else if(event == AppEvent.AlreadyCheckedIn) {
+            activity?.runOnUiThread {
+                showToast("Already checked in")
+                checkinPhone.setText("")
+                hideDialog()
+            }
         }
     }
 
     inner class PhoneTextListener: PhoneNumberFormattingTextWatcher() {
-
         override fun afterTextChanged(s: Editable) {
             super.afterTextChanged(s)
             val phone = s.toString()
-            if(viewModel.isPhoneValid(phone)){
-                viewModel.checkIn(phone)
-            }
         }
     }
 }

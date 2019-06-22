@@ -22,4 +22,7 @@ interface CheckinDao {
     @Query("UPDATE Checkin SET checkoutTime = :checkoutTime WHERE phone = :phone")
     fun setCheckout(checkoutTime: String, phone:String)
 
+    @Query("SELECT * FROM Checkin WHERE phone = :phone AND checkoutTime IS NULL")
+    fun getOpenCheckin(phone: String):List<Checkin>
+
 }
