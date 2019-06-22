@@ -1,0 +1,259 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 10,
+    "identityHash": "eed4171628f623f2d3dc11fc1c87f9f2",
+    "entities": [
+      {
+        "tableName": "Checkin",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `checkoutTime` TEXT, `checkinTime` TEXT NOT NULL, `checkinDate` TEXT NOT NULL, `checkinTimestamp` TEXT NOT NULL, `phone` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "checkoutTime",
+            "columnName": "checkoutTime",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "checkinTime",
+            "columnName": "checkinTime",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "checkinDate",
+            "columnName": "checkinDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "checkinTimestamp",
+            "columnName": "checkinTimestamp",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "phone",
+            "columnName": "phone",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "PaymentTransaction",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `AuthCode` TEXT NOT NULL, `ApprovedAmount` TEXT NOT NULL, `AvsResponse` TEXT NOT NULL, `BogusAccountNum` TEXT NOT NULL, `CardType` TEXT NOT NULL, `CvResponse` TEXT NOT NULL, `HostCode` TEXT NOT NULL, `HostResponse` TEXT NOT NULL, `Message` TEXT NOT NULL, `RefNum` TEXT NOT NULL, `RequestedAmount` TEXT NOT NULL, `ResultCode` TEXT NOT NULL, `ResultTxt` TEXT NOT NULL, `Timestamp` TEXT NOT NULL, `SigFileName` TEXT NOT NULL, `SignData` TEXT NOT NULL, `ExtData` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "AuthCode",
+            "columnName": "AuthCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ApprovedAmount",
+            "columnName": "ApprovedAmount",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "AvsResponse",
+            "columnName": "AvsResponse",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "BogusAccountNum",
+            "columnName": "BogusAccountNum",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "CardType",
+            "columnName": "CardType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "CvResponse",
+            "columnName": "CvResponse",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "HostCode",
+            "columnName": "HostCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "HostResponse",
+            "columnName": "HostResponse",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "Message",
+            "columnName": "Message",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "RefNum",
+            "columnName": "RefNum",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "RequestedAmount",
+            "columnName": "RequestedAmount",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ResultCode",
+            "columnName": "ResultCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ResultTxt",
+            "columnName": "ResultTxt",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "Timestamp",
+            "columnName": "Timestamp",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "SigFileName",
+            "columnName": "SigFileName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "SignData",
+            "columnName": "SignData",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ExtData",
+            "columnName": "ExtData",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "RewardsMember",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`Id` INTEGER NOT NULL, `FirstName` TEXT, `LastName` TEXT, `Phone` TEXT NOT NULL, `EmailAddress` TEXT, `RewardPointRate` INTEGER, `RewardPoints` INTEGER NOT NULL, `LastPurchase` TEXT, `birthDate` TEXT, `SyncStatus` INTEGER NOT NULL, PRIMARY KEY(`Phone`))",
+        "fields": [
+          {
+            "fieldPath": "Id",
+            "columnName": "Id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "FirstName",
+            "columnName": "FirstName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "LastName",
+            "columnName": "LastName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Phone",
+            "columnName": "Phone",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "EmailAddress",
+            "columnName": "EmailAddress",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "RewardPointRate",
+            "columnName": "RewardPointRate",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "RewardPoints",
+            "columnName": "RewardPoints",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "LastPurchase",
+            "columnName": "LastPurchase",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "birthDate",
+            "columnName": "birthDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "SyncStatus",
+            "columnName": "SyncStatus",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "Phone"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"eed4171628f623f2d3dc11fc1c87f9f2\")"
+    ]
+  }
+}

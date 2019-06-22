@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tinle.emptyproject">
+    package="com.tinle.checkin">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:name=".App"
+        android:name="com.tinle.checkin.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
+        <activity android:name="com.tinle.checkin.SplashActivity"
             android:configChanges="orientation"
+            android:screenOrientation="landscape"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,15 +22,19 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.CheckInActivity"
+        <activity android:name="com.tinle.checkin.view.CheckInActivity"
             android:configChanges="orientation"
             />
 
-        <activity android:name=".view.CustomerRewardsActivity"
+        <activity android:name="com.tinle.checkin.view.CustomerRewardsActivity"
             android:configChanges="orientation"
             />
 
-        <service android:name=".services.MusicService"/>
+        <activity android:name=".MainActivity"
+            android:screenOrientation="landscape"
+            />
+
+        <service android:name="com.tinle.checkin.services.MusicService"/>
     </application>
 
 </manifest>
