@@ -26,7 +26,7 @@ class MangeCheckinVM @Inject constructor (
                 val customer =  customerRepo.getCustomer(checkin.phone)
                 customer?.let {
                     val checkinViewData = CheckinViewData(checkin.phone, "${it.FirstName}",
-                            "${it.LastName}", "${it.EmailAddress}", checkin.checkinTime, "${it.RewardPoints}")
+                            "${it.LastName}", "${it.EmailAddress}", checkin.checkinTime, "${it.RewardPoints}", it.RewardPointRate!!)
                     checkinData.add(checkinViewData)
                     customerCheckinMap.put(checkin.phone, customer)
                 }

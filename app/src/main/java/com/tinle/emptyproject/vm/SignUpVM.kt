@@ -21,7 +21,7 @@ class SignUpVM @Inject constructor(
 
     private lateinit var signupListener: SignupListener
 
-    fun signUp(firstName:String, lastName:String, phone:String, email:String, listener: SignupListener):String {
+    fun signUp(firstName:String, lastName:String, phone:String, email:String, birthDate:String, listener: SignupListener):String {
         if(!isValidFirstName(firstName)) {
             return "Invalid Firstname"
         }
@@ -35,20 +35,20 @@ class SignUpVM @Inject constructor(
             return "Invalid Phone"
         }
         signupListener = listener
-        saveCustomer(firstName, lastName, phone, email)
-        doSignup(firstName, lastName, phone, email)
+        saveCustomer(firstName, lastName, phone, email, birthDate)
+        doSignup(firstName, lastName, phone, email, birthDate)
         return ""
     }
 
-    private fun saveCustomer(firstName:String, lastName:String, phone:String, email:String) {
-        var customer = RewardsMember(1, firstName, lastName, phone, email, 2, 0, null, 0)
+    private fun saveCustomer(firstName:String, lastName:String, phone:String, email:String, birthdate:String) {
+        var customer = RewardsMember(1, firstName, lastName, phone, email, 2, 0, null, birthdate, 0)
         executor.diskIO().execute{
             customerRepo.addCustomer(customer)
         }
     }
 
-    private fun doSignup(firstName:String, lastName:String, phone:String, email:String) {
-        val data = SignUp(firstName, lastName, phone, email, dateUtil.getUTCDateTimestamp())
+    private fun doSignup(firstName:String, lastName:String, phone:String, email:String, birthDate: String) {
+        val data = SignUp(firstName, lastName, phone, email, birthDate, dateUtil.getUTCDateTimestamp())
         gposService.signUp(data, object: Callback<String>{
             override fun onFailure(call: Call<String>, t: Throwable) {
                 signupListener.onComplete(false, t.localizedMessage)

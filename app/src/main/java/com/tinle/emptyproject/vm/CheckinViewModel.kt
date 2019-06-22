@@ -68,6 +68,7 @@ class CheckinViewModel @Inject constructor(
                         }
                 )
             } else {
+                checkinProgress = false
                 EventBus.notify(AppEvent.AlreadyCheckedIn)
             }
         }
@@ -86,13 +87,13 @@ class CheckinViewModel @Inject constructor(
                 executor.diskIO().execute {
                     checkinDao.insertAll(Checkin(dateUtil.getCurrentTime(), dateUtil.getCurrentDate(), getTimeStamp(), phone))
                     customerRepo.addCustomer(RewardsMember(0, custInfo.FirstName, custInfo.LastName, custInfo.Phone, custInfo.EmailAddress,
-                            custInfo.RewardPointRate, custInfo.RewardPoints, custInfo.LastPurchase, 1
+                            custInfo.RewardPointRate, custInfo.RewardPoints, custInfo.LastPurchase, custInfo.birthDate,1
                     ))
                 }
 
                 SessionManager.setCustomer(custInfo)
                 //Do online checkin
-                gposService.signIn(buildSignInRequestData(custInfo), object:Callback<String>{
+                gposService.signIn(buildSignInRequestData(custInfo), object:Callback<String> {
                     override fun onFailure(call: Call<String>, t: Throwable) {
                         print("Failed")
                     }
@@ -108,7 +109,6 @@ class CheckinViewModel @Inject constructor(
             EventBus.notify(AppEvent.GenericError)
             checkinProgress = false
         }
-
     }
 
     private fun buildSignInRequestData(cust : RewardsMember):SignInDTO {
@@ -132,7 +132,9 @@ class CheckinViewModel @Inject constructor(
     }
 
     fun isPhoneValid(phone:String):Boolean {
+        val rawPhone = removePhoneFormatting(phone)
         val regex = Regex("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}\$")
-        return regex.matches(phone)
+        //TODO Don't make it too hard for customer to check-in. Handle this validation better.!!!
+        return true//regex.matches(rawPhone)
     }
 }

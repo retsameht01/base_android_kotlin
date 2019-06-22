@@ -62,7 +62,8 @@ class ManageCheckinsFragment: BaseFragment() {
             //TODO Also, for future features: add voice check in
             //TODO Add customizable features and skinning the app.
             //TODO scan barcode to check-in
-
+            //TODO Load all customers to local DB on launch, add smart check-in feature: when user type in phone show suggestion for customers.
+            //TODO Customize client interface: look and feel for each client.
         })
 
         backBtn.setOnClickListener {

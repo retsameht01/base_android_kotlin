@@ -9,7 +9,6 @@ import com.tinle.emptyproject.R
 import com.tinle.emptyproject.core.AppEvent
 import com.tinle.emptyproject.vm.SignUpVM
 import kotlinx.android.synthetic.main.fragment_signup.*
-import android.widget.DatePicker
 import android.app.DatePickerDialog
 import com.tinle.emptyproject.vm.CheckinViewModel
 import java.util.*
@@ -37,7 +36,7 @@ class SignUpFragment:BaseFragment() {
 
         setToolbarVisibility(View.GONE)
         signupBtn.setOnClickListener{
-            val inputError = viewModel.signUp(signupFirstName.text.toString(), signupLastName.text.toString(), signupPhone.text.toString(), signupEmail.text.toString(),
+            val inputError = viewModel.signUp(signupFirstName.text.toString(), signupLastName.text.toString(), signupPhone.text.toString(), signupEmail.text.toString(), signupDOB.text.toString(),
                     object: SignUpVM.SignupListener {
                         override fun onComplete(success: Boolean, msg: String) {
                             hideDialog()
@@ -52,7 +51,7 @@ class SignUpFragment:BaseFragment() {
                     }
             )
 
-            if(inputError.isEmpty()) {
+            if (inputError.isEmpty()) {
                showDialog("Signup", "Saving your account...")
             } else {
                 showToast("$inputError")

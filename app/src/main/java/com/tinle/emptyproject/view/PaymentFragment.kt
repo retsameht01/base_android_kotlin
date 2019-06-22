@@ -27,7 +27,7 @@ class PaymentFragment:BaseFragment() {
     lateinit var viewModel: PaymentVM
     private var refNumber:Int = 0
     private val PaymentRequestCode = 9
-    private val RewardsPercent:Double = .05
+    private val RewardsPercent:Double = .02
     private lateinit var checkInData: CheckinViewData
 
     @Inject
@@ -90,7 +90,11 @@ class PaymentFragment:BaseFragment() {
     }
 
     private fun getRewardPoints(sales:Int):Int {
-        val points = sales * RewardsPercent
+        var points = (sales * RewardsPercent)
+        if (checkInData.rewardsRate != null) {
+            points = (sales % 100 ) * checkInData.rewardsRate.toDouble()
+        }
+
         return points.toInt()
     }
 

@@ -66,30 +66,46 @@ class CheckinFragment:BaseFragment() {
     }
 
     private fun doCheckin(){
+        if (!viewModel.isPhoneValid(checkinPhone.text.toString())) {
+            showToast("Invalid Phone. Please try again!")
+            return
+        }
         try {
             showDialog("Check In", "Checking in...")
             viewModel.checkIn(checkinPhone.text.toString())
         }
         catch (ex:Exception) {
-            println("Unable to perform checkin ");
+            println("Unable to perform check-in ")
             hideDialog()
         }
     }
 
     override fun onBusEvent(event: AppEvent) {
-        if (event == AppEvent.CustomerRetrieved) {
-            changeFragment(RewardsFragment())
-        } else if(event == AppEvent.CustomerNotFound) {
-            val bundle = Bundle()
-            bundle.putString("Phone", viewModel.getCurrentPhone())
-            changeFragment(SignUpFragment(), bundle)
-        } else if(event == AppEvent.AlreadyCheckedIn) {
-            activity?.runOnUiThread {
-                showToast("Already checked in")
-                checkinPhone.setText("")
-                hideDialog()
+        when (event) {
+            AppEvent.CustomerRetrieved -> {
+                activity?.runOnUiThread {
+                    showToast("Check in success")
+                    clearPhoneInput()
+                    hideDialog()
+                }
+            }
+            AppEvent.CustomerNotFound -> {
+                val bundle = Bundle()
+                bundle.putString("Phone", viewModel.getCurrentPhone())
+                changeFragment(SignUpFragment(), bundle)
+            }
+            AppEvent.AlreadyCheckedIn -> {
+                activity?.runOnUiThread {
+                    showToast("Already checked in")
+                    clearPhoneInput()
+                    hideDialog()
+                }
             }
         }
+    }
+
+    private fun clearPhoneInput() {
+        checkinPhone.text.clear()
     }
 
     inner class PhoneTextListener: PhoneNumberFormattingTextWatcher() {

@@ -25,29 +25,4 @@ class PaymentTransaction:Serializable{
     var SigFileName = ""
     var SignData = ""
     var ExtData = ""
-
-
-
-    /*
-
-    CreditSale (with tips)
-CreditAdjustTip
-CreditVoidSale
-CreditReturn
-CreditAuth
-CreditPostAuth
-
-
-DebitSale (with tips, cashback)
-DebitVoidSale
-
-Manage:
-InitilizeTerminal
-ResetTerminal
-TotalSumary
-CloseBatch
-DisplayDialog
-Display User Input in currency
-
-     */
 }

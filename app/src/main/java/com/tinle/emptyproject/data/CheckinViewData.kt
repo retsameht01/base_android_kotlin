@@ -7,7 +7,8 @@ data class CheckinViewData (
         val lastName:String,
         val email:String,
         val timeStamp:String,
-        val rewardPoints:String
+        val rewardPoints:String,
+        val rewardsRate:Int
 
 ):Serializable {
 }
