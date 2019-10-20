@@ -140,7 +140,7 @@ class ManageTransactionFragment:PaxHandlingFragment(), TransactionSelectDialog.O
             showTransDialog()
         }
         //TODO fix this transGrid null issue!!!!!
-        transGrid.adapter = ManageTransGridViewAdapter(this.context!!, -1, viewModel.getViewData())
+        //transGrid.adapter = ManageTransGridViewAdapter(this.context!!, -1, viewModel.getViewData())
     }
 
 

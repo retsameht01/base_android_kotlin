@@ -21,5 +21,6 @@
         <item>HTTPS</item>
         <item>TCP</item>
         <item>AIDL</item>
+        <item>USB</item>
     </string-array>
 </resources>

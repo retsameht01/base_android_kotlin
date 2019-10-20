@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.fragment_payment.*
 import javax.inject.Inject
 import android.widget.ArrayAdapter
 import com.google.gson.Gson
+import com.pax.poslink.PaymentRequest
 import com.tinle.checkin.data.CheckinViewData
 import com.tinle.checkin.vm.PaymentVM
 
@@ -65,13 +66,17 @@ class PaymentFragment:BaseFragment() {
     private fun setPaymentClickHandler(){
         submitPayment.setOnClickListener{
             val saleAmt = getSaleAmount()
+            /*
             val rewardPoints = getRewardPoints(saleAmt)
             showToast("You've earned $rewardPoints points.")
-            if (checkInData != null) {
-               viewModel.checkout(rewardPoints, checkInData.phone)
+            checkInData?.let {
+                viewModel.checkout(rewardPoints, it.phone)
+                changeFragment(ManageCheckinsFragment())
             }
-            changeFragment(ManageCheckinsFragment())
-            /*
+
+            */
+
+            //For testing with pax terminal
             val request = PaymentRequest()
             val tip = getTipAmount()
             request.Amount = "$saleAmt"
@@ -85,16 +90,15 @@ class PaymentFragment:BaseFragment() {
             intent.action ="com.gpos.paxrequest"
             intent.putExtra("RequestType", "PAYMENT")
             intent.putExtra("Data", json)
-            startActivityForResult(intent, PaymentRequestCode) */
+            startActivityForResult(intent, PaymentRequestCode)
         }
     }
 
     private fun getRewardPoints(sales:Int):Int {
         var points = (sales * RewardsPercent)
         if (checkInData.rewardsRate != null) {
-            points = (sales % 100 ) * checkInData.rewardsRate.toDouble()
+            points = (sales / 100 ) * checkInData.rewardsRate.toDouble()
         }
-
         return points.toInt()
     }
 

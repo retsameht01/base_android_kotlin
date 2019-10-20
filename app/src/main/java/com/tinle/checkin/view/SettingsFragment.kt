@@ -53,6 +53,9 @@ class SettingsFragment:BaseFragment() {
             com.CommIP = terminalIp.text.toString();
             com.CommPort = ""
             com.Host = terminalHost.text.toString()
+            if (com.CommType.equals("USB")) {
+                com.Host = "FullIntegration";
+            }
 
             val json:String = Gson().toJson(com, CommSetings::class.java)
             val intent = Intent()

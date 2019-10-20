@@ -19,6 +19,7 @@
         android:layout_height="wrap_content" />
 
     <EditText
+        android:focusable="false"
         android:layout_below="@id/todayDate"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
@@ -53,6 +54,18 @@
         android:text="Check-In"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <android.inputmethodservice.KeyboardView
+        android:id="@+id/keyboardview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="visible"
+        />
+
 
     <LinearLayout
         android:layout_centerHorizontal="true"

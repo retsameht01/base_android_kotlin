@@ -9,6 +9,7 @@ abstract class PaxHandlingFragment:BaseFragment(), PAXInterface {
      private val MANAGE_ACTION = "MANAGE"
      private val PAYMENT_ACTION = "PAYMENT"
      private val REPORT_ACTION = "REPORT"
+     private val PRINT_ACTION = "PRINT"
      private val COMM_ACTION = "COMM"
      private val PAX_UTIL_ACTION = "com.gpos.paxrequest"
      private val REQUEST_TYPE_KEY = "RequestType"
@@ -30,6 +31,6 @@ abstract class PaxHandlingFragment:BaseFragment(), PAXInterface {
 
     private fun isValidCommand(command:String):Boolean {
         return command.equals(BATCH_ACTION) || command.equals(MANAGE_ACTION) || command.equals(PAYMENT_ACTION)
-                || command.equals(REPORT_ACTION) || command.equals(COMM_ACTION)
+                || command.equals(REPORT_ACTION) || command.equals(COMM_ACTION) || PRINT_ACTION.equals(command)
     }
 }

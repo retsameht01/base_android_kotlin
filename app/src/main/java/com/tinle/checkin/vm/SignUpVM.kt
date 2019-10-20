@@ -22,13 +22,13 @@ class SignUpVM @Inject constructor(
     private lateinit var signupListener: SignupListener
 
     fun signUp(firstName:String, lastName:String, phone:String, email:String, birthDate:String, listener: SignupListener):String {
-        if(!isValidFirstName(firstName)) {
+        if (!isValidFirstName(firstName)) {
             return "Invalid Firstname"
         }
-        if(!isValidLastName(lastName)) {
+        if (!isValidLastName(lastName)) {
             return "Invalid LastName"
         }
-        if(!isEmailValid(email)) {
+        if (!isEmailValid(email)) {
             return "Invalid Email"
         }
         if(!isPhoneValid(phone)) {
@@ -70,7 +70,7 @@ class SignUpVM @Inject constructor(
         })
     }
 
-    private fun isValidFirstName(fName:String):Boolean{
+    private fun isValidFirstName(fName:String):Boolean {
         return !fName.isNullOrEmpty()
     }
 
@@ -87,7 +87,6 @@ class SignUpVM @Inject constructor(
     }
 
     interface SignupListener {
-
         fun onComplete(boolean: Boolean, msg:String)
     }
 
