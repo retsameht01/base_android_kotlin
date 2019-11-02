@@ -20,83 +20,8 @@ import android.inputmethodservice.Keyboard
 import android.inputmethodservice.KeyboardView
 import android.text.InputType
 import android.widget.EditText
-import com.tinle.checkin.MainActivity
-
-
-
 
 class CheckinFragment:BaseFragment(), KeyboardView.OnKeyboardActionListener {
-
-    val CodeDelete = -5 // Keyboard.KEYCODE_DELETE
-    val CodeCancel = -3 // Keyboard.KEYCODE_CANCEL
-    val CodePrev = 55000
-    val CodeAllLeft = 55001
-    val CodeLeft = 55002
-    val CodeRight = 55003
-    val CodeAllRight = 55004
-    val CodeNext = 55005
-    val CodeClear = 55006
-    override fun swipeRight() {
-
-    }
-
-    override fun onPress(primaryCode: Int) {
-        //val focusCurrent = activity?.getWindow()?.getCurrentFocus()
-        //if (focusCurrent == null || focusCurrent!!.javaClass != EditText::class.java) return
-        val edittext = phoneText
-        val editable = edittext.text
-        val start = edittext.selectionStart
-        // Handle key
-        if (primaryCode === CodeCancel) {
-            //hideCustomKeyboard()
-        } else if (primaryCode === CodeDelete) {
-            if (editable != null && start > 0) editable.delete(start - 1, start)
-        } else if (primaryCode === CodeClear) {
-            editable?.clear()
-        } else if (primaryCode === CodeLeft) {
-            if (start > 0) edittext.setSelection(start - 1)
-        } else if (primaryCode === CodeRight) {
-            if (start < edittext.length()) edittext.setSelection(start + 1)
-        } else if (primaryCode === CodeAllLeft) {
-            edittext.setSelection(0)
-        } else if (primaryCode === CodeAllRight) {
-            edittext.setSelection(edittext.length())
-        } else if (primaryCode === CodePrev) {
-            val focusNew = edittext.focusSearch(View.FOCUS_RIGHT)
-            focusNew?.requestFocus()
-        } else if (primaryCode === CodeNext) {
-            val focusNew = edittext.focusSearch(View.FOCUS_RIGHT)
-            focusNew?.requestFocus()
-        } else {// Insert character
-            val string =  Character.toChars(primaryCode).toString()
-            val ch = Character.toChars(primaryCode)[0]
-            editable!!.insert(start, "$ch")
-        }
-    }
-
-    override fun onRelease(p0: Int) {
-
-    }
-
-    override fun swipeLeft() {
-
-    }
-
-    override fun swipeUp() {
-
-    }
-
-    override fun swipeDown() {
-
-    }
-
-    override fun onKey(primaryCode: Int, p1: IntArray?) {
-    }
-
-    override fun onText(p0: CharSequence?) {
-
-    }
-
     lateinit var viewModel: CheckinViewModel
         lateinit var mKeyboard: Keyboard
         lateinit var phoneText: EditText
@@ -105,18 +30,6 @@ class CheckinFragment:BaseFragment(), KeyboardView.OnKeyboardActionListener {
         var view = inflater.inflate(R.layout.fragment_checkin, container, false)
         viewModel = ViewModelProviders.of(activity!!, vmFactory).get(CheckinViewModel::class.java)
         return view;
-    }
-
-    private fun hideKeyboard() {
-        try {
-            val inputManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            val currentFocusedView = activity?.getCurrentFocus()
-            if (currentFocusedView != null) {
-                inputManager.hideSoftInputFromWindow(currentFocusedView.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -142,10 +55,8 @@ class CheckinFragment:BaseFragment(), KeyboardView.OnKeyboardActionListener {
         }
 
         todayDate.text = viewModel.getDate()
-
         checkinPhone.setRawInputType(InputType.TYPE_CLASS_NUMBER);
         checkinPhone.setTextIsSelectable(false)
-
         mKeyboard = Keyboard(this.context, R.xml.num_keypad)
         val keyboardView:KeyboardView = keyboardview
         keyboardView.keyboard = mKeyboard
@@ -205,6 +116,93 @@ class CheckinFragment:BaseFragment(), KeyboardView.OnKeyboardActionListener {
                     hideDialog()
                 }
             }
+        }
+    }
+
+    //Custom keyboard codes
+    val CodeDelete = -5 // Keyboard.KEYCODE_DELETE
+    val CodeCancel = -3 // Keyboard.KEYCODE_CANCEL
+    val CodePrev = 55000
+    val CodeAllLeft = 55001
+    val CodeLeft = 55002
+    val CodeRight = 55003
+    val CodeAllRight = 55004
+    val CodeNext = 55005
+    val CodeClear = 55006
+    val CodeEnter = 10
+
+    override fun swipeRight() {
+
+    }
+
+    override fun onPress(primaryCode: Int) {
+        //val focusCurrent = activity?.getWindow()?.getCurrentFocus()
+        //if (focusCurrent == null || focusCurrent!!.javaClass != EditText::class.java) return
+        val edittext = phoneText
+        val editable = edittext.text
+        val start = edittext.selectionStart
+        // Handle key
+        if (primaryCode === CodeCancel) {
+            //hideCustomKeyboard()
+        } else if (primaryCode === CodeDelete) {
+            if (editable != null && start > 0) editable.delete(start - 1, start)
+        } else if (primaryCode === CodeClear) {
+            editable?.clear()
+        } else if (primaryCode === CodeLeft) {
+            if (start > 0) edittext.setSelection(start - 1)
+        } else if (primaryCode === CodeRight) {
+            if (start < edittext.length()) edittext.setSelection(start + 1)
+        } else if (primaryCode === CodeAllLeft) {
+            edittext.setSelection(0)
+        } else if (primaryCode === CodeAllRight) {
+            edittext.setSelection(edittext.length())
+        } else if (primaryCode === CodePrev) {
+            val focusNew = edittext.focusSearch(View.FOCUS_RIGHT)
+            focusNew?.requestFocus()
+        } else if (primaryCode === CodeEnter) {
+            doCheckin()
+        } else if (primaryCode === CodeNext) {
+            val focusNew = edittext.focusSearch(View.FOCUS_RIGHT)
+            focusNew?.requestFocus()
+        } else {// Insert character
+            val string =  Character.toChars(primaryCode).toString()
+            val ch = Character.toChars(primaryCode)[0]
+            editable!!.insert(start, "$ch")
+        }
+    }
+
+    override fun onRelease(p0: Int) {
+
+    }
+
+    override fun swipeLeft() {
+
+    }
+
+    override fun swipeUp() {
+
+    }
+
+    override fun swipeDown() {
+
+    }
+
+    override fun onKey(primaryCode: Int, p1: IntArray?) {
+    }
+
+    override fun onText(p0: CharSequence?) {
+
+    }
+
+    private fun hideKeyboard() {
+        try {
+            val inputManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val currentFocusedView = activity?.getCurrentFocus()
+            if (currentFocusedView != null) {
+                inputManager.hideSoftInputFromWindow(currentFocusedView.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
